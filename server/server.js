@@ -1,21 +1,20 @@
+require('dotenv').config();
+
 const express = require("express");
 const app = express();
-const cors = require("cors");
-require("dotenv").config({ path:"./config.env" });
 
-const port = process.env.PORT || 5000;
-app.use(cors());
-app.use(express.json());
-app.use(require("./routes/record"));
+app.use((request, response, next)=>{
+    console.log(request.path, request.method);
+    next();
+});
 
-const dbo = require("./db/conn");
+app.get('/', (request, response)=>{
+    response.json({
+        message:'Welcome to the app'
+    })
+});
 
-app.listen(port, ()=>{
 
-    dbo.connectToServer(function(err){
-
-        if(err) console.log(err);
-
-    });
-    console.log(`Server running on port ${port}`);
+app.listen(process.env.PORT, ()=>{
+    console.log('Listening on port 5000');
 });
