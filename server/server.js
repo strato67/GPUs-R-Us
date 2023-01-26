@@ -1,18 +1,17 @@
-require('dotenv').config();
-
 const express = require("express");
 const app = express();
+const index = require('./routes/index');
+const products = require('./routes/products');
+
+require('dotenv').config();
 
 app.use((request, response, next)=>{
     console.log(request.path, request.method);
     next();
 });
 
-app.get('/', (request, response)=>{
-    response.json({
-        message:'Welcome to the app'
-    })
-});
+app.use('/', index);
+app.use('/products',products);
 
 
 app.listen(process.env.PORT, ()=>{
