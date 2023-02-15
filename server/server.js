@@ -1,5 +1,6 @@
 const express = require("express");
 const app = express();
+const mongoose = require("mongoose");
 const index = require('./routes/index');
 const products = require('./routes/products');
 const order = require('./routes/order');
@@ -15,6 +16,11 @@ app.use('/', index);
 app.use('/products',products);
 app.use('/order',order);
 
-app.listen(process.env.PORT, ()=>{
-    console.log('Listening on port 5000');
-});
+mongoose.connect(process.env.MONGO_URI)
+    .then(()=>{
+        app.listen(process.env.PORT, ()=>{
+            console.log('Listening on port 5000');
+        });
+    })
+    .catch((err)=>{console.log(err)})
+
