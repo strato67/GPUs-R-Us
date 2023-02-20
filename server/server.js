@@ -11,6 +11,7 @@ app.use((request, response, next)=>{
     console.log(request.path, request.method);
     next();
 });
+app.use(express.json())
 
 app.use('/', index);
 app.use('/products',products);
