@@ -22,7 +22,6 @@ const getAllProducts = async(request,response)=>{
     response.status(200).json(products);
 }
 
-
 const createProduct = async (request,response)=>{
     const {name,
         description,
@@ -39,4 +38,35 @@ const createProduct = async (request,response)=>{
         }    
 }
 
-module.exports = {getProduct, getAllProducts, createProduct};
+const updateProduct = async (request, response) =>{
+    const { id } = request.params;
+
+    if(!mongoose.Types.ObjectId.isValid(id)){
+        response.status(400).json({error:'No products found'});
+    }
+
+    const product = await Product.findByIdAndUpdate({_id: id}, {
+        ...request.body
+    });
+
+    if(!product){
+        return response.status(400).json({error:'No products found'});
+    }
+    response.status(200).json(product);
+}
+
+const deleteProduct = async (request,response)=>{
+    const { id } = request.params;
+
+    if(!mongoose.Types.ObjectId.isValid(id)){
+        response.status(400).json({error:'No products found'});
+    }
+    const product = await Product.findByIdAndDelete({_id: id});
+
+    if(!product){
+        return response.status(400).json({error:'No products found'});
+    }
+    response.status(200).json(product);
+}
+
+module.exports = {getProduct, getAllProducts, createProduct, deleteProduct, updateProduct};
