@@ -1,12 +1,12 @@
-import Navbar from './Components/Navbar/Navbar';
-import './App.css'
+import Navbar from "./Components/Navbar/Navbar";
+import "./App.css";
 
-function App() {
+const App = () => {
+  return (
+    <>
+      <Navbar />
+    </>
+  );
+};
 
-  return (<>
-    <Navbar/>
-  
-  </>);
-}
-
-export default App
+export default App;
