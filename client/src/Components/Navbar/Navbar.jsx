@@ -1,7 +1,7 @@
-const Navbar = () => {
+export default function Navbar(){
   return (
     <>
-      <div className="navbar bg-base-100 flex flex-wrap md:justify-center justify-start">
+      <div className="navbar bg-neutral flex flex-wrap md:justify-center justify-start">
         <div className="">
           <div className="dropdown">
             <label tabIndex={0} className="btn btn-ghost lg:hidden">
@@ -102,5 +102,3 @@ const Navbar = () => {
     </>
   );
 };
-
-export default Navbar;
