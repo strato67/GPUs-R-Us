@@ -6,7 +6,6 @@ import "swiper/css/pagination";
 import "swiper/css/navigation";
 
 export default function Modal() {
-
   return (
     <>
       <Swiper
@@ -24,16 +23,47 @@ export default function Modal() {
         className="mySwiper xl:w-2/3 w-full bg-black"
       >
         <SwiperSlide>
-          <img
-            src="https://imageio.forbes.com/specials-images/imageserve/5f7ca28d6b179d3ea9be6f5c/0x0.jpg?format=jpg&width=1200"
-            className="w-full"
-          />
+          <div
+            className="hero min-h-screen"
+            style={{
+              backgroundImage: `url("https://www.trustedreviews.com/wp-content/uploads/sites/54/2020/09/RTX-3080-flat-2-scaled.jpg")`,
+            }}
+          >
+            <div className="hero-overlay bg-opacity-60"></div>
+            <div className="hero-content text-center text-neutral-content">
+              <div className="max-w-md">
+                <h1 className="mb-5 text-5xl font-bold">Hello there</h1>
+                <p className="mb-5">
+                  Provident cupiditate voluptatem et in. Quaerat fugiat ut
+                  assumenda excepturi exercitationem quasi. In deleniti eaque
+                  aut repudiandae et a id nisi.
+                </p>
+                <button className="btn btn-primary">Get Started</button>
+              </div>
+            </div>
+          </div>
         </SwiperSlide>
+
         <SwiperSlide>
-          <img
-            src="https://imageio.forbes.com/specials-images/imageserve/5f7ca28d6b179d3ea9be6f5c/0x0.jpg?format=jpg&width=1200"
-            className="w-full"
-          />
+          <div
+            className="hero min-h-screen"
+            style={{
+              backgroundImage: `url("https://upload.wikimedia.org/wikipedia/commons/9/9c/Asus_Strix_RTX_4090_operational_with_aftermarket_12VHPWR_cable.jpg")`,
+            }}
+          >
+            <div className="hero-overlay bg-opacity-60"></div>
+            <div className="hero-content text-center text-neutral-content">
+              <div className="max-w-md">
+                <h1 className="mb-5 text-5xl font-bold">Hello there</h1>
+                <p className="mb-5">
+                  Provident cupiditate voluptatem et in. Quaerat fugiat ut
+                  assumenda excepturi exercitationem quasi. In deleniti eaque
+                  aut repudiandae et a id nisi.
+                </p>
+                <button className="btn btn-primary">Get Started</button>
+              </div>
+            </div>
+          </div>
         </SwiperSlide>
       </Swiper>
     </>
