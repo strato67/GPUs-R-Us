@@ -20,7 +20,7 @@ export default function Modal() {
         }}
         navigation={false}
         modules={[Autoplay, Pagination, Navigation]}
-        className="mySwiper xl:w-2/3 w-full bg-black"
+        className="mySwiper w-full bg-black"
       >
         <SwiperSlide>
           <div
