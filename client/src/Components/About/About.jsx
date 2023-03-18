@@ -1,50 +1,58 @@
 export default function About() {
   return (
     <>
-      <div
-        className="hero min-h-screen md:hidden"
-        style={{
-          backgroundImage: `url("https://images.pexels.com/photos/3165335/pexels-photo-3165335.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1")`,
-        }}
-      >
-        <div className="hero-overlay bg-opacity-60"></div>
-        <div className="hero-content text-center text-neutral-content">
-          <div className="max-w-md">
-            <h1 className="mb-5 text-5xl font-bold">About Us</h1>
+      <div class=" mx-auto bg-white  shadow-md overflow-hidden md:max-w-fit">
+        <div class="md:flex">
+          <div class="md:shrink-0">
+            <img
+              class="w-full object-cover md:h-full md:w-96 lg:w-80 xl:w-fit"
+              src="https://images.pexels.com/photos/3165335/pexels-photo-3165335.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+              alt="Gaming Photo"
+            />
           </div>
-        </div>
-      </div>
+          <div class="p-16">
+            <div class="uppercase tracking-wide text-3xl text-indigo-500 font-semibold">
+              About Us
+            </div>
+            <a
 
-      <div className="flex w-full h-screen">
-        
-      <div className="card card-compact w-96 bg-base-100 shadow-xl">
-          <figure>
-            <img
-              src="https://images.pexels.com/photos/3165335/pexels-photo-3165335.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-              alt="Shoes"
-            />
-          </figure>
-          <div className="card-body">
-            <h2 className="card-title">Shoes!</h2>
-            <p>If a dog chews shoes whose shoes does he choose?</p>
-            <div className="card-actions justify-end">
-              <button className="btn btn-primary">Buy Now</button>
-            </div>
-          </div>
-        </div>
-        <div className="card card-compact w-96 bg-base-100 shadow-xl">
-          <figure>
-            <img
-              src="https://images.pexels.com/photos/3165335/pexels-photo-3165335.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-              alt="Shoes"
-            />
-          </figure>
-          <div className="card-body">
-            <h2 className="card-title">Shoes!</h2>
-            <p>If a dog chews shoes whose shoes does he choose?</p>
-            <div className="card-actions justify-end">
-              <button className="btn btn-primary">Buy Now</button>
-            </div>
+              class="block mt-1 text-lg leading-tight font-medium text-black hover:underline"
+            >
+              Serving all your GPU needs
+            </a>
+            <p class="mt-2 text-slate-500">
+              Our team of experts is passionate about technology and has a deep
+              understanding of the latest advancements in the GPU industry. We
+              are committed to providing you with the best possible customer
+              service and ensuring that you find the perfect GPU for your needs.
+            </p>
+            <p class="mt-2 text-slate-500">
+              At our store, we offer a wide selection of GPUs, ranging from
+              budget-friendly options to high-end models for professionals and
+              gamers alike. We understand that each customer has unique needs
+              and preferences, which is why we offer a variety of options to
+              choose from.
+            </p>
+            <p class="mt-2 text-slate-500">
+              We believe that technology should be accessible to everyone, which
+              is why we offer competitive prices and regular promotions to make
+              our products more affordable. We also offer fast and reliable
+              shipping, so you can start enjoying your new GPU as soon as
+              possible.
+            </p>
+            <p class="mt-2 text-slate-500">
+              Our commitment to customer satisfaction is unwavering, and we are
+              always here to answer any questions or concerns you may have.
+              Whether you're a seasoned tech enthusiast or a beginner just
+              starting to explore the world of GPUs, we are here to help you
+              every step of the way.
+            </p>
+            <p class="mt-2 text-slate-500">
+              {" "}
+              Thank you for choosing our website as your source for GPUs. We
+              look forward to serving you and helping you find the perfect GPU
+              for your needs.
+            </p>
           </div>
         </div>
       </div>
