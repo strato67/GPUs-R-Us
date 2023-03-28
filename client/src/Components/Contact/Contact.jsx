@@ -1,4 +1,5 @@
 import { useState } from "react";
+import SuccessNotification from "../Other/Success";
 
 export default function Contact() {
   const [formSubmitted, setFormSubmitted] = useState(false);
@@ -11,30 +12,7 @@ export default function Contact() {
 
   return (
     <>
-      <div
-        className={`alert alert-success shadow-lg md:pd-5 ${
-          formSubmitted
-            ? `block transition delay-150 duration-300 ease-in-out`
-            : `hidden`
-        }`}
-      >
-        <div>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="stroke-current flex-shrink-0 h-6 w-6"
-            fill="none"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-            />
-          </svg>
-          <span>Your message has been submitted!</span>
-        </div>
-      </div>
+      <SuccessNotification message={'Thanks! Your message has been submitted.'} />
       <div className="hero min-h-screen bg-base-200">
         <div className="hero-content flex-col lg:flex-row">
           <div className="text-center lg:text-left md:w-2/3 lg:w-1/2">
