@@ -1,8 +1,13 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-export default function SuccessNotification({ message }) {
+export default function SuccessNotification({ message, eventChange }) {
+  const [showMessage, setShowMessage] = useState(false);
 
-    const [showMessage, setShowMessage] = useState(true);
+  useEffect(() => {
+    if (eventChange) {
+      setShowMessage(true);
+    }
+  }, [eventChange]);
 
   return (
     <>
@@ -29,7 +34,7 @@ export default function SuccessNotification({ message }) {
           <span>{message}</span>
         </div>
         <div className="flex-none">
-          <button onClick={()=>setShowMessage(false)}>
+          <button onClick={() => setShowMessage(false)}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="stroke-primary flex-shrink-0 h-6 w-6"

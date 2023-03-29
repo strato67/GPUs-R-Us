@@ -12,7 +12,10 @@ export default function Contact() {
 
   return (
     <>
-      <SuccessNotification message={'Thanks! Your message has been submitted.'} />
+      <SuccessNotification
+        message={"Thanks! Your message has been submitted."}
+        eventChange={formSubmitted}
+      />
       <div className="hero min-h-screen bg-base-200">
         <div className="hero-content flex-col lg:flex-row">
           <div className="text-center lg:text-left md:w-2/3 lg:w-1/2">
