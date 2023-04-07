@@ -1,8 +1,34 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ErrorFormMessage from "../Other/ErrorFormMessage";
 
 export default function SignUp() {
+  const [formValues, setFormValues] = useState({
+    username: "",
+    email: "",
+    password: "",
+    confirmPass: "",
+  });
+
   const [passMatchError, setPassMatchError] = useState(false);
+
+  useEffect(() => {
+    formValues.password !== formValues.confirmPass
+      ? setPassMatchError(true)
+      : setPassMatchError(false);
+  });
+
+  const formHandler = (e) => {
+    const nextState = {
+      ...formValues,
+      [e.target.name]: e.target.value,
+    };
+    setFormValues(nextState);
+  };
+  const formSubmit = (e) => {
+
+    if(passMatchError){e.preventDefault()};
+  };
+
   return (
     <>
       <div className="hero min-h-screen bg-base-200">
@@ -18,7 +44,7 @@ export default function SignUp() {
 
           <div className="card flex-shrink w-full md:max-w-lg max-w-sm shadow-2xl bg-base-100">
             <div className="card-body">
-              <form>
+              <form onSubmit={formSubmit}>
                 <div className="form-control">
                   <label className="label">
                     <span className="label-text">Username</span>
@@ -28,6 +54,9 @@ export default function SignUp() {
                     placeholder="username"
                     className="input input-bordered"
                     required={true}
+                    name="username"
+                    value={formValues.username}
+                    onChange={formHandler}
                   />
                 </div>
 
@@ -39,7 +68,10 @@ export default function SignUp() {
                     type="email"
                     placeholder="email"
                     className="input input-bordered"
+                    name="email"
                     required={true}
+                    value={formValues.email}
+                    onChange={formHandler}
                   />
                 </div>
                 <div className="form-control">
@@ -50,7 +82,10 @@ export default function SignUp() {
                     type="password"
                     placeholder="password"
                     className="input input-bordered"
+                    name="password"
                     required={true}
+                    value={formValues.password}
+                    onChange={formHandler}
                   />
                 </div>
                 <div className="form-control">
@@ -61,9 +96,14 @@ export default function SignUp() {
                     type="password"
                     placeholder="re-enter password"
                     className="input input-bordered"
+                    name="confirmPass"
                     required={true}
+                    value={formValues.confirmPass}
+                    onChange={formHandler}
                   />
-                  {passMatchError && <ErrorFormMessage message={`Passwords don't match.`} />}
+                  {passMatchError && (
+                    <ErrorFormMessage message={`Passwords don't match.`} />
+                  )}
                 </div>
 
                 <div className="form-control mt-6">
