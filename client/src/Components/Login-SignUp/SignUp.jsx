@@ -92,7 +92,6 @@ export default function SignUp() {
                     required={true}
                     value={formValues.password}
                     onChange={formHandler}
-                    
                   />
                   {passLengthError && (
                     <ErrorFormMessage
@@ -123,7 +122,17 @@ export default function SignUp() {
                   <button className="btn btn-primary">Sign Up</button>
                 </div>
               </form>
-              <div className="text-center pt-5"><p>Already have an account? <a href="#" className="underline">Login here.</a></p></div>
+              <div className="text-center pt-5">
+                <p>
+                  Already have an account?{" "}
+                  <a
+                    href="#"
+                    className="underline text-secondary hover:text-secondary-focus"
+                  >
+                    Login here.
+                  </a>
+                </p>
+              </div>
             </div>
           </div>
         </div>
