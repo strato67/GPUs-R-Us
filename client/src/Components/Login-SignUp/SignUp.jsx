@@ -10,11 +10,16 @@ export default function SignUp() {
   });
 
   const [passMatchError, setPassMatchError] = useState(false);
+  const [passLengthError, setPassLengthError] = useState(false);
 
   useEffect(() => {
     formValues.password !== formValues.confirmPass
       ? setPassMatchError(true)
       : setPassMatchError(false);
+
+    formValues.password.length < 8 && formValues.password.length > 0
+      ? setPassLengthError(true)
+      : setPassLengthError(false);
   });
 
   const formHandler = (e) => {
@@ -25,8 +30,9 @@ export default function SignUp() {
     setFormValues(nextState);
   };
   const formSubmit = (e) => {
-
-    if(passMatchError){e.preventDefault()};
+    if (passMatchError || passLengthError) {
+      e.preventDefault();
+    }
   };
 
   return (
@@ -44,7 +50,7 @@ export default function SignUp() {
 
           <div className="card flex-shrink w-full md:max-w-lg max-w-sm shadow-2xl bg-base-100">
             <div className="card-body">
-              <form onSubmit={formSubmit}>
+              <form onSubmit={formSubmit} method="post">
                 <div className="form-control">
                   <label className="label">
                     <span className="label-text">Username</span>
@@ -86,7 +92,13 @@ export default function SignUp() {
                     required={true}
                     value={formValues.password}
                     onChange={formHandler}
+                    
                   />
+                  {passLengthError && (
+                    <ErrorFormMessage
+                      message={`Password must be at least 8 characters.`}
+                    />
+                  )}
                 </div>
                 <div className="form-control">
                   <label className="label">
@@ -100,6 +112,7 @@ export default function SignUp() {
                     required={true}
                     value={formValues.confirmPass}
                     onChange={formHandler}
+                    autoComplete="new-password"
                   />
                   {passMatchError && (
                     <ErrorFormMessage message={`Passwords don't match.`} />
@@ -110,6 +123,7 @@ export default function SignUp() {
                   <button className="btn btn-primary">Sign Up</button>
                 </div>
               </form>
+              <div className="text-center pt-5"><p>Already have an account? <a href="#" className="underline">Login here.</a></p></div>
             </div>
           </div>
         </div>
