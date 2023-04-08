@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import ErrorFormMessage from "../Other/ErrorFormMessage";
 
 export default function SignUp() {
@@ -125,12 +126,12 @@ export default function SignUp() {
               <div className="text-center pt-5">
                 <p>
                   Already have an account?{" "}
-                  <a
-                    href="#"
+                  <Link
+                    to="/login"
                     className="underline text-secondary hover:text-secondary-focus"
                   >
                     Login here.
-                  </a>
+                  </Link>
                 </p>
               </div>
             </div>

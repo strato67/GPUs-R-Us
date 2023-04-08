@@ -1,4 +1,6 @@
-export default function Navbar(){
+import { Link } from "react-router-dom";
+
+export default function Navbar() {
   return (
     <>
       <div className="navbar bg-neutral flex flex-wrap md:justify-center justify-start">
@@ -25,28 +27,30 @@ export default function Navbar(){
               className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52"
             >
               <li>
-                <a>Shop</a>
+                <Link to="/">Shop</Link>
               </li>
               <li>
-                <a>About</a>
+                <Link to="/about">About</Link>
               </li>
               <li>
-                <a>Contact</a>
+                <Link to="/contact">Contact</Link>
               </li>
             </ul>
           </div>
-          <a className="btn btn-ghost normal-case text-xl">GPUs R Us</a>
+          <Link to="/" className="btn btn-ghost normal-case text-xl">
+            GPUs R Us
+          </Link>
         </div>
         <div className="navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal px-1">
             <li>
-              <a>Shop</a>
+              <Link to="/">Shop</Link>
             </li>
             <li>
-              <a>About</a>
+              <Link to="/about">About</Link>
             </li>
             <li>
-              <a>Contact</a>
+              <Link to="/contact">Contact</Link>
             </li>
           </ul>
         </div>
@@ -95,10 +99,12 @@ export default function Navbar(){
                 </div>
               </div>
             </div>
-            <a className="btn ">Sign Up</a>
+            <Link to="/signup" className="btn">
+              Sign Up
+            </Link>
           </div>
         </div>
       </div>
     </>
   );
-};
+}

@@ -1,14 +1,16 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import ErrorFormMessage from "../Other/ErrorFormMessage";
 
 export default function Login() {
   const [userError, setUserError] = useState(false);
   const [passError, setPassError] = useState(false);
 
-  const formHandler = (e) =>{
-    if(userError || passError){e.preventDefault()}
-
-  }
+  const formHandler = (e) => {
+    if (userError || passError) {
+      e.preventDefault();
+    }
+  };
 
   return (
     <>
@@ -33,9 +35,9 @@ export default function Login() {
                     className="input input-bordered"
                     required={true}
                   />
-                                      {userError && (
-                      <ErrorFormMessage message={`No account found`} />
-                    )}
+                  {userError && (
+                    <ErrorFormMessage message={`No account found`} />
+                  )}
                 </div>
                 <div className="form-control">
                   <label className="label">
@@ -63,12 +65,12 @@ export default function Login() {
                 <div className="text-center pt-5">
                   <p>
                     Don't have an account?{" "}
-                    <a
-                      href="#"
+                    <Link
+                      to="/signup"
                       className="underline text-secondary hover:text-secondary-focus"
                     >
                       Sign up here!
-                    </a>
+                    </Link>
                   </p>
                 </div>
               </form>
