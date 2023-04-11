@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const index = require('./routes/index');
 const products = require('./routes/products');
 const order = require('./routes/order');
+const user = require('./routes/user');
 
 require('dotenv').config();
 
@@ -16,6 +17,7 @@ app.use(express.json())
 app.use('/', index);
 app.use('/products',products);
 app.use('/order',order);
+app.use('/user',user);
 
 mongoose.connect(process.env.MONGO_URI)
     .then(()=>{
