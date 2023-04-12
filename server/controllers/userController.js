@@ -6,7 +6,15 @@ const loginUser = async (request, response) => {
 };
 
 const signUpUser = async (request, response) => {
-    response.json({message:'signup user'});
+    const {username, email, password} = request.body;
+
+    try{
+        const user = await User.signup(username, email, password);
+        response.status(200).json({username, user})
+    }catch(error){
+        response.status(400).json({error: error.message});
+    }
+
 };
 
 const getUserInfo = async (request, response) => {
