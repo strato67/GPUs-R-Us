@@ -20,6 +20,7 @@ app.use("/products", products);
 app.use("/order", order);
 app.use("/user", user);
 
+mongoose.set("strictQuery", false);
 mongoose
   .connect(process.env.MONGO_URI)
   .then(() => {
