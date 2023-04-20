@@ -15,10 +15,10 @@ app.use((request, response, next) => {
 });
 app.use(express.json());
 
-app.use("/", index);
-app.use("/products", products);
-app.use("/order", order);
-app.use("/user", user);
+app.use("/api", index);
+app.use("/api/products", products);
+app.use("/api/order", order);
+app.use("/api/user", user);
 
 mongoose.set("strictQuery", false);
 mongoose

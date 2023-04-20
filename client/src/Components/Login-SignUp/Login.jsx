@@ -3,10 +3,16 @@ import { Link } from "react-router-dom";
 import ErrorFormMessage from "../Other/ErrorFormMessage";
 
 export default function Login() {
+
+  const [formValues, setFormValues] = useState({
+    username: "",
+    password: "",
+  });
+
   const [userError, setUserError] = useState(false);
   const [passError, setPassError] = useState(false);
 
-  const formHandler = (e) => {
+  const formSubmit = (e) => {
     if (userError || passError) {
       e.preventDefault();
     }
@@ -24,7 +30,7 @@ export default function Login() {
           </div>
           <div className="card flex-shrink w-full md:max-w-md max-w-sm shadow-2xl bg-base-100">
             <div className="card-body">
-              <form onSubmit={formHandler} method="post">
+              <form onSubmit={formSubmit} method="post">
                 <div className="form-control">
                   <label className="label">
                     <span className="label-text">Username</span>

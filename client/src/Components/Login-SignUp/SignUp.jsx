@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import useSignup from "../../Hooks/useSignup";
 import ErrorFormMessage from "../Other/ErrorFormMessage";
 
 export default function SignUp() {
@@ -12,6 +13,7 @@ export default function SignUp() {
 
   const [passMatchError, setPassMatchError] = useState(false);
   const [passLengthError, setPassLengthError] = useState(false);
+  const {signup, loading, error} = useSignup();
 
   useEffect(() => {
     formValues.password !== formValues.confirmPass
@@ -30,10 +32,11 @@ export default function SignUp() {
     };
     setFormValues(nextState);
   };
-  const formSubmit = (e) => {
-    if (passMatchError || passLengthError) {
+  const formSubmit = async (e) => {
+
       e.preventDefault();
-    }
+
+    await signup(formValues.username, formValues.email, formValues.password)
   };
 
   return (
