@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import useSignup from "../../Hooks/useSignup";
 import ErrorFormMessage from "../Other/ErrorFormMessage";
+import ErrorNotification from "../Other/Error";
 
 export default function SignUp() {
   const [formValues, setFormValues] = useState({
@@ -41,6 +42,7 @@ export default function SignUp() {
 
   return (
     <>
+    <ErrorNotification message={error} eventChange={error}/>
       <div className="hero min-h-screen bg-base-200">
         <div className="hero-content flex-col lg:flex-row-reverse lg:gap-16">
           <div className="text-center lg:text-left md:w-2/3 lg:w-1/2">
@@ -123,12 +125,12 @@ export default function SignUp() {
                 </div>
 
                 <div className="form-control mt-6">
-                <input
-                    type="submit"
+                <button
+
                     className="btn btn-primary"
-                    value="Sign Up"
+
                     disabled={passLengthError || passMatchError || loading}
-                  />
+                  >Sign Up</button>
                 </div>
               </form>
               <div className="text-center pt-5">
