@@ -123,7 +123,12 @@ export default function SignUp() {
                 </div>
 
                 <div className="form-control mt-6">
-                  <button className="btn btn-primary">Sign Up</button>
+                <input
+                    type="submit"
+                    className="btn btn-primary"
+                    value="Sign Up"
+                    disabled={passLengthError || passMatchError || loading}
+                  />
                 </div>
               </form>
               <div className="text-center pt-5">
