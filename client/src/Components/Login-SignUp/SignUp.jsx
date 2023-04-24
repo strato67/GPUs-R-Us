@@ -14,7 +14,7 @@ export default function SignUp() {
 
   const [passMatchError, setPassMatchError] = useState(false);
   const [passLengthError, setPassLengthError] = useState(false);
-  const {signup, loading, error} = useSignup();
+  const { signup, loading, error } = useSignup();
 
   useEffect(() => {
     formValues.password !== formValues.confirmPass
@@ -34,15 +34,14 @@ export default function SignUp() {
     setFormValues(nextState);
   };
   const formSubmit = async (e) => {
+    e.preventDefault();
 
-      e.preventDefault();
-
-    await signup(formValues.username, formValues.email, formValues.password)
+    await signup(formValues);
   };
 
   return (
     <>
-    <ErrorNotification message={error} eventChange={error}/>
+      <ErrorNotification message={error} eventChange={error} />
       <div className="hero min-h-screen bg-base-200">
         <div className="hero-content flex-col lg:flex-row-reverse lg:gap-16">
           <div className="text-center lg:text-left md:w-2/3 lg:w-1/2">
@@ -125,12 +124,12 @@ export default function SignUp() {
                 </div>
 
                 <div className="form-control mt-6">
-                <button
-
+                  <button
                     className="btn btn-primary"
-
                     disabled={passLengthError || passMatchError || loading}
-                  >Sign Up</button>
+                  >
+                    Sign Up
+                  </button>
                 </div>
               </form>
               <div className="text-center pt-5">

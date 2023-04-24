@@ -18,10 +18,10 @@ const loginUser = async (request, response) => {
 };
 
 const signUpUser = async (request, response) => {
-  const { username, email, password } = request.body;
+  const { username, email, password, confirmPass } = request.body;
 
   try {
-    const user = await User.signup(username, email, password);
+    const user = await User.signup(username, email, password, confirmPass);
 
     const userToken = createToken(user._id);
 

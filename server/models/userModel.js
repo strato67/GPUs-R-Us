@@ -24,12 +24,20 @@ const userSchema = new Schema({
   },
 });
 
-userSchema.statics.signup = async function (username, email, password) {
+userSchema.statics.signup = async function (
+  username,
+  email,
+  password,
+  confirmPass
+) {
   if (!username || !email || !password) {
     throw Error("All fields must be filled.");
   }
   if (!validator.isEmail(email)) {
     throw Error("Invalid email.");
+  }
+  if (password !== confirmPass) {
+    throw Error("Passwords don't match");
   }
   if (
     !validator.isStrongPassword(password, {
@@ -39,7 +47,7 @@ userSchema.statics.signup = async function (username, email, password) {
       minSymbols: 0,
     })
   ) {
-    throw Error("Your password is too weak.");
+    throw Error("Your password is too weak. (Minimum length of 8 characters, must contain at least one number and uppercase letter)");
   }
 
   const accountExists = await this.findOne({ username });
