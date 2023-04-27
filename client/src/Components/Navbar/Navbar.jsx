@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom";
+import useLogout from "../../Hooks/useLogout";
 
 export default function Navbar() {
+  const { logout } = useLogout();
   return (
     <>
       <div className="navbar bg-neutral flex flex-wrap md:justify-center justify-start">
@@ -99,7 +101,11 @@ export default function Navbar() {
                 </div>
               </div>
             </div>
-            <div className={`dropdown dropdown-end hidden`}>
+            <div
+              className={
+                1 ? `dropdown dropdown-end` : `dropdown dropdown-end hidden`
+              }
+            >
               <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
                 <div className="avatar placeholder">
                   <div className="bg-neutral-focus text-neutral-content rounded-full w-10">
@@ -117,12 +123,12 @@ export default function Navbar() {
                 <li>
                   <a>Settings</a>
                 </li>
-                <li>
+                <li onClick={logout}>
                   <a>Logout</a>
                 </li>
               </ul>
             </div>
-            
+
             <Link to="/signup" className={`btn`}>
               Sign Up
             </Link>
