@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import useLogin from "../../Hooks/useLogin";
 import ErrorFormMessage from "../Other/ErrorFormMessage";
+
 
 export default function Login() {
 
@@ -11,11 +13,12 @@ export default function Login() {
 
   const [userError, setUserError] = useState(false);
   const [passError, setPassError] = useState(false);
+  const { login, loading, error } = useLogin();
 
-  const formSubmit = (e) => {
-    if (userError || passError) {
-      e.preventDefault();
-    }
+  const formSubmit = async (e) => {
+    e.preventDefault();
+    await login(formValues);
+
   };
 
   return (
@@ -50,7 +53,7 @@ export default function Login() {
                     <span className="label-text">Password</span>
                   </label>
                   <input
-                    type="text"
+                    type="password"
                     placeholder="password"
                     className="input input-bordered"
                     required={true}
