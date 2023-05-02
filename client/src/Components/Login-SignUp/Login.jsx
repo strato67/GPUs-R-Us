@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import useLogin from "../../Hooks/useLogin";
 import ErrorFormMessage from "../Other/ErrorFormMessage";
-
+import ErrorNotification from "../Other/Error";
 
 export default function Login() {
 
@@ -15,6 +15,14 @@ export default function Login() {
   const [passError, setPassError] = useState(false);
   const { login, loading, error } = useLogin();
 
+  const formHandler = (e) => {
+    const nextState = {
+      ...formValues,
+      [e.target.name]: e.target.value,
+    };
+    setFormValues(nextState);
+  };
+
   const formSubmit = async (e) => {
     e.preventDefault();
     await login(formValues);
@@ -23,6 +31,8 @@ export default function Login() {
 
   return (
     <>
+    {/*Raise scope of eventChange (useEffect should be in this component) */}
+    <ErrorNotification message={error} eventChange={error}/>
       <div className="hero min-h-screen bg-base-200">
         <div className="hero-content flex-col lg:flex-row-reverse lg:gap-16">
           <div className="text-center lg:text-left md:w-2/3 lg:w-1/2">
@@ -43,6 +53,9 @@ export default function Login() {
                     placeholder="username"
                     className="input input-bordered"
                     required={true}
+                    name="username"
+                    value={formValues.username}
+                    onChange={formHandler}
                   />
                   {userError && (
                     <ErrorFormMessage message={`No account found`} />
@@ -57,6 +70,9 @@ export default function Login() {
                     placeholder="password"
                     className="input input-bordered"
                     required={true}
+                    name="password"
+                    value={formValues.password}
+                    onChange={formHandler}
                   />
 
                   <label className="label">
