@@ -14,7 +14,14 @@ export default function SignUp() {
 
   const [passMatchError, setPassMatchError] = useState(false);
   const [passLengthError, setPassLengthError] = useState(false);
+  const [showMessage, setShowMessage] = useState(false);
   const { signup, loading, error } = useSignup();
+
+  useEffect(
+    () => (error ? setShowMessage(true) : setShowMessage(false)),
+
+    [error]
+  );
 
   useEffect(() => {
     formValues.password !== formValues.confirmPass
@@ -41,7 +48,7 @@ export default function SignUp() {
 
   return (
     <>
-      <ErrorNotification message={error} eventChange={error} />
+      {showMessage && <ErrorNotification message={error} />}
       <div className="hero min-h-screen bg-base-200">
         <div className="hero-content flex-col lg:flex-row-reverse lg:gap-16">
           <div className="text-center lg:text-left md:w-2/3 lg:w-1/2">

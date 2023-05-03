@@ -1,19 +1,22 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import useLogin from "../../Hooks/useLogin";
-import ErrorFormMessage from "../Other/ErrorFormMessage";
 import ErrorNotification from "../Other/Error";
 
 export default function Login() {
-
   const [formValues, setFormValues] = useState({
     username: "",
     password: "",
   });
 
-  const [userError, setUserError] = useState(false);
-  const [passError, setPassError] = useState(false);
+  const [showMessage, setShowMessage] = useState(false);
   const { login, loading, error } = useLogin();
+
+  useEffect(
+    () => (error ? setShowMessage(true) : setShowMessage(false)),
+
+    [error]
+  );
 
   const formHandler = (e) => {
     const nextState = {
@@ -26,13 +29,11 @@ export default function Login() {
   const formSubmit = async (e) => {
     e.preventDefault();
     await login(formValues);
-
   };
 
   return (
     <>
-    {/*Raise scope of eventChange (useEffect should be in this component) */}
-    <ErrorNotification message={error} eventChange={error}/>
+      {showMessage && <ErrorNotification message={error} />}
       <div className="hero min-h-screen bg-base-200">
         <div className="hero-content flex-col lg:flex-row-reverse lg:gap-16">
           <div className="text-center lg:text-left md:w-2/3 lg:w-1/2">
@@ -57,9 +58,6 @@ export default function Login() {
                     value={formValues.username}
                     onChange={formHandler}
                   />
-                  {userError && (
-                    <ErrorFormMessage message={`No account found`} />
-                  )}
                 </div>
                 <div className="form-control">
                   <label className="label">
@@ -79,13 +77,10 @@ export default function Login() {
                     <a href="#" className="label-text-alt link link-hover">
                       Forgot password?
                     </a>
-                    {passError && (
-                      <ErrorFormMessage message={`Password incorrect.`} />
-                    )}
                   </label>
                 </div>
                 <div className="form-control mt-6">
-                  <button className="btn btn-primary">Login</button>
+                  <button className="btn btn-primary" disabled={loading}>Login</button>
                 </div>
                 <div className="text-center pt-5">
                   <p>
