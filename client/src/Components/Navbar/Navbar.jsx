@@ -1,8 +1,10 @@
 import { Link } from "react-router-dom";
 import useLogout from "../../Hooks/useLogout";
+import useAuthContext from "../../Hooks/useAuthContext";
 
 export default function Navbar() {
   const { logout } = useLogout();
+  const { user } = useAuthContext();
   return (
     <>
       <div className="navbar bg-neutral flex flex-wrap md:justify-center justify-start">
@@ -101,7 +103,7 @@ export default function Navbar() {
                 </div>
               </div>
             </div>
-            <div
+            {user && (<div
               className={
                 1 ? `dropdown dropdown-end` : `dropdown dropdown-end hidden`
               }
@@ -127,11 +129,11 @@ export default function Navbar() {
                   <a>Logout</a>
                 </li>
               </ul>
-            </div>
+            </div>)}
 
-            <Link to="/signup" className={`btn`}>
+            {!user &&<Link to="/signup" className={`btn`}>
               Sign Up
-            </Link>
+            </Link>}
           </div>
         </div>
       </div>
