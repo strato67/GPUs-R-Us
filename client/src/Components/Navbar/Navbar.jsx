@@ -103,37 +103,43 @@ export default function Navbar() {
                 </div>
               </div>
             </div>
-            {user && (<div
-              className={
-                1 ? `dropdown dropdown-end` : `dropdown dropdown-end hidden`
-              }
-            >
-              <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
-                <div className="avatar placeholder">
-                  <div className="bg-neutral-focus text-neutral-content rounded-full w-10">
-                    <span>SS</span>
-                  </div>
-                </div>
-              </label>
-              <ul
-                tabIndex={0}
-                className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52"
+            {user && (
+              <div
+                className={
+                  1 ? `dropdown dropdown-end` : `dropdown dropdown-end hidden`
+                }
               >
-                <li>
-                  <a className="justify-between">Profile</a>
-                </li>
-                <li>
-                  <a>Settings</a>
-                </li>
-                <li onClick={logout}>
-                  <a>Logout</a>
-                </li>
-              </ul>
-            </div>)}
+                <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
+                  <div className="avatar placeholder">
+                    <div className="bg-neutral-focus text-neutral-content rounded-full w-10">
+                      <span>{user.username}</span>
+                    </div>
+                  </div>
+                </label>
+                <ul
+                  tabIndex={0}
+                  className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52"
+                >
+                  <li>
+                    <Link to={`/profile/${user.username}`} className={`justify-between`}>
+                      Profile
+                    </Link>
+                  </li>
+                  <li>
+                    <a>Settings</a>
+                  </li>
+                  <li onClick={logout}>
+                    <a>Logout</a>
+                  </li>
+                </ul>
+              </div>
+            )}
 
-            {!user &&<Link to="/signup" className={`btn`}>
-              Sign Up
-            </Link>}
+            {!user && (
+              <Link to="/signup" className={`btn`}>
+                Sign Up
+              </Link>
+            )}
           </div>
         </div>
       </div>
