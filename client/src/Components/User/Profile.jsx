@@ -7,15 +7,13 @@ export default function Profile() {
 
   useEffect(() => {
     const getuserInfo = async () => {
-      const response = await fetch(`api/user/${id}`);
+      const response = await fetch(`/api/user/${id}`);
       const data = await response.json();
-
       if (response.ok) {
         setUserInfo(data);
       }
     };
     getuserInfo();
-    console.log(userInfo);
   }, []);
 
   return (
