@@ -10,7 +10,6 @@ import NotFound from "./Components/Other/NotFound";
 import Profile from "./Components/User/Profile";
 import "./App.css";
 
-
 const App = () => {
   return (
     <>
@@ -21,9 +20,7 @@ const App = () => {
         <Route path="/contact" element={<Contact />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/profile/:id" loader={async({ params })=>{
-          return fetch(`api/user/${params.username}.json`);
-        }} element={<Profile />} />
+        <Route path="/profile/:id" element={<Profile />} />
         <Route path="*" element={<NotFound />}></Route>
       </Routes>
       <Footer />

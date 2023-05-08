@@ -8,32 +8,29 @@ export default function useLogin() {
   const { dispatch } = useAuthContext();
   const navigate = useNavigate();
 
-    const login = async (userInfo) =>{
-        setLoading(true);
-        setError(null);
+  const login = async (userInfo) => {
+    setLoading(true);
+    setError(null);
 
-        const response = await fetch("api/user/login", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(userInfo),
-          });
-      
-          const json = await response.json();
-      
-          if (!response.ok) {
-            setLoading(false);
-            setError(json.error);
-          }
-          if (response.ok) {
-            localStorage.setItem("user", JSON.stringify(json));
-            dispatch({ type: "LOGIN", payload: json });
-            setLoading(false);
-            navigate("/");
-          }
+    const response = await fetch("api/user/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(userInfo),
+    });
+
+    const json = await response.json();
+
+    if (!response.ok) {
+      setLoading(false);
+      setError(json.error);
     }
+    if (response.ok) {
+      localStorage.setItem("user", JSON.stringify(json));
+      dispatch({ type: "LOGIN", payload: json });
+      setLoading(false);
+      navigate("/");
+    }
+  };
 
-
-    
-    return {login, loading, error}
-
+  return { login, loading, error };
 }

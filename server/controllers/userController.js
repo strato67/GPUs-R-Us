@@ -32,7 +32,14 @@ const signUpUser = async (request, response) => {
 };
 
 const getUserInfo = async (request, response) => {
-  response.json({ message: "user info" });
+  const username = request.params.id;
+
+  try {
+    const user = await User.getUser(username);
+    response.status(200).json({user: user});
+  } catch (error) {
+    response.status(400).json({ error: error.message });
+  }
 };
 
 module.exports = { loginUser, signUpUser, getUserInfo };

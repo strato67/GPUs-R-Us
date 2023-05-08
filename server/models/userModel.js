@@ -47,7 +47,9 @@ userSchema.statics.signup = async function (
       minSymbols: 0,
     })
   ) {
-    throw Error("Your password is too weak. (Minimum length of 8 characters, must contain at least one number and uppercase letter)");
+    throw Error(
+      "Your password is too weak. (Minimum length of 8 characters, must contain at least one number and uppercase letter)"
+    );
   }
 
   const accountExists = await this.findOne({ username });
@@ -90,6 +92,22 @@ userSchema.statics.login = async function (username, password) {
   }
 
   return user;
+};
+
+userSchema.statics.getUser = async function (username) {
+  if (!username) {
+    throw Error("No user found.");
+  }
+  const user = await this.findOne({ username });
+
+  if (!user) {
+    throw Error("No user found.");
+  }
+  
+  return {
+    username: user.username,
+    joined: user.joined,
+  };
 };
 
 module.exports = mongoose.model("User", userSchema);
