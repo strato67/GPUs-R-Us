@@ -23,17 +23,15 @@ export default function Profile() {
 
   return (
     <>
-      <div className=" min-h-screen bg-base-200">
-        <div className="flex justify-center py-5">
+      <div className="grid grid-cols-1 grid-rows-2 min-h-screen bg-base-200 gap-2">
+        <div className="flex justify-center place-self-center ">
           {userInfo && <ProfileCard userInfo={userInfo} />}
         </div>
 
-        <div className="flex justify-center">
-          <div className="card w-96 bg-base-100 shadow-xl">
+        <div className="flex justify-center pb-10 ">
+          <div className=" w-1/2  bg-base-200 ">
             <div className="card-body">
-              <h2 className="card-title">Wishlist</h2>
-              <p>If a dog chews shoes whose shoes does he choose?</p>
-
+              <h2 className="text-center md:text-start font-bold text-4xl ">{`Wishlist`}</h2>
             </div>
           </div>
         </div>
