@@ -3,11 +3,29 @@ import SuccessNotification from "../Other/Success";
 
 export default function Contact() {
   const [formSubmitted, setFormSubmitted] = useState(false);
+  const [contactInfo, setContactInfo] = useState({
+    email: "",
+    subject: "",
+    message: "",
+  });
 
-  const handleSubmit = (e) => {
+  const handleKeyDown = (e) => {
+    e.target.style.height = 'inherit';
+    e.target.style.height = `${e.target.scrollHeight}px`; 
+  };
+
+  const formHandler = (e) => {
+    const nextState = {
+      ...contactInfo,
+      [e.target.name]: e.target.value,
+    };
+    setContactInfo(nextState);
+  };
+
+  const formSubmit = (e) => {
     e.preventDefault();
     setFormSubmitted(true);
-    console.log(e.target);
+    console.log(contactInfo);
   };
 
   return (
@@ -30,7 +48,7 @@ export default function Contact() {
           </div>
           <div className="card flex-shrink-0 w-full max-w-md shadow-2xl bg-base-100">
             <div className="card-body">
-              <form onSubmit={handleSubmit} method="post">
+              <form onSubmit={formSubmit} method="post">
                 <div className="form-control">
                   <label className="label">
                     <span className="label-text">Email</span>
@@ -40,6 +58,23 @@ export default function Contact() {
                     placeholder="email"
                     className="input input-bordered"
                     required={true}
+                    name="email"
+                    value={contactInfo.email}
+                    onChange={formHandler}
+                  />
+                </div>
+                <div className="form-control">
+                  <label className="label">
+                    <span className="label-text">Subject</span>
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="subject"
+                    className="input input-bordered"
+                    required={true}
+                    name="subject"
+                    value={contactInfo.subject}
+                    onChange={formHandler}
                   />
                 </div>
                 <div className="form-control">
@@ -48,8 +83,13 @@ export default function Contact() {
                   </label>
                   <textarea
                     className="textarea textarea-primary"
-                    placeholder="enter your message here"
+                    placeholder="enter your message here (max 500 characters)"
                     required={true}
+                    name="message"
+                    value={contactInfo.message}
+                    onChange={formHandler}
+                    maxLength="500"
+                    onKeyDown={handleKeyDown}
                   ></textarea>
                   <label className="label"></label>
                 </div>
