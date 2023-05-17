@@ -6,6 +6,7 @@ const index = require("./routes/index");
 const products = require("./routes/products");
 const order = require("./routes/order");
 const user = require("./routes/user");
+const contact = require("./routes/contact");
 
 require("dotenv").config();
 
@@ -19,6 +20,7 @@ app.use("/api", index);
 app.use("/api/products", products);
 app.use("/api/order", order);
 app.use("/api/user", user);
+app.use("/api/contact", contact);
 
 mongoose.set("strictQuery", false);
 mongoose

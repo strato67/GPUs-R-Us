@@ -17,4 +17,24 @@ const contactSchema = new Schema({
   },
 });
 
+contactSchema.statics.createMessage = async function (email, subject, message) {
+  if (!email || !subject || !message) {
+    throw Error("All fields must be filled.");
+  }
+
+  const messageExists = await this.findOne({ email, subject, message });
+
+  if (messageExists) {
+    throw Error("We received your message.");
+  }
+
+  const newMessage = await this.create({
+    email,
+    subject,
+    message,
+  });
+
+  return newMessage;
+};
+
 module.exports = mongoose.model("Contact", contactSchema);
