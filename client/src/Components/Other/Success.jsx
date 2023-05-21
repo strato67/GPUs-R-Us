@@ -1,13 +1,7 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
-export default function SuccessNotification({ message, eventChange }) {
-  const [showMessage, setShowMessage] = useState(false);
-
-  useEffect(() => {
-    if (eventChange) {
-      setShowMessage(true);
-    }
-  }, [eventChange]);
+export default function SuccessNotification({ message }) {
+  const [showMessage, setShowMessage] = useState(true);
 
   return (
     <>

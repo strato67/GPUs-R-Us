@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useContact from "../../Hooks/useContact";
 import SuccessNotification from "../Other/Success";
 import ErrorNotification from "../Other/Error";
@@ -11,7 +11,6 @@ export default function Contact() {
     subject: "",
     message: "",
   });
-
 
   const handleKeyDown = (e) => {
     e.target.style.height = "inherit";
@@ -28,23 +27,30 @@ export default function Contact() {
 
   const formSubmit = async (e) => {
     e.preventDefault();
-    setFormSubmitted(true);
+
     await sendMessage(contactInfo);
+
+    setFormSubmitted(true);
   };
 
   return (
     <>
-      <SuccessNotification
-        message={"Thanks! Your message has been submitted."}
-        eventChange={formSubmitted}
-      />
+      {error && <ErrorNotification message={error} />}
+      {formSubmitted && !error &&(
+        <SuccessNotification
+          message={"Thanks! Your message has been submitted."}
+        />
+      )}
+
       <div className="hero min-h-screen bg-base-200">
         <div className="hero-content flex-col lg:flex-row">
           <div className="md:w-2/3 lg:w-1/2">
-            <h1 className="text-5xl font-bold text-center lg:text-left">Contact Us</h1>
+            <h1 className="text-5xl font-bold text-center lg:text-left">
+              Contact Us
+            </h1>
             <p className="py-6 text-sm  md:text-lg text-center lg:text-left max-w-md md:max-w-full">
-              Let's connect! Fill out the form with your email address, subject, and
-              message. We'll get back to you as soon as possible. 
+              Let's connect! Fill out the form with your email address, subject,
+              and message. We'll get back to you as soon as possible.
             </p>
           </div>
           <div className="card flex-shrink-0 w-full max-w-md shadow-2xl bg-base-100">
