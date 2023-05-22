@@ -25,7 +25,7 @@ contactSchema.statics.createMessage = async function (email, subject, message) {
   const messageExists = await this.findOne({ email, subject, message });
 
   if (messageExists) {
-    throw Error("We received your message.");
+    throw Error("We already received your message.");
   }
 
   const newMessage = await this.create({

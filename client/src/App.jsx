@@ -8,6 +8,7 @@ import SignUp from "./Components/User/SignUp";
 import Login from "./Components/User/Login";
 import NotFound from "./Components/Other/NotFound";
 import Profile from "./Components/User/Profile";
+import Shop from "./Components/Shop/Shop";
 import "./App.css";
 
 const App = () => {
@@ -16,6 +17,7 @@ const App = () => {
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/shop" element={<Shop />} />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/signup" element={<SignUp />} />

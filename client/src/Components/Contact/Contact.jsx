@@ -105,7 +105,7 @@ export default function Contact() {
                     type="submit"
                     className="btn btn-primary"
                     value="Submit"
-                    disabled={formSubmitted}
+                    disabled={formSubmitted && !error}
                   />
                 </div>
               </form>

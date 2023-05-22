@@ -31,7 +31,7 @@ export default function Navbar() {
               className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52"
             >
               <li>
-                <Link to="/">Shop</Link>
+                <Link to="/shop">Shop</Link>
               </li>
               <li>
                 <Link to="/about">About</Link>
@@ -48,7 +48,7 @@ export default function Navbar() {
         <div className="navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal px-1">
             <li>
-              <Link to="/">Shop</Link>
+              <Link to="/shop">Shop</Link>
             </li>
             <li>
               <Link to="/about">About</Link>
