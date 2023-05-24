@@ -1,7 +1,7 @@
 export default function ShopCard() {
   return (
     <>
-      <div className="card w-96 bg-base-100 shadow-xl place-self-center">
+      <div className="card w-96 bg-base-100 shadow-xl place-self-center hover:scale-105">
         <figure>
           <img
             src="https://www.trustedreviews.com/wp-content/uploads/sites/54/2020/09/RTX-3080-flat-2-scaled.jpg"
