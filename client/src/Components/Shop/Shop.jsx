@@ -41,14 +41,12 @@ export default function Shop() {
           </div>
         </div>
         {products && (
-          <div className="grid lg:grid-cols-3 min-h-screen bg-base-200   gap-8 pb-8">
+          <div className="grid lg:grid-cols-3 bg-base-200   gap-8 pb-8 px-8">
             {products.map((product, index) => {
               return <ShopCard product={product} key={index} />;
             })}
             {/*Will delete later*/}
-            {products.map((product, index) => {
-              return <ShopCard product={product} key={index} />;
-            })}
+
 
           </div>
         )}
