@@ -8,7 +8,7 @@ module.exports = {
   
 
   daisyui: {
-    themes: ["light", "dracula"],
+    themes: ["dracula"],
     darkTheme: "dracula",
   },
 };
