@@ -17,12 +17,12 @@ const getProduct = async (request, response) => {
 };
 
 const getAllProducts = async (request, response) => {
-  const products = await Product.find({});
+  const products = await Product.find({}, 'name description price rating tags images');
   response.status(200).json(products);
 };
 
 const createProduct = async (request, response) => {
-  const { name, description, price, rating, images, reviews } = request.body;
+  const { name, description, price, rating, specs, tags, images, reviews } = request.body;
 
   try {
     const product = await Product.create({
@@ -30,6 +30,8 @@ const createProduct = async (request, response) => {
       description,
       price,
       rating,
+      specs,
+      tags,
       images,
       reviews,
     });

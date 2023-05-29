@@ -4,10 +4,11 @@ import ShopCard from "./ShopCard";
 
 export default function Shop() {
   const [products, setProducts] = useState(null);
+  const [active, setActive] = useState("All Products");
   const navigate = useNavigate();
 
-  const getProducts = async () => {
-    const response = await fetch(`/api/products`);
+  const getProducts = async (urlVal) => {
+    const response = await fetch(urlVal);
     const data = await response.json();
     if (!response.ok) {
       console.log("error");
@@ -15,8 +16,14 @@ export default function Shop() {
     setProducts(data);
   };
 
+  //remove dependancy on api route and filter by product tags
+  const tabContents = {
+    "All Products": `/api/products`,
+    AMD: `/api/products`,
+    NVIDIA: `/api/products`,
+  };
   useEffect(() => {
-    getProducts();
+    getProducts(tabContents["All Products"]);
   }, []);
 
   return (
@@ -27,16 +34,18 @@ export default function Shop() {
             <h1 className="text-5xl font-bold text-center ">Shop</h1>
           </div>
           <div className="pt-5 lg:pt-0">
-            <ul className="menu menu-horizontal bg-primary rounded-box ">
-              <li onClick={getProducts}>
-                <a>All Products</a>
-              </li>
-              <li>
-                <a>AMD</a>
-              </li>
-              <li>
-                <a>NVIDIA</a>
-              </li>
+            <ul className="menu menu-horizontal rounded-box active">
+              {Object.keys(tabContents).map((key, index) => (
+                <li
+                  key={index}
+                  onClick={() => {
+                    setActive(key);
+                    getProducts(tabContents[key]);
+                  }}
+                >
+                  <a className={`${active == key ? "active" : ""}`}>{key}</a>
+                </li>
+              ))}
             </ul>
           </div>
         </div>
@@ -45,9 +54,6 @@ export default function Shop() {
             {products.map((product, index) => {
               return <ShopCard product={product} key={index} />;
             })}
-            {/*Will delete later*/}
-
-
           </div>
         )}
       </div>

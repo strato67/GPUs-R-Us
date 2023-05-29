@@ -19,6 +19,16 @@ const productSchema = new Schema({
     type: Number,
     default: 0,
   },
+  specs: [
+    {
+      name: {
+        type: String,
+        required: true,
+      },
+      spec: { type: String, required: true },
+    },
+  ],
+  tags: [String],
   images: [
     {
       id: {
