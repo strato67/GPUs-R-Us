@@ -19,6 +19,20 @@ export default function Shop() {
     getProducts();
   }, []);
 
+  const filterProducts = () => {
+    if (active === "All Products") {
+      return products;
+    }
+    const filtered = products.filter((product) =>
+      product.tags.includes(active)
+    );
+
+    if (filtered.length === 0) {
+      return [];
+    }
+    return filtered;
+  };
+
   return (
     <>
       <div className="min-h-screen bg-base-200">
@@ -33,7 +47,6 @@ export default function Shop() {
                   key={key}
                   onClick={() => {
                     setActive(key);
-                    getProducts(tabContents[key]);
                   }}
                 >
                   <a className={`${active == key ? "active" : ""}`}>{key}</a>
@@ -44,7 +57,7 @@ export default function Shop() {
         </div>
         {products && (
           <div className="grid lg:grid-cols-3 bg-base-200 gap-8 pb-8 px-8">
-            {products.map((product, index) => {
+            {filterProducts().map((product, index) => {
               return <ShopCard product={product} key={index} />;
             })}
           </div>
