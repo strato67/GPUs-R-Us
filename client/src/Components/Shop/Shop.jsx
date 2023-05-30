@@ -1,14 +1,13 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import ShopCard from "./ShopCard";
 
 export default function Shop() {
   const [products, setProducts] = useState(null);
   const [active, setActive] = useState("All Products");
-  const navigate = useNavigate();
+  const tabContents = ["All Products", "AMD", "NVIDIA", "Other"];
 
-  const getProducts = async (urlVal) => {
-    const response = await fetch(urlVal);
+  const getProducts = async () => {
+    const response = await fetch("/api/products");
     const data = await response.json();
     if (!response.ok) {
       console.log("error");
@@ -16,14 +15,8 @@ export default function Shop() {
     setProducts(data);
   };
 
-  //remove dependancy on api route and filter by product tags
-  const tabContents = {
-    "All Products": `/api/products`,
-    AMD: `/api/products`,
-    NVIDIA: `/api/products`,
-  };
   useEffect(() => {
-    getProducts(tabContents["All Products"]);
+    getProducts();
   }, []);
 
   return (
@@ -35,9 +28,9 @@ export default function Shop() {
           </div>
           <div className="pt-5 lg:pt-0">
             <ul className="menu menu-horizontal rounded-box active">
-              {Object.keys(tabContents).map((key, index) => (
+              {tabContents.map((key) => (
                 <li
-                  key={index}
+                  key={key}
                   onClick={() => {
                     setActive(key);
                     getProducts(tabContents[key]);
@@ -50,7 +43,7 @@ export default function Shop() {
           </div>
         </div>
         {products && (
-          <div className="grid lg:grid-cols-3 bg-base-200   gap-8 pb-8 px-8">
+          <div className="grid lg:grid-cols-3 bg-base-200 gap-8 pb-8 px-8">
             {products.map((product, index) => {
               return <ShopCard product={product} key={index} />;
             })}
