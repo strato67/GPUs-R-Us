@@ -9,6 +9,7 @@ import Login from "./Components/User/Login";
 import NotFound from "./Components/Other/NotFound";
 import Profile from "./Components/User/Profile";
 import Shop from "./Components/Shop/Shop";
+import ItemPage from "./Components/Shop/ItemPage";
 import "./App.css";
 
 const App = () => {
@@ -18,6 +19,7 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/shop" element={<Shop />} />
+        <Route path="/shop/:id" element={<ItemPage />} />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/signup" element={<SignUp />} />

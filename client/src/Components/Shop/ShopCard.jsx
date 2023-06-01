@@ -1,6 +1,9 @@
+import { Link } from "react-router-dom";
+
 export default function ShopCard({ product }) {
   return (
     <>
+    <Link to={`/shop/${product._id}`}>
       <div className="card max-w-sm bg-base-100 shadow-xl place-self-center hover:scale-105">
         <figure>
           <img
@@ -62,6 +65,7 @@ export default function ShopCard({ product }) {
           </div>
         </div>
       </div>
+      </Link>
     </>
   );
 }
