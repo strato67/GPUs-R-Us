@@ -7,7 +7,7 @@ export default function Navbar() {
   const { user } = useAuthContext();
   return (
     <>
-      <div className="navbar bg-neutral flex flex-wrap md:justify-center justify-start">
+      <div className="navbar bg-neutral flex flex-wrap md:justify-center justify-start z-0">
         <div className="">
           <div className="dropdown">
             <label tabIndex={0} className="btn btn-ghost lg:hidden ">
@@ -28,7 +28,7 @@ export default function Navbar() {
             </label>
             <ul
               tabIndex={0}
-              className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-80 font-bold text-2xl"
+              className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-80 font-bold text-2xl z-10"
             >
               <li>
                 <Link to="/shop">Shop</Link>
@@ -68,7 +68,7 @@ export default function Navbar() {
                 className="input input-bordered bg-neutral-focus"
               />
             </div>
-            <div className="dropdown dropdown-end px-1">
+            <div className="dropdown dropdown-end px-1 z-10">
               <label tabIndex={0} className="btn btn-ghost btn-circle">
                 <div className="indicator">
                   <svg
@@ -90,7 +90,7 @@ export default function Navbar() {
               </label>
               <div
                 tabIndex={0}
-                className="mt-3 card card-compact dropdown-content w-52 bg-base-100 shadow"
+                className="mt-3 card card-compact dropdown-content w-52 bg-base-100 shadow z-10"
               >
                 <div className="card-body">
                   <span className="font-bold text-lg">0 Items</span>
@@ -118,7 +118,7 @@ export default function Navbar() {
                 </label>
                 <ul
                   tabIndex={0}
-                  className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52"
+                  className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52 z-10"
                 >
                   <li>
                     <Link to={`/profile/${user.username}`} className={`justify-between`}>
