@@ -39,9 +39,10 @@ export default function Shop() {
     <>
       <div className="min-h-screen bg-base-200">
         <div className="flex flex-col lg:flex-row items-center pt-16 pb-8 lg:py-8 justify-center">
-          <div className="lg:pr-12">
+          <div className="lg:pr-2">
             <h1 className="text-5xl font-bold text-center ">Shop</h1>
           </div>
+          <div className="divider divider-horizontal"></div>
           <div className="pt-5 lg:pt-0">
             <ul className="menu menu-horizontal rounded-box active">
               {tabContents.map((key) => (

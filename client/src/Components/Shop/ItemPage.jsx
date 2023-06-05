@@ -23,14 +23,16 @@ export default function ItemPage() {
 
   return (
     <>
-      <div className="min-h-screen bg-base-200">
-        <div className="flex flex-col md:flex-row pb-4 px-4 justify-center">
-          <div>
-            <h1 className="text-3xl py-8 ">Product Name</h1>
-            <ItemCarousel />
+      <div className=" bg-base-200">
+        <div className="flex flex-col md:flex-row pb-4 px-4 lg:space-x-6 justify-center md:py-12 ">
+          <div className="py-8 md:py-12 h-fit md:hidden">
+            <h1 className="text-3xl ">Product Name</h1>
           </div>
 
-          <div className="flex flex-col justify-center w-fit md:px-4 lg:w-96">
+          <ItemCarousel />
+
+          <div className="flex flex-col justify-center w-fit md:px-4 lg:w-96 md:py-8">
+            <h1 className="text-3xl hidden md:inline">Product Name</h1>
             <div className="badge badge-secondary py-6 px-4 my-4 text-3xl font-semibold mb-4">
               $699.99
             </div>
@@ -40,8 +42,8 @@ export default function ItemPage() {
               excepturi exercitationem quasi. In deleniti eaque aut repudiandae
               et a id nisi.
             </p>
-            <div className="flex justify-center w-full">
-              <button className="btn btn-primary w-1/2 ">
+            <div className="flex justify-center w-full ">
+              <button className="btn btn-primary w-1/2 mx-1 ">
                 {" "}
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -62,6 +64,37 @@ export default function ItemPage() {
               <button className="btn btn-secondary w-1/2 ">
                 Add to Wishlist
               </button>
+            </div>
+          </div>
+        </div>
+        <div className="flex flex-col md:flex-row pb-4 px-4 justify-center ">
+          <div className="join join-vertical w-full">
+            <div className="collapse collapse-arrow join-item border border-base-300">
+              <input type="radio" name="my-accordion-4" checked="checked" />
+              <div className="collapse-title text-xl font-medium">
+                Click to open this one and close others
+              </div>
+              <div className="collapse-content">
+                <p>hello</p>
+              </div>
+            </div>
+            <div className="collapse collapse-arrow join-item border border-base-300">
+              <input type="radio" name="my-accordion-4" />
+              <div className="collapse-title text-xl font-medium">
+                Click to open this one and close others
+              </div>
+              <div className="collapse-content">
+                <p>hello</p>
+              </div>
+            </div>
+            <div className="collapse collapse-arrow join-item border border-base-300">
+              <input type="radio" name="my-accordion-4" />
+              <div className="collapse-title text-xl font-medium">
+                Click to open this one and close others
+              </div>
+              <div className="collapse-content">
+                <p>hello</p>
+              </div>
             </div>
           </div>
         </div>
