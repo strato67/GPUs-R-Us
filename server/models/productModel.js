@@ -59,4 +59,21 @@ const productSchema = new Schema({
   ],
 });
 
+productSchema.statics.getProduct = async function (id) {
+  if (!id) {
+    throw Error("No product found.");
+  }
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    throw Error("Invalid product id.");
+  }
+
+  const product = await this.findById(id);
+
+  if (!product) {
+    throw Error("No product found.");
+  }
+
+  return product;
+};
+
 module.exports = mongoose.model("Product", productSchema);

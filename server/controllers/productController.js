@@ -1,28 +1,28 @@
 const Product = require("../models/productModel");
 const mongoose = require("mongoose");
 
-const getProduct = async (request, response) => {
-  const { id } = request.params;
+const getProductInfo = async (request, response) => {
+  const productID = request.params.id;
 
-  if (!mongoose.Types.ObjectId.isValid(id)) {
-    return response.status(400).json({ error: "No products found" });
+  try {
+    const product = await Product.getProduct(productID);
+    response.status(200).json({ product: product });
+  } catch (error) {
+    response.status(400).json({ error: error.message });
   }
-
-  const product = await Product.findById(id);
-
-  if (!product) {
-    return response.status(400).json({ error: "No products found" });
-  }
-  return response.status(200).json(product);
 };
 
 const getAllProducts = async (request, response) => {
-  const products = await Product.find({}, 'name description price rating tags images');
+  const products = await Product.find(
+    {},
+    "name description price rating tags images"
+  );
   response.status(200).json(products);
 };
 
 const createProduct = async (request, response) => {
-  const { name, description, price, rating, specs, tags, images, reviews } = request.body;
+  const { name, description, price, rating, specs, tags, images, reviews } =
+    request.body;
 
   try {
     const product = await Product.create({
@@ -76,7 +76,7 @@ const deleteProduct = async (request, response) => {
 };
 
 module.exports = {
-  getProduct,
+  getProductInfo,
   getAllProducts,
   createProduct,
   deleteProduct,
