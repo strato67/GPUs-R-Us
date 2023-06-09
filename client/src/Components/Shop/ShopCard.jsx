@@ -29,24 +29,28 @@ export default function ShopCard({ product }) {
                 name="rating-2"
                 className="mask mask-star-2 bg-orange-400"
                 disabled={true}
+                checked={false}
               />
               <input
                 type="radio"
                 name="rating-2"
                 className="mask mask-star-2  bg-orange-400"
                 disabled={true}
+                checked={false}
               />
               <input
                 type="radio"
                 name="rating-2"
                 className="mask mask-star-2 bg-orange-400"
                 disabled={true}
+                checked={false}
               />
               <input
                 type="radio"
                 name="rating-2"
                 className="mask mask-star-2 bg-orange-400"
                 disabled={true}
+                checked={false}
               />
             </div>
             <p className="px-2">{product.rating}</p>

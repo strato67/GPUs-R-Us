@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react";
+import Loading from "../Other/Loading";
 import ShopCard from "./ShopCard";
 
 export default function Shop() {
   const [products, setProducts] = useState(null);
   const [active, setActive] = useState("All Products");
   const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
   const tabContents = ["All Products", "AMD", "NVIDIA", "Other"];
 
   const getProducts = async () => {
@@ -14,6 +16,7 @@ export default function Shop() {
       setError({ error: "Could not load products." });
     }
     setError(null);
+    setLoading(false);
     setProducts(data);
   };
 
@@ -38,7 +41,9 @@ export default function Shop() {
   return (
     <>
       <div className="min-h-screen bg-base-200">
+      {loading && <Loading />}
         <div className="flex flex-col lg:flex-row items-center pt-16 pb-8 lg:py-8 justify-center">
+          
           <div className="lg:pr-2">
             <h1 className="text-5xl font-bold text-center ">Shop</h1>
           </div>
@@ -59,6 +64,7 @@ export default function Shop() {
             </ul>
           </div>
         </div>
+        
         {products && !error && (
           <div className="grid lg:grid-cols-3 bg-base-200 gap-8 pb-8 px-8">
             {filterProducts().map((product, index) => {
