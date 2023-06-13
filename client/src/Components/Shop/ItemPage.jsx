@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import ItemCarousel from "./ItemCarousel";
 import Loading from "../Other/Loading";
+import Comments from "./CommentTab/Comments";
 import useAuthContext from "../../Hooks/useAuthContext";
 
 export default function ItemPage() {
@@ -106,7 +107,7 @@ export default function ItemPage() {
                   Reviews
                 </summary>
                 <div className="collapse-content">
-                  <p>content</p>
+                  <Comments />
                 </div>
               </details>
             </div>
