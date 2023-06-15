@@ -73,7 +73,7 @@ export default function ItemPage() {
                 </div>
               ) : (
                 <div className="flex justify-center w-full ">
-                  <Link to="/login" className="btn btn-primary w-full">Login to Purchase</Link>
+                  <Link to="/login" className="btn btn-primary w-full">Sign in to Purchase</Link>
                 </div>
               )}
             </div>
@@ -102,11 +102,11 @@ export default function ItemPage() {
                   </div>
                 </div>
               </details>
-              <details className="collapse bg-base-200 collapse-plus shadow-xl">
+              <details className="collapse bg-base-200 collapse-plus shadow-xl pb-6">
                 <summary className="collapse-title text-xl font-bold bg-primary text-primary-content">
                   Reviews
                 </summary>
-                <div className="collapse-content">
+                <div className="collapse-content ">
                   <Comments />
                 </div>
               </details>
