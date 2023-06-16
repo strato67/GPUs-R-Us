@@ -1,5 +1,6 @@
 const Product = require("../models/productModel");
 const mongoose = require("mongoose");
+const { createReviewPage } = require("./reviewController");
 
 const getProductInfo = async (request, response) => {
   const productID = request.params.id;
@@ -21,7 +22,7 @@ const getAllProducts = async (request, response) => {
 };
 
 const createProduct = async (request, response) => {
-  const { name, description, price, rating, specs, tags, images, reviews } =
+  const { name, description, price, rating, specs, tags, images } =
     request.body;
 
   try {
@@ -33,7 +34,6 @@ const createProduct = async (request, response) => {
       specs,
       tags,
       images,
-      reviews,
     });
     response.status(200).json(product);
   } catch (e) {

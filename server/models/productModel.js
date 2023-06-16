@@ -41,22 +41,7 @@ const productSchema = new Schema({
       },
     },
   ],
-  reviews: [
-    {
-      name: {
-        type: String,
-        required: true,
-      },
-      rating: {
-        type: Number,
-        required: true,
-      },
-      comment: {
-        type: String,
-        required: true,
-      },
-    },
-  ],
+
 });
 
 productSchema.statics.getProduct = async function (id) {
