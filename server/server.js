@@ -7,6 +7,7 @@ const products = require("./routes/products");
 const order = require("./routes/order");
 const user = require("./routes/user");
 const contact = require("./routes/contact");
+const reviews = require("./routes/reviews");
 
 require("dotenv").config();
 
@@ -21,6 +22,7 @@ app.use("/api/products", products);
 app.use("/api/order", order);
 app.use("/api/user", user);
 app.use("/api/contact", contact);
+app.use("/api/reviews", reviews);
 
 mongoose.set("strictQuery", false);
 mongoose

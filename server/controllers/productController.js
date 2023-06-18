@@ -1,6 +1,6 @@
 const Product = require("../models/productModel");
+const Review = require("../models/reviewModel");
 const mongoose = require("mongoose");
-const { createReviewPage } = require("./reviewController");
 
 const getProductInfo = async (request, response) => {
   const productID = request.params.id;
@@ -35,6 +35,7 @@ const createProduct = async (request, response) => {
       tags,
       images,
     });
+    Review.createReviewPage(product._id);
     response.status(200).json(product);
   } catch (e) {
     response.status(400).json({ error: "Error" });
