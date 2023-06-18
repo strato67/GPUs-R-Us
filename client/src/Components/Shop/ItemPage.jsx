@@ -107,7 +107,7 @@ export default function ItemPage() {
                   Reviews
                 </summary>
                 <div className="collapse-content ">
-                  <Comments />
+                  <Comments productId={itemInfo.product._id}/>
                 </div>
               </details>
             </div>

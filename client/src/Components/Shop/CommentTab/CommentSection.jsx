@@ -1,26 +1,31 @@
-export default function CommentSection() {
+import { useState, useEffect } from "react";
+import Loading from "../../Other/Loading";
+import CommentCard from "./CommentCard";
+
+export default function CommentSection({ productId }) {
+  const [comments, setComments] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
+
+  const getComments = async () => {
+    const response = await fetch(`/api/reviews/${productId}`);
+    const data = await response.json();
+    if (!response.ok) {
+      setError(true);
+    }
+    setComments(data);
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    getComments();
+  }, []);
+
   return (
     <>
+      {loading && <Loading />}
       <div className="flex flex-col">
-        <div className=" grid grid-cols-2 grid-rows-2 gap-4 ">
-          <div className="flex h-16">
-            <div className="avatar placeholder  w-24">
-              <div className="bg-neutral-focus text-neutral-content rounded-full w-16 ">
-                <span className="text-3xl">K</span>
-              </div>
-            </div>{" "}
-            <p className="text-2xl self-center pl-6">Name</p>
-          </div>
-
-          <div className="self-center "></div>
-          <div className="col-span-2 ">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora
-            nulla hic explicabo non quos aut placeat incidunt. Rerum nam
-            voluptatibus tempora quisquam temporibus rem
-          </div>
-        </div>
-
-        <div className="divider"></div>
+        {comments && comments.map((comment, index) => <CommentCard comment={comment} key={index}/>)}
       </div>
     </>
   );

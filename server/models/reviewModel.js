@@ -78,4 +78,21 @@ reviewSchema.statics.addReview = async function (
   return reviewPage.save();
 };
 
+reviewSchema.statics.getReviews = async function (productID) {
+  if (!productID) {
+    throw Error("No product id supplied.");
+  }
+  if (!mongoose.Types.ObjectId.isValid(productID)) {
+    throw Error("Invalid product id.");
+  }
+
+  const reviewPage = await this.findOne({ productID: productID });
+
+  if (!reviewPage) {
+    throw Error("Review page not found.");
+  }
+
+  return reviewPage.reviews;
+};
+
 module.exports = mongoose.model("Review", reviewSchema);

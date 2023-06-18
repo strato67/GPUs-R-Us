@@ -17,4 +17,15 @@ const createReview = async (request, response) => {
   }
 };
 
-module.exports = { createReview };
+const getReviews = async (request, response) => {
+  const productID = request.params.id;
+
+  try {
+    const reviewPage = await Review.getReviews(productID);
+    response.status(200).json(reviewPage);
+  } catch (error) {
+    response.status(400).json({ error: error.message });
+  }
+};
+
+module.exports = { createReview, getReviews };
