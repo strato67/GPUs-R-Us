@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useAuthContext from "../../../Hooks/useAuthContext";
+import { Rating } from "primereact/rating";
 import { Link } from "react-router-dom";
 
 export default function NewComment() {
   const { user } = useAuthContext();
-  const [rating, setRating] = useState(0);
+  const [value, setValue] = useState(null);
   const [review, setReview] = useState({
     name: "",
     postDate: "",
@@ -12,14 +13,19 @@ export default function NewComment() {
     comment: "",
   });
 
+  useEffect(() => {
+    review.rating = value;
+  }, [value]);
+
   const formHandler = (e) => {
     const nextState = {
       ...review,
-      
-      [e.target.name]: e.target.value,
+      name: user.username,
+      postDate: Date.now(),
+      rating: value,
+      comment: e.target.value,
     };
-    nextState.name = user.username;
-    nextState.postDate = Date.now();
+
     setReview(nextState);
   };
 
@@ -39,54 +45,12 @@ export default function NewComment() {
             <form method="post" onSubmit={formSubmit}>
               <div className="form-control">
                 <label className="label">
-                  <span className="label-text">
+                  <span className="label-text text-lg">
                     Leave a review of this product
                   </span>
                 </label>
-                <div className="rating rating-md pb-6">
-                <input
-                    type="radio"
-                    name="rating-2"
-                    className="hidden"
-                    value={review.rating = 0}
-                    checked
-                    onChange={()=>setRating(0)}
-                  />
-                  <input
-                    type="radio"
-                    name="rating-2"
-                    className="mask mask-star-2 bg-orange-400"
-                    value={review.rating = 1}
-                    onChange={()=>setRating(0)}
-                  />
-                  <input
-                    type="radio"
-                    name="rating-2"
-                    className="mask mask-star-2 bg-orange-400"
-                    value={review.rating = 2}
-                    onChange={()=>setRating(0)}
-                  />
-                  <input
-                    type="radio"
-                    name="rating-2"
-                    className="mask mask-star-2 bg-orange-400"
-                    value={review.rating = 3}
-                    onChange={()=>setRating(0)}
-                  />
-                  <input
-                    type="radio"
-                    name="rating-2"
-                    className="mask mask-star-2 bg-orange-400"
-                    value={review.rating = 4}
-                    onChange={()=>setRating(0)}
-                  />
-                  <input
-                    type="radio"
-                    name="rating-2"
-                    className="mask mask-star-2 bg-orange-400"
-                    value={review.rating = 5}
-                    onChange={()=>setRating(0)}
-                  />
+                <div className="w-6 -rotate-90 ml-8">
+                  <Rating value={value} onChange={(e) => setValue(e.value)} />
                 </div>
                 <textarea
                   className="textarea textarea-primary"
@@ -96,7 +60,6 @@ export default function NewComment() {
                   maxLength="1000"
                   value={review.comment}
                   onChange={formHandler}
-
                 ></textarea>
                 <label className="label"></label>
               </div>
