@@ -1,12 +1,17 @@
 import { useEffect, useState } from "react";
-import useAuthContext from "../../../Hooks/useAuthContext";
 import { Rating } from "primereact/rating";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import useComment from "../../../Hooks/useComment";
+import useAuthContext from "../../../Hooks/useAuthContext";
+
 
 export default function NewComment() {
   const { user } = useAuthContext();
+  const { id } = useParams();
+  const { createReview } = useComment();
   const [value, setValue] = useState(null);
   const [review, setReview] = useState({
+    productID: "",
     name: "",
     postDate: "",
     rating: 0,
@@ -20,6 +25,7 @@ export default function NewComment() {
   const formHandler = (e) => {
     const nextState = {
       ...review,
+      productID: id,
       name: user.username,
       postDate: Date.now(),
       rating: value,
@@ -32,7 +38,7 @@ export default function NewComment() {
   const formSubmit = async (e) => {
     e.preventDefault();
     console.log(review);
-    //await sendMessage(contactInfo);
+    await createReview(review);
 
     //setFormSubmitted(true);
   };

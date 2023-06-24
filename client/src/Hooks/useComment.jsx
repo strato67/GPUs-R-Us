@@ -1,17 +1,19 @@
 import { useState } from "react";
 
-export default function useContact() {
+export default function useComment() {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(null);
 
-  const sendMessage = async (contactInfo) => {
+  const createReview = async (review) => {
     setLoading(true);
     setError(null);
 
-    const response = await fetch("api/contact", {
+    if (review.rating === null) review.rating = 0;
+
+    const response = await fetch("/api/reviews/", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(contactInfo),
+      body: JSON.stringify(review),
     });
 
     const json = await response.json();
@@ -23,5 +25,5 @@ export default function useContact() {
 
     setLoading(false);
   };
-  return { sendMessage, loading, error };
+  return { createReview, loading, error };
 }
