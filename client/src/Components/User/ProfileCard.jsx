@@ -18,7 +18,7 @@ export default function ProfileCard({ userInfo }) {
         <figure>
           <div className="avatar placeholder">
             <div className="bg-neutral-focus text-neutral-content rounded-full w-24 h-24">
-              <span className="text-6xl">
+              <span className="text-6xl select-none">
                 {userInfo.user.username.charAt(0)}
               </span>
             </div>

@@ -61,11 +61,23 @@ reviewSchema.statics.addReview = async function (
   if (!mongoose.Types.ObjectId.isValid(productID)) {
     throw Error("Invalid product id.");
   }
+  if (rating < 1 || rating > 5) {
+    throw Error("Invalid rating.");
+  }
+  if (comment.length < 1) {
+    throw Error("Review cannot be empty.");
+  }
 
   const reviewPage = await this.findOne({ productID: productID });
 
   if (!reviewPage) {
     throw Error("Review page not found.");
+  }
+  const messageExists = reviewPage.reviews.find(
+    (review) => review.name === name
+  );
+  if (messageExists) {
+    throw Error("You have already reviewed this product.");
   }
 
   reviewPage.reviews.push({

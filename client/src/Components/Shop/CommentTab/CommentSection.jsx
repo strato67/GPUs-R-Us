@@ -24,8 +24,14 @@ export default function CommentSection({ productId }) {
   return (
     <>
       {loading && <Loading />}
+      {error && (
+        <p className="text-center">There was an error loading reviews.</p>
+      )}
       <div className="flex flex-col">
-        {comments && comments.map((comment, index) => <CommentCard comment={comment} key={index}/>)}
+        {comments &&
+          comments.map((comment, index) => (
+            <CommentCard comment={comment} key={index} />
+          ))}
       </div>
     </>
   );

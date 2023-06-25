@@ -4,7 +4,6 @@ import { Link, useParams } from "react-router-dom";
 import useComment from "../../../Hooks/useComment";
 import useAuthContext from "../../../Hooks/useAuthContext";
 
-
 export default function NewComment() {
   const { user } = useAuthContext();
   const { id } = useParams();
@@ -37,10 +36,7 @@ export default function NewComment() {
 
   const formSubmit = async (e) => {
     e.preventDefault();
-    console.log(review);
     await createReview(review);
-
-    //setFormSubmitted(true);
   };
 
   return (
