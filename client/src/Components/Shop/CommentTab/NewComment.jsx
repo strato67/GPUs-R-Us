@@ -3,11 +3,12 @@ import { Rating } from "primereact/rating";
 import { Link, useParams } from "react-router-dom";
 import useComment from "../../../Hooks/useComment";
 import useAuthContext from "../../../Hooks/useAuthContext";
+import ErrorFormMessage from "../../Other/ErrorFormMessage";
 
 export default function NewComment() {
   const { user } = useAuthContext();
   const { id } = useParams();
-  const { createReview } = useComment();
+  const { createReview, error } = useComment();
   const [value, setValue] = useState(null);
   const [review, setReview] = useState({
     productID: "",
@@ -36,7 +37,7 @@ export default function NewComment() {
 
   const formSubmit = async (e) => {
     e.preventDefault();
-    await createReview(review);
+    return await createReview(review);
   };
 
   return (
@@ -63,6 +64,7 @@ export default function NewComment() {
                   value={review.comment}
                   onChange={formHandler}
                 ></textarea>
+                <ErrorFormMessage message={error} />
                 <label className="label"></label>
               </div>
               <div className="form-control mt-6">

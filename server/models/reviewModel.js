@@ -61,9 +61,7 @@ reviewSchema.statics.addReview = async function (
   if (!mongoose.Types.ObjectId.isValid(productID)) {
     throw Error("Invalid product id.");
   }
-  if (rating < 1 || rating > 5) {
-    throw Error("Invalid rating.");
-  }
+
   if (comment.length < 1) {
     throw Error("Review cannot be empty.");
   }
@@ -105,6 +103,27 @@ reviewSchema.statics.getReviews = async function (productID) {
   }
 
   return reviewPage.reviews;
+};
+
+reviewSchema.statics.updateReview = async function (productID, name, comment) {
+  if (!productID) {
+    throw Error("No product id supplied.");
+  }
+  if (!mongoose.Types.ObjectId.isValid(productID)) {
+    throw Error("Invalid product id.");
+  }
+
+  const reviewPage = await this.findOne({ productID: productID });
+
+  if (!reviewPage) {
+    throw Error("Review page not found.");
+  }
+  const messageExists = reviewPage.reviews.find(
+    (review) => review.name === name
+  );
+  if (!messageExists) {
+    throw Error("Product has not been reviewed by this user.");
+  }
 };
 
 module.exports = mongoose.model("Review", reviewSchema);
