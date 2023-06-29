@@ -105,7 +105,37 @@ reviewSchema.statics.getReviews = async function (productID) {
   return reviewPage.reviews;
 };
 
-reviewSchema.statics.updateReview = async function (productID, name, comment) {
+reviewSchema.statics.getReview = async function (productID, user) {
+  if (!productID || !user) {
+    throw Error("Missing fields");
+  }
+  if (!mongoose.Types.ObjectId.isValid(productID)) {
+    throw Error("Invalid product id.");
+  }
+
+  const reviewPage = await this.findOne({ productID: productID });
+
+  if (!reviewPage) {
+    throw Error("Review page not found.");
+  }
+
+  const messageExists = reviewPage.reviews.find(
+    (review) => review.name === user
+  );
+  if (!messageExists) {
+    throw Error("Product has not been reviewed by this user.");
+  }
+
+  return messageExists;
+};
+
+
+reviewSchema.statics.updateReview = async function (
+  productID,
+  name,
+  rating,
+  comment
+) {
   if (!productID) {
     throw Error("No product id supplied.");
   }
@@ -124,6 +154,11 @@ reviewSchema.statics.updateReview = async function (productID, name, comment) {
   if (!messageExists) {
     throw Error("Product has not been reviewed by this user.");
   }
+
+  messageExists.rating = rating;
+  messageExists.comment = comment;
+
+  return await reviewPage.save();
 };
 
 module.exports = mongoose.model("Review", reviewSchema);
