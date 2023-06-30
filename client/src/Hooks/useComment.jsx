@@ -25,5 +25,28 @@ export default function useComment() {
 
     setLoading(false);
   };
-  return { createReview, loading, error };
+
+  const updateReview = async (review) => {
+    setLoading(true);
+    setError(null);
+
+    if (review.rating === null) review.rating = 0;
+
+    const response = await fetch(`/api/reviews/${review.productID}/${review.name}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(review),
+    });
+
+    const json = await response.json();
+
+    if (!response.ok) {
+      setLoading(false);
+      setError(json.error);
+    }
+
+    setLoading(false);
+  };
+
+  return { createReview, updateReview, loading, error };
 }

@@ -123,12 +123,11 @@ reviewSchema.statics.getReview = async function (productID, user) {
     (review) => review.name === user
   );
   if (!messageExists) {
-    throw Error("Product has not been reviewed by this user.");
+    return null;
   }
 
   return messageExists;
 };
-
 
 reviewSchema.statics.updateReview = async function (
   productID,

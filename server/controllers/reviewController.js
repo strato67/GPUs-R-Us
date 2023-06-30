@@ -50,11 +50,11 @@ const getSingleReview = async (request, response) => {
 
   try {
     const review = await Review.getReview(productID, user);
-    response.status(200)
+    response.status(200).json(review);
   } catch (error) {
     response.status(400).json({ error: error.message });
   }
 
 };
 
-module.exports = { createReview, getReviews, updateReview };
+module.exports = { createReview, getReviews, updateReview, getSingleReview };
