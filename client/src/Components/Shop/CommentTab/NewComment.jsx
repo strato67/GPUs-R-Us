@@ -5,13 +5,13 @@ import useComment from "../../../Hooks/useComment";
 import useAuthContext from "../../../Hooks/useAuthContext";
 import ErrorFormMessage from "../../Other/ErrorFormMessage";
 
-export default function NewComment() {
+export default function NewComment({productID}) {
   const { user } = useAuthContext();
   const { id } = useParams();
   const { createReview, error } = useComment();
   const [value, setValue] = useState(null);
   const [review, setReview] = useState({
-    productID: "",
+    productID: productID,
     name: "",
     postDate: "",
     rating: 0,
@@ -25,7 +25,7 @@ export default function NewComment() {
   const formHandler = (e) => {
     const nextState = {
       ...review,
-      productID: id,
+      productID: productID,
       name: user.username,
       postDate: Date.now(),
       rating: value,

@@ -32,7 +32,7 @@ export default function useComment() {
 
     if (review.rating === null) review.rating = 0;
 
-    const response = await fetch(`/api/reviews/${review.productID}/${review.name}`, {
+    const response = await fetch(`/api/reviews/${review.productID}/`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(review),
