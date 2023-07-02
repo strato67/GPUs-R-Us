@@ -1,4 +1,5 @@
 const Review = require("../models/reviewModel");
+const Product = require("../models/productModel");
 
 const createReview = async (request, response) => {
   const { productID, name, postDate, rating, comment } = request.body;
@@ -11,6 +12,7 @@ const createReview = async (request, response) => {
       rating,
       comment
     );
+    Product.calculateRating(productID);
     response.status(200).json(reviewPage);
   } catch (error) {
     response.status(400).json({ error: error.message });
@@ -27,6 +29,7 @@ const updateReview = async (request, response) => {
       rating,
       comment
     );
+    Product.calculateRating(productID);
     response.status(200).json(reviewPage);
   } catch (error) {
     response.status(400).json({ error: error.message });
@@ -54,7 +57,6 @@ const getSingleReview = async (request, response) => {
   } catch (error) {
     response.status(400).json({ error: error.message });
   }
-
 };
 
 module.exports = { createReview, getReviews, updateReview, getSingleReview };

@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const Review = require("../models/reviewModel");
 
 const Schema = mongoose.Schema;
 
@@ -41,7 +42,6 @@ const productSchema = new Schema({
       },
     },
   ],
-
 });
 
 productSchema.statics.getProduct = async function (id) {
@@ -59,6 +59,24 @@ productSchema.statics.getProduct = async function (id) {
   }
 
   return product;
+};
+
+productSchema.statics.calculateRating = async function (id) {
+  const product = await this.getProduct(id);
+  const reviewPage = await Review.getReviews(id);
+
+  if (!reviewPage) {
+    throw Error("Review page not found.");
+  }
+
+  const ratingSum = reviewPage
+    .map((review) => review.rating)
+    .filter((n) => n !== 0);
+  const rating = ratingSum.reduce((a, b) => a + b, 0) / ratingSum.length;
+
+  product.rating = Math.ceil(rating);
+
+  return await product.save();
 };
 
 module.exports = mongoose.model("Product", productSchema);

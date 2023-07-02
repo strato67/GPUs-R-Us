@@ -1,13 +1,12 @@
 import { useEffect, useState } from "react";
 import { Rating } from "primereact/rating";
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import useComment from "../../../Hooks/useComment";
 import useAuthContext from "../../../Hooks/useAuthContext";
 import ErrorFormMessage from "../../Other/ErrorFormMessage";
 
 export default function NewComment({productID}) {
   const { user } = useAuthContext();
-  const { id } = useParams();
   const { createReview, error } = useComment();
   const [value, setValue] = useState(null);
   const [review, setReview] = useState({
