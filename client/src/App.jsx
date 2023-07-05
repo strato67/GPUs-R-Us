@@ -9,6 +9,7 @@ import Login from "./Components/User/Login";
 import NotFound from "./Components/Other/NotFound";
 import Profile from "./Components/User/Profile";
 import Shop from "./Components/Shop/Shop";
+import Cart from "./Components/Cart/Cart";
 import ItemPage from "./Components/Shop/ItemPage";
 import "./App.css";
 
@@ -24,6 +25,7 @@ const App = () => {
         <Route path="/contact" element={<Contact />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/cart" element={<Cart />} />
         <Route path="/profile/:id" element={<Profile />} />
         <Route path="*" element={<NotFound />}></Route>
       </Routes>

@@ -96,9 +96,9 @@ export default function Navbar() {
                   <span className="font-bold text-lg">0 Items</span>
                   <span className="text-info">Subtotal: $0</span>
                   <div className="card-actions">
-                    <button className="btn btn-primary btn-block">
+                    <Link className="btn btn-primary btn-block" to="/cart">
                       View cart
-                    </button>
+                    </Link>
                   </div>
                 </div>
               </div>
