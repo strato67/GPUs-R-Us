@@ -22,8 +22,17 @@ const getAllProducts = async (request, response) => {
 };
 
 const createProduct = async (request, response) => {
-  const { name, description, price, rating, specs, tags, images } =
-    request.body;
+  const {
+    name,
+    description,
+    price,
+    rating,
+    stock,
+    maxOrder,
+    specs,
+    tags,
+    images,
+  } = request.body;
 
   try {
     const product = await Product.create({
@@ -31,6 +40,8 @@ const createProduct = async (request, response) => {
       description,
       price,
       rating,
+      stock,
+      maxOrder,
       specs,
       tags,
       images,

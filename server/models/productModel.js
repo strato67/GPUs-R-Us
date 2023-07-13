@@ -20,6 +20,16 @@ const productSchema = new Schema({
     type: Number,
     default: 0,
   },
+  stock: {
+    type: Number,
+    required: true,
+    min: 0,
+  },
+  maxOrder: {
+    type: Number,
+    required: true,
+    min: 1,
+  },
   specs: [
     {
       name: {
