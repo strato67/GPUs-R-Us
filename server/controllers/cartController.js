@@ -8,4 +8,6 @@ const updateCart = async (req, res) => {};
 
 const deleteFromCart = async (req, res) => {};
 
-module.exports = { getCart, addToCart, updateCart, deleteFromCart };
+const emptyCart = async (req, res) => {};
+
+module.exports = { getCart, addToCart, updateCart, deleteFromCart, emptyCart };

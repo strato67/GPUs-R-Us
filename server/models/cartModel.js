@@ -21,6 +21,23 @@ const cartSchema = new Schema({
   ],
 });
 
-cartSchema.statics.createCart = async function (id) {};
+cartSchema.statics.createCart = async function (userID) {
+  if (!userID) {
+    throw Error("No user id supplied.");
+  }
+  if (!mongoose.Types.ObjectId.isValid(userID)) {
+    throw Error("Invalid user id.");
+  }
+
+  try {
+    const cart = this.create({
+      userID,
+      cart: [],
+    });
+    return cart;
+  } catch (e) {
+    throw Error("Error creating cart.");
+  }
+};
 
 module.exports = mongoose.model("Cart", cartSchema);
