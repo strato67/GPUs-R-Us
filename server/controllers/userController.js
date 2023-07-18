@@ -1,4 +1,5 @@
 const User = require("../models/userModel");
+const Cart = require("../models/cartModel");
 const jwt = require("jsonwebtoken");
 
 const createToken = (_id) =>
@@ -22,10 +23,10 @@ const signUpUser = async (request, response) => {
 
   try {
     const user = await User.signup(username, email, password, confirmPass);
-
+    const cart = await Cart.createCart(user._id);
     const userToken = createToken(user._id);
 
-    response.status(200).json({ username, userToken });
+    response.status(200).json({ username, userToken});
   } catch (error) {
     response.status(400).json({ error: error.message });
   }
