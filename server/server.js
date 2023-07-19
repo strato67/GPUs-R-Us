@@ -8,6 +8,7 @@ const order = require("./routes/order");
 const user = require("./routes/user");
 const contact = require("./routes/contact");
 const reviews = require("./routes/reviews");
+const cart = require("./routes/cart");
 
 require("dotenv").config();
 
@@ -23,6 +24,7 @@ app.use("/api/order", order);
 app.use("/api/user", user);
 app.use("/api/contact", contact);
 app.use("/api/reviews", reviews);
+app.use("/api/cart", cart);
 
 mongoose.set("strictQuery", false);
 mongoose

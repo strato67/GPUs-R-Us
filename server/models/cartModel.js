@@ -40,4 +40,21 @@ cartSchema.statics.createCart = async function (userID) {
   }
 };
 
+cartSchema.statics.getCart = async function (userID) {
+  if (!userID) {
+    throw Error("No user id supplied.");
+  }
+  if (!mongoose.Types.ObjectId.isValid(userID)) {
+    throw Error("Invalid user id.");
+  }
+
+  const cart = await this.findOne({ userID:userID })
+
+  if (!cart) {
+    throw Error("Could not find user cart");
+  }
+
+  return cart;
+};
+
 module.exports = mongoose.model("Cart", cartSchema);
