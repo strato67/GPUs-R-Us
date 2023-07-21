@@ -25,7 +25,18 @@ const addToCart = async (req, res) => {
 
 const updateCart = async (req, res) => {};
 
-const deleteFromCart = async (req, res) => {};
+const deleteFromCart = async (req, res) => {
+  const userID = req.params.id;
+  const productID = req.params.item;
+
+  try{
+    const cart = await Cart.deleteFromCart(userID, productID);
+    res.status(200).json(cart);
+  }catch(error){
+    res.status(400).json({ error: error.message });
+  }
+
+};
 
 const emptyCart = async (req, res) => {
   const userID = req.params.id;

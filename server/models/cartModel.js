@@ -75,7 +75,24 @@ cartSchema.statics.addToCart = async function (userID, productID) {
 
 cartSchema.statics.updateCart = async function (userID, productID, quantity) {};
 
-cartSchema.statics.deleteFromCart = async function (userID, productID) {};
+cartSchema.statics.deleteFromCart = async function (userID, productID) {
+  if (!userID || !productID) {
+    throw Error("Missing parameters.");
+  }
+
+  const cart = await this.getCart(userID);
+
+  const item = cart.cart.indexOf(
+    cart.cart.find((item) => item.product == productID)
+  );
+
+  if (item === -1) {
+    throw Error("Item not found in cart.");
+  }
+  cart.cart.splice(item, 1);
+
+  return cart.save();
+};
 
 cartSchema.statics.emptyCart = async function (userID) {
   if (!userID) {
