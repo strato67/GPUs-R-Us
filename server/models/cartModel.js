@@ -68,12 +68,42 @@ cartSchema.statics.addToCart = async function (userID, productID) {
 
   const cart = await this.getCart(userID);
 
+  if (cart.cart.find((item) => item.product == productID)) {
+    throw Error("Item already in cart, go to cart to update quantity.");
+  }
+
   cart.cart.push({ product: productID, quantity: 1 });
 
   return cart.save();
 };
 
-cartSchema.statics.updateCart = async function (userID, productID, quantity) {};
+cartSchema.statics.updateCart = async function (userID, productID, quantity) {
+
+  if (!userID || !productID || !quantity) {
+    throw Error("Missing parameters.");
+  }
+
+  if (!mongoose.Types.ObjectId.isValid(productID)) {
+    throw Error("Invalid product id.");
+  }
+
+  if (quantity == 0) {
+    return this.deleteFromCart(userID, productID);
+  }
+
+  const cart = await this.getCart(userID);
+
+  const item = cart.cart.find((item) => item.product == productID);
+
+  if (!item) {
+    throw Error("Item not found in cart.");
+  }
+
+  item.quantity = quantity;
+
+  return cart.save();
+
+};
 
 cartSchema.statics.deleteFromCart = async function (userID, productID) {
   if (!userID || !productID) {
