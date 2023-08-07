@@ -1,9 +1,10 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
+const User = require("./userModel");
 
 const cartSchema = new Schema({
-  userID: {
-    type: Schema.Types.ObjectId,
+  username: {
+    type: String,
     ref: "User",
     required: true,
   },
@@ -21,17 +22,20 @@ const cartSchema = new Schema({
   ],
 });
 
-cartSchema.statics.createCart = async function (userID) {
-  if (!userID) {
+cartSchema.statics.createCart = async function (username) {
+  if (!username) {
     throw Error("No user id supplied.");
   }
-  if (!mongoose.Types.ObjectId.isValid(userID)) {
+
+  const user = await User.findOne({username: username});
+
+  if (!user) {
     throw Error("Invalid user id.");
   }
 
   try {
     const cart = this.create({
-      userID,
+      username,
       cart: [],
     });
     return cart;
@@ -40,15 +44,12 @@ cartSchema.statics.createCart = async function (userID) {
   }
 };
 
-cartSchema.statics.getCart = async function (userID) {
-  if (!userID) {
+cartSchema.statics.getCart = async function (username) {
+  if (!username) {
     throw Error("No user id supplied.");
   }
-  if (!mongoose.Types.ObjectId.isValid(userID)) {
-    throw Error("Invalid user id.");
-  }
 
-  const cart = await this.findOne({ userID: userID });
+  const cart = await this.findOne({ username: username });
 
   if (!cart) {
     throw Error("Could not find user cart");
@@ -57,17 +58,13 @@ cartSchema.statics.getCart = async function (userID) {
   return cart;
 };
 
-cartSchema.statics.addToCart = async function (userID, productID) {
-  if (!userID || !productID) {
+cartSchema.statics.addToCart = async function (username, productID) {
+  if (!username || !productID) {
     throw Error("Missing parameters.");
   }
 
-  if (!mongoose.Types.ObjectId.isValid(productID)) {
-    throw Error("Invalid product id.");
-  }
-
-  const cart = await this.getCart(userID);
-
+  const cart = await this.getCart(username);
+  
   if (cart.cart.find((item) => item.product == productID)) {
     throw Error("Item already in cart, go to cart to update quantity.");
   }
@@ -77,9 +74,9 @@ cartSchema.statics.addToCart = async function (userID, productID) {
   return cart.save();
 };
 
-cartSchema.statics.updateCart = async function (userID, productID, quantity) {
+cartSchema.statics.updateCart = async function (username, productID, quantity) {
 
-  if (!userID || !productID || !quantity) {
+  if (!username || !productID || !quantity) {
     throw Error("Missing parameters.");
   }
 
@@ -88,10 +85,10 @@ cartSchema.statics.updateCart = async function (userID, productID, quantity) {
   }
 
   if (quantity == 0) {
-    return this.deleteFromCart(userID, productID);
+    return this.deleteFromCart(username, productID);
   }
 
-  const cart = await this.getCart(userID);
+  const cart = await this.getCart(username);
 
   const item = cart.cart.find((item) => item.product == productID);
 
@@ -105,12 +102,12 @@ cartSchema.statics.updateCart = async function (userID, productID, quantity) {
 
 };
 
-cartSchema.statics.deleteFromCart = async function (userID, productID) {
-  if (!userID || !productID) {
+cartSchema.statics.deleteFromCart = async function (username, productID) {
+  if (!username || !productID) {
     throw Error("Missing parameters.");
   }
 
-  const cart = await this.getCart(userID);
+  const cart = await this.getCart(username);
 
   const item = cart.cart.indexOf(
     cart.cart.find((item) => item.product == productID)
@@ -124,12 +121,12 @@ cartSchema.statics.deleteFromCart = async function (userID, productID) {
   return cart.save();
 };
 
-cartSchema.statics.emptyCart = async function (userID) {
-  if (!userID) {
+cartSchema.statics.emptyCart = async function (username) {
+  if (!username) {
     throw Error("No user id supplied.");
   }
 
-  const cart = await this.getCart(userID);
+  const cart = await this.getCart(username);
 
   cart.cart = [];
 

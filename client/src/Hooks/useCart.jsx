@@ -1,5 +1,8 @@
+import { useState } from "react";
+
 export default function useCart() {
-  const getCart = async () => {};
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(null);
 
   const addToCart = async () => {};
 
@@ -9,5 +12,12 @@ export default function useCart() {
 
   const emptyCart = async () => {};
 
-  return { getCart, addToCart, removeFromCart, updateCart, emptyCart };
+  return {
+    addToCart,
+    removeFromCart,
+    updateCart,
+    emptyCart,
+    loading,
+    error,
+  };
 }

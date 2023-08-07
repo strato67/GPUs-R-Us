@@ -23,10 +23,10 @@ const signUpUser = async (request, response) => {
 
   try {
     const user = await User.signup(username, email, password, confirmPass);
-    const cart = await Cart.createCart(user._id);
+    const cart = await Cart.createCart(username);
     const userToken = createToken(user._id);
 
-    response.status(200).json({ username, userToken});
+    response.status(200).json({ username, userToken });
   } catch (error) {
     response.status(400).json({ error: error.message });
   }
@@ -37,7 +37,7 @@ const getUserInfo = async (request, response) => {
 
   try {
     const user = await User.getUser(username);
-    response.status(200).json({user: user});
+    response.status(200).json({ user: user });
   } catch (error) {
     response.status(400).json({ error: error.message });
   }

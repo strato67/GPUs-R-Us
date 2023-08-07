@@ -13,8 +13,9 @@ const getCart = async (req, res) => {
 };
 
 const addToCart = async (req, res) => {
-  const productID = req.params.id;
-  const { userID } = req.body;
+  const { productID } = req.body;
+  const userID = req.params.id;
+  const product = await Product.getProduct(productID);
 
   if (product.stock == 0) {
     res.status(400).json({

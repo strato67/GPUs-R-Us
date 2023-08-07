@@ -105,6 +105,7 @@ userSchema.statics.getUser = async function (username) {
   }
   
   return {
+    id: user._id,
     username: user.username,
     joined: user.joined,
   };
