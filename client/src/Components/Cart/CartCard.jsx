@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react";
+import { BsFillTrashFill } from "react-icons/bs";
+import { FaPlus, FaMinus } from "react-icons/fa";
 import useCart from "../../Hooks/useCart";
 
 export default function CartCard({ productID, quantity }) {
   const [prodQuant, setQuantity] = useState(quantity);
   const [itemInfo, setItemInfo] = useState({});
-
+  const { addToCart, removeFromCart, updateCart, emptyCart } = useCart();
   const getItemInfo = async () => {
     const response = await fetch(`/api/products/${productID}`);
     const data = await response.json();
@@ -12,6 +14,11 @@ export default function CartCard({ productID, quantity }) {
       return {};
     }
     return data;
+  };
+
+  const addQuantity = async () => {
+    updateCart("test", { productID, quantity: prodQuant });
+    setQuantity(prodQuant + 1);
   };
 
   useEffect(() => {
@@ -40,8 +47,29 @@ export default function CartCard({ productID, quantity }) {
               ${(Math.round(itemInfo.price * 100) / 100).toFixed(2)}
             </div>
             <div className="card-actions justify-end">
-              <button className="btn btn-outline btn-primary">Add</button>
-              <button className="btn btn-outline btn-error">Remove</button>
+              <button
+                className="btn btn-outline btn-primary"
+                onClick={() => {
+                  if (prodQuant < itemInfo.maxOrder) {
+                    setQuantity(prodQuant + 1);
+                  }
+                }}
+              >
+                <FaPlus />
+              </button>
+              <button
+                className="btn btn-outline btn-primary"
+                onClick={() => {
+                  if (prodQuant > 0) {
+                    setQuantity(prodQuant - 1);
+                  }
+                }}
+              >
+                <FaMinus />
+              </button>
+              <button className="btn btn-outline btn-error">
+                <BsFillTrashFill />
+              </button>
             </div>
           </div>
         </div>
