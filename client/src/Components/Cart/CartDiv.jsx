@@ -1,8 +1,11 @@
 import { useState, useEffect } from "react";
+import Loading from "../Other/Loading";
 import CartCard from "./CartCard";
+import Empty from "./Empty";
 
 export default function CartDiv({ user }) {
   const [cart, setCart] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const getCart = async () => {
     const response = await fetch(`/api/cart/${user.username}`);
@@ -11,6 +14,7 @@ export default function CartDiv({ user }) {
     if (!response.ok) {
       return {};
     }
+    setLoading(false);
     return data.cart;
   };
 
@@ -23,13 +27,18 @@ export default function CartDiv({ user }) {
 
   return (
     <>
-      {cart.map((item, index) => (
-        <CartCard
-          key={index}
-          productID={item.product}
-          quantity={item.quantity}
-        />
-      ))}
+      {loading && <Loading />}
+      {!loading && cart.length === 0 ? (
+        <Empty />
+      ) : (
+        cart.map((item, index) => (
+          <CartCard
+            key={index}
+            productID={item.product}
+            quantity={item.quantity}
+          />
+        ))
+      )}
     </>
   );
 }

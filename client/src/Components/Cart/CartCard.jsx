@@ -6,7 +6,7 @@ import useCart from "../../Hooks/useCart";
 export default function CartCard({ productID, quantity }) {
   const [prodQuant, setQuantity] = useState(quantity);
   const [itemInfo, setItemInfo] = useState({});
-  const { addToCart, removeFromCart, updateCart, emptyCart } = useCart();
+  const { addToCart, removeFromCart } = useCart();
   const getItemInfo = async () => {
     const response = await fetch(`/api/products/${productID}`);
     const data = await response.json();
@@ -14,11 +14,6 @@ export default function CartCard({ productID, quantity }) {
       return {};
     }
     return data;
-  };
-
-  const addQuantity = async () => {
-    updateCart("test", { productID, quantity: prodQuant });
-    setQuantity(prodQuant + 1);
   };
 
   useEffect(() => {
@@ -30,6 +25,7 @@ export default function CartCard({ productID, quantity }) {
 
   return (
     <>
+    
       <div className="indicator w-full place-self-center">
         <span className="indicator-item  badge badge-secondary text-2xl py-6 px-5 m-3 font-bold">
           {prodQuant}
@@ -47,6 +43,7 @@ export default function CartCard({ productID, quantity }) {
               ${(Math.round(itemInfo.price * 100) / 100).toFixed(2)}
             </div>
             <div className="card-actions justify-end">
+
               <button
                 className="btn btn-outline btn-primary"
                 onClick={() => {

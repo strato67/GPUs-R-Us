@@ -5,17 +5,32 @@ export default function useCart() {
   const [loading, setLoading] = useState(null);
 
   const addToCart = async () => {
-
     setLoading(true);
     setError(null);
-    
-
   };
 
-  const removeFromCart = async () => {};
+  const removeFromCart = async (username, productID) => {
+    setLoading(true);
+    setError(null);
+
+    const response = await fetch(`/api/cart/${username}/${productID}`, {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+
+    });
+
+    const json = await response.json();
+
+    if (!response.ok) {
+      setLoading(false);
+      setError(json.error);
+    }
+
+    setLoading(false);
+  };
 
   const updateCart = async (username, cartUpdate) => {
-/*
+    /*
     setLoading(true);
     setError(null);
 
