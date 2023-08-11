@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
+import { BsCartPlusFill } from "react-icons/bs";
 import { useNavigate, useParams, Link } from "react-router-dom";
+import useCart from "../../Hooks/useCart";
 import ItemCarousel from "./ItemCarousel";
 import Loading from "../Other/Loading";
 import Comments from "./CommentTab/Comments";
@@ -10,6 +12,7 @@ export default function ItemPage() {
   const [loading, setLoading] = useState(true);
   const { id } = useParams();
   const { user } = useAuthContext();
+  const { addToCart } = useCart();
   const navigate = useNavigate();
 
   const getItemInfo = async () => {
@@ -49,23 +52,10 @@ export default function ItemPage() {
               <p className="py-4">{itemInfo.product.description}</p>
               {user ? (
                 <div className="flex justify-center w-full ">
-                  <button className="btn btn-primary w-1/2 mx-1 ">
+                  <button className="btn btn-primary w-1/2 mx-1 " onClick={()=>{addToCart(user.username, itemInfo.product._id)}}>
                     {" "}
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-5 w-5"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
-                      />
-                    </svg>
-                    <a className="pl-2">Buy</a>
+                    <BsCartPlusFill size={20} />
+                    <a className="pl-2">Add to Cart</a>
                   </button>
                   <button className="btn btn-secondary w-1/2 ">
                     Add to Wishlist
@@ -73,7 +63,9 @@ export default function ItemPage() {
                 </div>
               ) : (
                 <div className="flex justify-center w-full ">
-                  <Link to="/login" className="btn btn-primary w-full">Sign in to Purchase</Link>
+                  <Link to="/login" className="btn btn-primary w-full">
+                    Sign in to Purchase
+                  </Link>
                 </div>
               )}
             </div>
@@ -107,7 +99,7 @@ export default function ItemPage() {
                   Reviews
                 </summary>
                 <div className="collapse-content ">
-                  <Comments productId={itemInfo.product._id}/>
+                  <Comments productId={itemInfo.product._id} />
                 </div>
               </details>
             </div>

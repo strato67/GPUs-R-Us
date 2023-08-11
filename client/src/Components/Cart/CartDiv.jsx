@@ -36,6 +36,8 @@ export default function CartDiv({ user }) {
             key={index}
             productID={item.product}
             quantity={item.quantity}
+            user={user.username}
+            updateCart={setCart}
           />
         ))
       )}

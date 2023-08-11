@@ -3,10 +3,10 @@ import { BsFillTrashFill } from "react-icons/bs";
 import { FaPlus, FaMinus } from "react-icons/fa";
 import useCart from "../../Hooks/useCart";
 
-export default function CartCard({ productID, quantity }) {
+export default function CartCard({ productID, quantity, user, updateCart }) {
   const [prodQuant, setQuantity] = useState(quantity);
   const [itemInfo, setItemInfo] = useState({});
-  const { addToCart, removeFromCart } = useCart();
+  const { removeFromCart } = useCart();
   const getItemInfo = async () => {
     const response = await fetch(`/api/products/${productID}`);
     const data = await response.json();
@@ -25,7 +25,6 @@ export default function CartCard({ productID, quantity }) {
 
   return (
     <>
-    
       <div className="indicator w-full place-self-center">
         <span className="indicator-item  badge badge-secondary text-2xl py-6 px-5 m-3 font-bold">
           {prodQuant}
@@ -43,7 +42,6 @@ export default function CartCard({ productID, quantity }) {
               ${(Math.round(itemInfo.price * 100) / 100).toFixed(2)}
             </div>
             <div className="card-actions justify-end">
-
               <button
                 className="btn btn-outline btn-primary"
                 onClick={() => {
@@ -64,7 +62,15 @@ export default function CartCard({ productID, quantity }) {
               >
                 <FaMinus />
               </button>
-              <button className="btn btn-outline btn-error">
+              <button
+                className="btn btn-outline btn-error"
+                onClick={() => {
+                  removeFromCart(user, productID);
+                  updateCart((prev) =>
+                    prev.filter((item) => item.product !== productID)
+                  );
+                }}
+              >
                 <BsFillTrashFill />
               </button>
             </div>
