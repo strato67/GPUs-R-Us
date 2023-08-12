@@ -52,7 +52,12 @@ export default function ItemPage() {
               <p className="py-4">{itemInfo.product.description}</p>
               {user ? (
                 <div className="flex justify-center w-full ">
-                  <button className="btn btn-primary w-1/2 mx-1 " onClick={()=>{addToCart(user.username, itemInfo.product._id)}}>
+                  <button
+                    className="btn btn-primary w-1/2 mx-1 "
+                    onClick={() => {
+                      addToCart(user.username, itemInfo.product._id);
+                    }}
+                  >
                     {" "}
                     <BsCartPlusFill size={20} />
                     <a className="pl-2">Add to Cart</a>

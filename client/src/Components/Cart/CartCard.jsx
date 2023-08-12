@@ -26,19 +26,21 @@ export default function CartCard({ productID, quantity, user, updateCart }) {
   return (
     <>
       <div className="indicator w-full place-self-center">
-        <span className="indicator-item  badge badge-secondary text-2xl py-6 px-5 m-3 font-bold">
+        <span className="indicator-item  badge badge-secondary text-2xl py-6 px-5 m-3 font-bold select-none">
           {prodQuant}
         </span>
         <div className="card lg:card-side bg-base-100 shadow-xl w-full place-self-center">
-          <figure className="md:max-w-sm  place-self-center">
+          <figure className="max-w-sm  place-self-center">
             <img
               src="https://c1.neweggimages.com/ProductImage/14-137-676-V08.jpg"
               alt="placeholder"
             />
           </figure>
           <div className="card-body pr-10">
-            <h2 className="card-title text-3xl">{itemInfo.name}</h2>
-            <div className="badge badge-secondary py-6 px-4 my-4 text-2xl font-semibold mb-4">
+            <h2 className="card-title text-2xl overflow-hidden ">
+              {itemInfo.name}
+            </h2>
+            <div className="badge badge-secondary py-6 px-4 my-4 text-2xl font-semibold mb-4 ">
               ${(Math.round(itemInfo.price * 100) / 100).toFixed(2)}
             </div>
             <div className="card-actions justify-end">
@@ -52,8 +54,11 @@ export default function CartCard({ productID, quantity, user, updateCart }) {
               >
                 <FaPlus />
               </button>
+              <button className="btn btn-outline glass w-12 text-xl btn-disabled">
+                {prodQuant}
+              </button>
               <button
-                className="btn btn-outline btn-primary"
+                className="btn btn-outline btn-primary "
                 onClick={() => {
                   if (prodQuant > 0) {
                     setQuantity(prodQuant - 1);
