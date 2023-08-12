@@ -12,7 +12,6 @@ export default function useCart() {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ productID }),
-
     });
 
     const json = await response.json();
@@ -32,7 +31,6 @@ export default function useCart() {
     const response = await fetch(`/api/cart/${username}/${productID}`, {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
-
     });
 
     const json = await response.json();
@@ -69,7 +67,24 @@ export default function useCart() {
     console.log("updateCart");
   };
 
-  const emptyCart = async () => {};
+  const emptyCart = async (username) => {
+    setLoading(true);
+    setError(null);
+
+    const response = await fetch(`/api/cart/${username}`, {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+    });
+
+    const json = await response.json();
+
+    if (!response.ok) {
+      setLoading(false);
+      setError(json.error);
+    }
+
+    setLoading(false);
+  };
 
   return {
     addToCart,
