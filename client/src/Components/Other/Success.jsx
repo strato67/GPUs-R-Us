@@ -10,7 +10,7 @@ export default function SuccessNotification({ message }) {
           showMessage ? `flex` : `hidden`
         }`}
       >
-        <div>
+        <div className="flex w-full">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="stroke-current flex-shrink-0 h-6 w-6"
@@ -25,9 +25,9 @@ export default function SuccessNotification({ message }) {
             />
           </svg>
 
-          <span>{message}</span>
+          <span className="pl-2">{message}</span>
         </div>
-        <div className="flex-none">
+        <div className="flex">
           <button onClick={() => setShowMessage(false)}>
             <svg
               xmlns="http://www.w3.org/2000/svg"

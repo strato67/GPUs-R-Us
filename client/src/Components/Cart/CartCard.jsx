@@ -43,41 +43,51 @@ export default function CartCard({ productID, quantity, user, updateCart }) {
             <div className="badge badge-secondary py-6 px-4 my-4 text-2xl font-semibold mb-4 ">
               ${(Math.round(itemInfo.price * 100) / 100).toFixed(2)}
             </div>
-            <div className="card-actions justify-end">
-              <button
-                className="btn btn-outline btn-primary"
-                onClick={() => {
-                  if (prodQuant < itemInfo.maxOrder) {
-                    setQuantity(prodQuant + 1);
-                  }
-                }}
+            <div className="justify-end self-end flex-col pb-2">
+              <div
+                className={`${
+                  prodQuant < itemInfo.maxOrder ? `invisible` : ``
+                } badge badge-accent select-none text-center ml-1`}
               >
-                <FaPlus />
-              </button>
-              <button className="btn btn-outline glass w-12 text-xl btn-disabled">
-                {prodQuant}
-              </button>
-              <button
-                className="btn btn-outline btn-primary "
-                onClick={() => {
-                  if (prodQuant > 0) {
-                    setQuantity(prodQuant - 1);
-                  }
-                }}
-              >
-                <FaMinus />
-              </button>
-              <button
-                className="btn btn-outline btn-error"
-                onClick={() => {
-                  removeFromCart(user, productID);
-                  updateCart((prev) =>
-                    prev.filter((item) => item.product !== productID)
-                  );
-                }}
-              >
-                <BsFillTrashFill />
-              </button>
+                Cannot add more of this item.
+              </div>
+              <div className="flex gap-2 py-2">
+                <button
+                  className="btn btn-outline btn-primary"
+                  onClick={() => {
+                    if (prodQuant < itemInfo.maxOrder) {
+                      setQuantity(prodQuant + 1);
+                    }
+                  }}
+                >
+                  <FaPlus />
+                </button>
+
+                <button className="btn btn-outline glass w-12 text-xl btn-disabled">
+                  {prodQuant}
+                </button>
+                <button
+                  className="btn btn-outline btn-primary "
+                  onClick={() => {
+                    if (prodQuant > 0) {
+                      setQuantity(prodQuant - 1);
+                    }
+                  }}
+                >
+                  <FaMinus />
+                </button>
+                <button
+                  className="btn btn-outline btn-error"
+                  onClick={() => {
+                    removeFromCart(user, productID);
+                    updateCart((prev) =>
+                      prev.filter((item) => item.product !== productID)
+                    );
+                  }}
+                >
+                  <BsFillTrashFill />
+                </button>
+              </div>
             </div>
           </div>
         </div>
