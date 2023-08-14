@@ -23,7 +23,7 @@ const signUpUser = async (request, response) => {
 
   try {
     const user = await User.signup(username, email, password, confirmPass);
-    const cart = await Cart.createCart(username);
+    await Cart.createCart(username);
     const userToken = createToken(user._id);
 
     response.status(200).json({ username, userToken });

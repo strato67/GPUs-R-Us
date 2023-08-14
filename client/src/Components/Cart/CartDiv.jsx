@@ -9,7 +9,7 @@ import Empty from "./Empty";
 export default function CartDiv({ user }) {
   const [cart, setCart] = useState([]);
   const [loading, setLoading] = useState(true);
-  const { emptyCart } = useCart();
+  const { updateCart, emptyCart } = useCart();
 
   const getCart = async () => {
     const response = await fetch(`/api/cart/${user.username}`);
@@ -38,9 +38,9 @@ export default function CartDiv({ user }) {
         <>
           <div className="min-h-screen relative">
             <div className="px-8">
-              {cart.map((item, index) => (
+              {cart.map((item) => (
                 <CartCard
-                  key={index}
+                  key={`${item.product}`}
                   productID={item.product}
                   quantity={item.quantity}
                   user={user.username}
@@ -48,20 +48,21 @@ export default function CartDiv({ user }) {
                 />
               ))}
             </div>
-            <div className="flex flex-col sticky px-8   w-full bottom-0 lg:absolute bg-base-200 pt-4 ">
+
+            <div className="flex flex-col sticky px-8   w-full bottom-0 lg:absolute bg-base-200 pt-4 z-10">
               <div className="pb-6">
                 <h1 className="text-2xl md:text-4xl font-bold">Total: $0.00</h1>
               </div>
               <div className="flex pb-3  w-full ">
                 <button className="btn btn-outline btn-info w-1/2 ">
-                  <BiSave size={20} />
+                  <BiSave size={20} key={221313131231} />
                   Save
                 </button>
                 <button
                   className="btn btn-outline btn-error w-1/2"
                   onClick={() => window.confirmEmpty.showModal()}
                 >
-                  <BsFillTrashFill size={20} />
+                  <BsFillTrashFill size={20} key={2213124343131231} />
                   Empty Cart
                 </button>
               </div>

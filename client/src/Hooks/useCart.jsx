@@ -44,7 +44,6 @@ export default function useCart() {
   };
 
   const updateCart = async (username, cartUpdate) => {
-    /*
     setLoading(true);
     setError(null);
 
@@ -63,7 +62,6 @@ export default function useCart() {
 
     setLoading(false);
 
-*/
     console.log("updateCart");
   };
 

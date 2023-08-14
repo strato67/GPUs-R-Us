@@ -25,7 +25,7 @@ const addToCart = async (req, res) => {
   }
 
   try {
-    const cart = await Cart.addToCart(userID, productID);
+    const cart = await Cart.addToCart(userID, productID, product.price);
     res.status(200).json(cart);
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -34,27 +34,37 @@ const addToCart = async (req, res) => {
 
 const updateCart = async (req, res) => {
   const userID = req.params.id;
-  const { productID, quantity } = req.body;
-
-  const product = await Product.getProduct(productID);
-
-  if (quantity > product.maxOrder) {
-    res.status(400).json({
-      error: `Cannot order more than ${product.maxOrder} of this item.`,
-    });
-    return;
-  }
-
-  if (quantity > product.stock) {
-    res.status(400).json({
-      error: `Sorry, could not update cart.`,
-    });
-    return;
-  }
-
+  const cart = req.body;
   try {
-    const cart = await Cart.updateCart(userID, productID, quantity);
-    res.status(200).json(cart);
+    //move the status code out of the loop
+    cart.forEach(async (product) => {
+      const productID = product.productID;
+      const quantity = product.quantity;
+
+      const productInfo = await Product.getProduct(productID);
+
+      if (quantity > productInfo.maxOrder) {
+        res.status(400).json({
+          error: `Cannot order more than ${productInfo.maxOrder} of ${productInfo.name}.`,
+        });
+        return;
+      }
+
+      if (quantity > productInfo.stock) { 
+        res.status(400).json({
+          error: `Sorry, could not update cart.`,
+        });
+        return;
+      }
+      const cartPayload = await Cart.updateCart(
+        userID,
+        productID,
+        quantity,
+        productInfo.price
+      );
+      return cartPayload;
+    });
+    res.status(200).json();
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -63,9 +73,9 @@ const updateCart = async (req, res) => {
 const deleteFromCart = async (req, res) => {
   const userID = req.params.id;
   const productID = req.params.item;
-
+  const product = await Product.getProduct(productID);
   try {
-    const cart = await Cart.deleteFromCart(userID, productID);
+    const cart = await Cart.deleteFromCart(userID, productID, product.price);
     res.status(200).json(cart);
   } catch (error) {
     res.status(400).json({ error: error.message });

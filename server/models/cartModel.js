@@ -20,6 +20,11 @@ const cartSchema = new Schema({
       },
     },
   ],
+  total: {
+    type: Number,
+    default: 0,
+    required: true,
+  },
 });
 
 cartSchema.statics.createCart = async function (username) {
@@ -27,7 +32,7 @@ cartSchema.statics.createCart = async function (username) {
     throw Error("No user id supplied.");
   }
 
-  const user = await User.findOne({username: username});
+  const user = await User.findOne({ username: username });
 
   if (!user) {
     throw Error("Invalid user id.");
@@ -58,24 +63,31 @@ cartSchema.statics.getCart = async function (username) {
   return cart;
 };
 
-cartSchema.statics.addToCart = async function (username, productID) {
+cartSchema.statics.addToCart = async function (username, productID, price) {
   if (!username || !productID) {
     throw Error("Missing parameters.");
   }
 
   const cart = await this.getCart(username);
-  
+
   if (cart.cart.find((item) => item.product == productID)) {
     throw Error("Item already in cart, go to cart to update quantity.");
   }
 
   cart.cart.push({ product: productID, quantity: 1 });
 
+  cart.total += Math.round( price * 1e2 ) / 1e2;
+
+
   return cart.save();
 };
 
-cartSchema.statics.updateCart = async function (username, productID, quantity) {
-
+cartSchema.statics.updateCart = async function (
+  username,
+  productID,
+  quantity,
+  price
+) {
   if (!username || !productID || !quantity) {
     throw Error("Missing parameters.");
   }
@@ -84,25 +96,39 @@ cartSchema.statics.updateCart = async function (username, productID, quantity) {
     throw Error("Invalid product id.");
   }
 
-  if (quantity == 0) {
-    return this.deleteFromCart(username, productID);
-  }
-
   const cart = await this.getCart(username);
-
   const item = cart.cart.find((item) => item.product == productID);
+
+  if (quantity == 0) {
+    return this.deleteFromCart(username, productID, price * item.quantity);
+  }
 
   if (!item) {
     throw Error("Item not found in cart.");
   }
 
+  if (quantity < item.quantity) {
+    cart.total -=     Math.round( (price * quantity) * 1e2 ) / 1e2;
+
+  }
+
+  if (quantity > item.quantity) {
+    const temp = price * quantity;
+    cart.total -= price * item.quantity;
+    cart.total +=     Math.round( temp * 1e2 ) / 1e2;
+
+  }
+
   item.quantity = quantity;
 
   return cart.save();
-
 };
 
-cartSchema.statics.deleteFromCart = async function (username, productID) {
+cartSchema.statics.deleteFromCart = async function (
+  username,
+  productID,
+  price
+) {
   if (!username || !productID) {
     throw Error("Missing parameters.");
   }
@@ -118,6 +144,8 @@ cartSchema.statics.deleteFromCart = async function (username, productID) {
   }
   cart.cart.splice(item, 1);
 
+  cart.total -=     Math.round( price * 1e2 ) / 1e2;
+
   return cart.save();
 };
 
@@ -129,6 +157,7 @@ cartSchema.statics.emptyCart = async function (username) {
   const cart = await this.getCart(username);
 
   cart.cart = [];
+  cart.total = 0;
 
   return cart.save();
 };
