@@ -35,36 +35,42 @@ const addToCart = async (req, res) => {
 const updateCart = async (req, res) => {
   const userID = req.params.id;
   const cart = req.body;
+
+  const errors = [];
   try {
-    //move the status code out of the loop
-    cart.forEach(async (product) => {
+    const promises = cart.map(async (product) => {
       const productID = product.productID;
       const quantity = product.quantity;
 
       const productInfo = await Product.getProduct(productID);
 
       if (quantity > productInfo.maxOrder) {
-        res.status(400).json({
-          error: `Cannot order more than ${productInfo.maxOrder} of ${productInfo.name}.`,
-        });
+        errors.push(
+          `Cannot order more than ${productInfo.maxOrder} of ${productInfo.name}.`
+        );
+
         return;
       }
 
-      if (quantity > productInfo.stock) { 
-        res.status(400).json({
-          error: `Sorry, could not update cart.`,
-        });
+      if (quantity > productInfo.stock) {
+        errors.push(`Cannot order ${productInfo.name} as stock is limited.`);
         return;
       }
-      const cartPayload = await Cart.updateCart(
+      return await Cart.updateCart(
         userID,
         productID,
         quantity,
         productInfo.price
       );
-      return cartPayload;
     });
-    res.status(200).json();
+
+    const result = await Promise.all(promises);
+
+    if (errors.length) {
+      res.status(400).json({ errors });
+    } else {
+      res.status(200).json(result[0]);
+    }
   } catch (error) {
     res.status(400).json({ error: error.message });
   }

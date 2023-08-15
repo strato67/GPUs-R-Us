@@ -76,8 +76,7 @@ cartSchema.statics.addToCart = async function (username, productID, price) {
 
   cart.cart.push({ product: productID, quantity: 1 });
 
-  cart.total += Math.round( price * 1e2 ) / 1e2;
-
+  cart.total += Math.round(price * 1e2) / 1e2;
 
   return cart.save();
 };
@@ -108,15 +107,13 @@ cartSchema.statics.updateCart = async function (
   }
 
   if (quantity < item.quantity) {
-    cart.total -=     Math.round( (price * quantity) * 1e2 ) / 1e2;
-
+    cart.total -= Math.round(price * quantity * 1e2) / 1e2;
   }
 
   if (quantity > item.quantity) {
     const temp = price * quantity;
     cart.total -= price * item.quantity;
-    cart.total +=     Math.round( temp * 1e2 ) / 1e2;
-
+    cart.total += Math.round(temp * 1e2) / 1e2;
   }
 
   item.quantity = quantity;
@@ -144,7 +141,7 @@ cartSchema.statics.deleteFromCart = async function (
   }
   cart.cart.splice(item, 1);
 
-  cart.total -=     Math.round( price * 1e2 ) / 1e2;
+  cart.total -= Math.round(price * 1e2) / 1e2;
 
   return cart.save();
 };
