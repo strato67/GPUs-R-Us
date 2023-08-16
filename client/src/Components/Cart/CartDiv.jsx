@@ -8,6 +8,7 @@ import Empty from "./Empty";
 
 export default function CartDiv({ user }) {
   const [cart, setCart] = useState([]);
+  const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(true);
   const { updateCart, emptyCart } = useCart();
 
@@ -19,13 +20,14 @@ export default function CartDiv({ user }) {
       return {};
     }
     setLoading(false);
-    return data.cart;
+    return [data.cart, data.total];
   };
 
   useEffect(() => {
     (async () => {
       const data = await getCart();
-      setCart(data);
+      setCart(data[0]);
+      setTotal(data[1]);
     })();
   }, []);
 
@@ -45,24 +47,25 @@ export default function CartDiv({ user }) {
                   quantity={item.quantity}
                   user={user.username}
                   updateCart={setCart}
+                  setTotal={setTotal}
                 />
               ))}
             </div>
 
-            <div className="flex flex-col sticky px-8   w-full bottom-0 lg:absolute bg-base-200 pt-4 z-10">
+            <div className="flex flex-col sticky px-8 w-full bottom-0 lg:absolute bg-base-200 pt-4 z-10">
               <div className="pb-6">
-                <h1 className="text-2xl md:text-4xl font-bold">Total: $0.00</h1>
+                <h1 className="text-2xl md:text-4xl font-bold">Total: ${total.toFixed(2)}</h1>
               </div>
               <div className="flex pb-3  w-full ">
-                <button className="btn btn-outline btn-info w-1/2 ">
-                  <BiSave size={20} key={221313131231} />
+                <button className="btn btn-outline btn-info w-1/2" onClick={()=>console.log(cart)}>
+                  <BiSave size={20}  />
                   Save
                 </button>
                 <button
                   className="btn btn-outline btn-error w-1/2"
                   onClick={() => window.confirmEmpty.showModal()}
                 >
-                  <BsFillTrashFill size={20} key={2213124343131231} />
+                  <BsFillTrashFill size={20} />
                   Empty Cart
                 </button>
               </div>

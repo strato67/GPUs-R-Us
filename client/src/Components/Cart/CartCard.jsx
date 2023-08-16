@@ -3,7 +3,7 @@ import { BsFillTrashFill } from "react-icons/bs";
 import { FaPlus, FaMinus } from "react-icons/fa";
 import useCart from "../../Hooks/useCart";
 
-export default function CartCard({ productID, quantity, user, updateCart }) {
+export default function CartCard({ productID, quantity, user, updateCart, setTotal }) {
   const [prodQuant, setQuantity] = useState(quantity);
   const [itemInfo, setItemInfo] = useState({});
   const { removeFromCart } = useCart();
@@ -58,6 +58,15 @@ export default function CartCard({ productID, quantity, user, updateCart }) {
                     onClick={() => {
                       if (prodQuant < itemInfo.maxOrder) {
                         setQuantity(prodQuant + 1);
+                        updateCart((prev) => {
+                          const index = prev.findIndex(
+                            (item) => item.product === productID
+                          );
+                          const newCart = [...prev];
+                          newCart[index].quantity = prodQuant + 1;
+                          return newCart;
+                        });
+                        setTotal((prev) => prev + itemInfo.price);
                       }
                     }}
                   >
@@ -72,7 +81,17 @@ export default function CartCard({ productID, quantity, user, updateCart }) {
                     onClick={() => {
                       if (prodQuant > 0) {
                         setQuantity(prodQuant - 1);
+                        updateCart((prev) => {
+                          const index = prev.findIndex(
+                            (item) => item.product === productID
+                          );
+                          const newCart = [...prev];
+                          newCart[index].quantity = prodQuant - 1;
+                          return newCart;
+                        });
+                        setTotal((prev) => prev - itemInfo.price);
                       }
+                      
                     }}
                   >
                     <FaMinus />
@@ -84,6 +103,7 @@ export default function CartCard({ productID, quantity, user, updateCart }) {
                         prev.filter((item) => item.product !== productID)
                       );
                       removeFromCart(user, productID);
+                      setTotal((prev) => prev - itemInfo.price * prodQuant);
                     }}
                   >
                     <BsFillTrashFill />
