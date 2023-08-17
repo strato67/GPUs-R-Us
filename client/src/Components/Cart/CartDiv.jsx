@@ -23,6 +23,17 @@ export default function CartDiv({ user }) {
     return [data.cart, data.total];
   };
 
+  const sendUpdate = async () => {
+    const updatedCart = cart.map((cartItem) => {
+      delete cartItem._id;
+      if (cartItem.quantity === 0) {
+        setCart(cart.filter((item) => item.product !== cartItem.product));
+      }
+      return cartItem;
+    });
+    await updateCart(user.username, updatedCart);
+  };
+
   useEffect(() => {
     (async () => {
       const data = await getCart();
@@ -54,11 +65,16 @@ export default function CartDiv({ user }) {
 
             <div className="flex flex-col sticky px-8 w-full bottom-0 lg:absolute bg-base-200 pt-4 z-10">
               <div className="pb-6">
-                <h1 className="text-2xl md:text-4xl font-bold">Total: ${total.toFixed(2)}</h1>
+                <h1 className="text-2xl md:text-4xl font-bold">
+                  Total: ${total.toFixed(2)}
+                </h1>
               </div>
               <div className="flex pb-3  w-full ">
-                <button className="btn btn-outline btn-info w-1/2" onClick={()=>console.log(cart)}>
-                  <BiSave size={20}  />
+                <button
+                  className="btn btn-outline btn-info w-1/2"
+                  onClick={sendUpdate}
+                >
+                  <BiSave size={20} />
                   Save
                 </button>
                 <button

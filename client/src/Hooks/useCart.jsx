@@ -62,7 +62,6 @@ export default function useCart() {
 
     setLoading(false);
 
-    console.log("updateCart");
   };
 
   const emptyCart = async (username) => {

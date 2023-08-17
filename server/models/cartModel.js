@@ -87,7 +87,7 @@ cartSchema.statics.updateCart = async function (
   quantity,
   price
 ) {
-  if (!username || !productID || !quantity) {
+  if (!username || !productID) {
     throw Error("Missing parameters.");
   }
 
@@ -98,7 +98,7 @@ cartSchema.statics.updateCart = async function (
   const cart = await this.getCart(username);
   const item = cart.cart.find((item) => item.product == productID);
 
-  if (quantity == 0) {
+  if (!quantity) {
     return this.deleteFromCart(username, productID, price * item.quantity);
   }
 

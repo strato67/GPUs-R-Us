@@ -3,15 +3,21 @@ import { BsFillTrashFill } from "react-icons/bs";
 import { FaPlus, FaMinus } from "react-icons/fa";
 import useCart from "../../Hooks/useCart";
 
-export default function CartCard({ productID, quantity, user, updateCart, setTotal }) {
+export default function CartCard({
+  productID,
+  quantity,
+  user,
+  updateCart,
+  setTotal,
+}) {
   const [prodQuant, setQuantity] = useState(quantity);
-  const [itemInfo, setItemInfo] = useState({});
+  const [itemInfo, setItemInfo] = useState([]);
   const { removeFromCart } = useCart();
   const getItemInfo = async () => {
     const response = await fetch(`/api/products/${productID}`);
     const data = await response.json();
     if (!response.ok) {
-      return {};
+      return [];
     }
     return data;
   };
@@ -91,7 +97,6 @@ export default function CartCard({ productID, quantity, user, updateCart, setTot
                         });
                         setTotal((prev) => prev - itemInfo.price);
                       }
-                      
                     }}
                   >
                     <FaMinus />

@@ -39,7 +39,7 @@ const updateCart = async (req, res) => {
   const errors = [];
   try {
     const promises = cart.map(async (product) => {
-      const productID = product.productID;
+      const productID = product.product;
       const quantity = product.quantity;
 
       const productInfo = await Product.getProduct(productID);
