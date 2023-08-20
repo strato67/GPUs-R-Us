@@ -9,6 +9,7 @@ export default function CartCard({
   user,
   updateCart,
   setTotal,
+  setHasUnsavedChanges,
 }) {
   const [prodQuant, setQuantity] = useState(quantity);
   const [itemInfo, setItemInfo] = useState([]);
@@ -73,6 +74,7 @@ export default function CartCard({
                           return newCart;
                         });
                         setTotal((prev) => prev + itemInfo.price);
+                        setHasUnsavedChanges(true);
                       }
                     }}
                   >
@@ -96,6 +98,7 @@ export default function CartCard({
                           return newCart;
                         });
                         setTotal((prev) => prev - itemInfo.price);
+                        setHasUnsavedChanges(true);
                       }
                     }}
                   >
@@ -109,6 +112,7 @@ export default function CartCard({
                       );
                       removeFromCart(user, productID);
                       setTotal((prev) => prev - itemInfo.price * prodQuant);
+                      
                     }}
                   >
                     <BsFillTrashFill />

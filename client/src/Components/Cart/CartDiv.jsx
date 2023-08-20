@@ -1,15 +1,18 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { BiSave } from "react-icons/bi";
 import { BsFillTrashFill } from "react-icons/bs";
 import useCart from "../../Hooks/useCart";
 import Loading from "../Other/Loading";
 import CartCard from "./CartCard";
 import Empty from "./Empty";
+import Error from "../Other/Error";
 
 export default function CartDiv({ user }) {
   const [cart, setCart] = useState([]);
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
   const { updateCart, emptyCart } = useCart();
 
   const getCart = async () => {
@@ -32,6 +35,7 @@ export default function CartDiv({ user }) {
       return cartItem;
     });
     await updateCart(user.username, updatedCart);
+    setHasUnsavedChanges(false);
   };
 
   useEffect(() => {
@@ -51,6 +55,9 @@ export default function CartDiv({ user }) {
         <>
           <div className="min-h-screen relative">
             <div className="px-8">
+              {hasUnsavedChanges && (
+                <Error message="You have unsaved changes." />
+              )}
               {cart.map((item) => (
                 <CartCard
                   key={`${item.product}`}
@@ -59,6 +66,7 @@ export default function CartDiv({ user }) {
                   user={user.username}
                   updateCart={setCart}
                   setTotal={setTotal}
+                  setHasUnsavedChanges={setHasUnsavedChanges}
                 />
               ))}
             </div>
@@ -86,7 +94,14 @@ export default function CartDiv({ user }) {
                 </button>
               </div>
 
-              <button className="btn btn-success w-full ">Checkout</button>
+              <Link
+                className="btn btn-success w-full"
+                onClick={sendUpdate}
+                to="/checkout"
+                state={{ cart, total }}
+              >
+                Checkout
+              </Link>
             </div>
             <dialog
               id="confirmEmpty"
