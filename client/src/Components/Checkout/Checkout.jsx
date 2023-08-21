@@ -1,10 +1,10 @@
 import { useEffect } from "react";
-import { Navigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+import ReviewCart from "./ReviewCart";
 import useAuthContext from "../../Hooks/useAuthContext";
 
 export default function Checkout() {
+  const { user } = useAuthContext();
 
-    const { user } = useAuthContext();
-
-    return(<>{!user && <Navigate to="/cart"/>}</>);
-};
+  return <>{user ? <ReviewCart user={user} /> : <Link to="/cart" />}</>;
+}
