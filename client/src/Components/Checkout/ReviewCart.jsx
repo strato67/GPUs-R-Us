@@ -42,14 +42,14 @@ export default function ReviewCart({ user }) {
                   <thead>
                     <tr>
                       <th></th>
-                      <th>Name</th>
-                      <th>Job</th>
-                      <th>Favorite Color</th>
+                      <th>Product Name</th>
+                      <th>Quantity</th>
+                      <th>Price</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {cart.map((item) => (
-                      <CheckoutCard key={item._id} />
+                    {cart.map((item, index) => (
+                      <CheckoutCard key={item._id} itemNum={index+1} item={item}/>
                     ))}
                   </tbody>
                 </table>
