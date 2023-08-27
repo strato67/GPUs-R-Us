@@ -24,7 +24,7 @@ export default function CheckoutCard({ itemNum, item }) {
           <th>{itemNum}</th>
           <td>{itemInfo.name}</td>
           <td>{quantity}</td>
-          <td>{itemInfo.price}</td>
+          <td>{(Math.round(itemInfo.price * 100) / 100).toFixed(2)}</td>
         </tr>
       )}
     </>

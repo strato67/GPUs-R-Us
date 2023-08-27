@@ -33,26 +33,34 @@ export default function ReviewCart({ user }) {
           <Empty />
         ) : (
           <>
-            <div className="min-h-screen relative">
+            <div className="min-h-screen relative bg-base-200 flex flex-col">
               <h1 className="text-3xl font-bold text-center py-6 mb-4">
                 Review Order
               </h1>
-              <div className="overflow-x-auto">
-                <table className="table table-zebra">
-                  <thead>
-                    <tr>
-                      <th></th>
-                      <th>Product Name</th>
-                      <th>Quantity</th>
-                      <th>Price</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {cart.map((item, index) => (
-                      <CheckoutCard key={item._id} itemNum={index+1} item={item}/>
-                    ))}
-                  </tbody>
-                </table>
+              <div className="px-6 self-center w-full">
+                <div className="card w-full bg-base-100 shadow-xl">
+                  <div className="overflow-x-auto">
+                    <table className="table table-zebra">
+                      <thead>
+                        <tr>
+                          <th>Item #</th>
+                          <th>Product Name</th>
+                          <th>Quantity</th>
+                          <th>Price</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {cart.map((item, index) => (
+                          <CheckoutCard
+                            key={item._id}
+                            itemNum={index + 1}
+                            item={item}
+                          />
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
               </div>
             </div>
           </>
