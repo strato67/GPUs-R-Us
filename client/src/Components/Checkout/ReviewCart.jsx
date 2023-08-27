@@ -1,4 +1,7 @@
 import { useState, useEffect, Suspense } from "react";
+import { AiFillEdit } from "react-icons/ai";
+import { GrFormNextLink } from "react-icons/gr";
+import { Link } from "react-router-dom";
 import Loading from "../Other/Loading";
 import CheckoutCard from "./CheckoutCard";
 import Empty from "../Cart/Empty";
@@ -34,9 +37,13 @@ export default function ReviewCart({ user }) {
         ) : (
           <>
             <div className="min-h-screen relative bg-base-200 flex flex-col">
-              <h1 className="text-3xl font-bold text-center py-6 mb-4">
-                Review Order
-              </h1>
+              <ul className="steps py-10">
+                <li className="step step-primary font-bold md:text-xl">Review Order</li>
+                <li className="step md:text-xl">Payment</li>
+                <li className="step md:text-xl">Confirmation</li>
+              </ul>
+
+
               <div className="px-6 self-center w-full">
                 <div className="card w-full bg-base-100 shadow-xl">
                   <div className="overflow-x-auto">
@@ -61,6 +68,23 @@ export default function ReviewCart({ user }) {
                     </table>
                   </div>
                 </div>
+              </div>
+            </div>
+            <div className="flex flex-col sticky px-8 w-full bottom-0 lg:absolute bg-base-200 py-6 md:py-4 z-10">
+              <div className="pb-6 self-end">
+                <h1 className="text-2xl md:text-4xl font-bold">
+                  Total: ${total.toFixed(2)}
+                </h1>
+              </div>
+              <div className="flex">
+                <Link className="btn btn-outline btn-info w-1/2" to="/cart">
+                  <AiFillEdit />
+                  Edit Cart
+                </Link>
+                <Link className="btn btn-outline btn-success w-1/2">
+                  Next
+                  <GrFormNextLink />
+                </Link>
               </div>
             </div>
           </>
