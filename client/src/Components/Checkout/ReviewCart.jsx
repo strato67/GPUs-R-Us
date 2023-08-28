@@ -6,16 +6,20 @@ import Loading from "../Other/Loading";
 import CheckoutCard from "./CheckoutCard";
 import Empty from "../Cart/Empty";
 
-export default function ReviewCart({ user }) {
-  const [cart, setCart] = useState([]);
-  const [total, setTotal] = useState(0);
-
+export default function ReviewCart({
+  user,
+  setStep,
+  setCart,
+  setTotal,
+  cart,
+  total,
+}) {
   const getCart = async () => {
     const response = await fetch(`/api/cart/${user.username}`);
     const data = await response.json();
 
     if (!response.ok) {
-      return {};
+      return [];
     }
 
     return [data.cart, data.total];
@@ -36,14 +40,7 @@ export default function ReviewCart({ user }) {
           <Empty />
         ) : (
           <>
-            <div className="min-h-screen relative bg-base-200 flex flex-col">
-              <ul className="steps py-10">
-                <li className="step step-primary font-bold md:text-xl">Review Order</li>
-                <li className="step md:text-xl">Payment</li>
-                <li className="step md:text-xl">Confirmation</li>
-              </ul>
-
-
+            <div className="flex flex-col">
               <div className="px-6 self-center w-full">
                 <div className="card w-full bg-base-100 shadow-xl">
                   <div className="overflow-x-auto">
@@ -81,10 +78,13 @@ export default function ReviewCart({ user }) {
                   <AiFillEdit />
                   Edit Cart
                 </Link>
-                <Link className="btn btn-outline btn-success w-1/2">
+                <button
+                  className="btn btn-outline btn-success w-1/2"
+                  onClick={() => setStep(2)}
+                >
                   Next
                   <GrFormNextLink />
-                </Link>
+                </button>
               </div>
             </div>
           </>
