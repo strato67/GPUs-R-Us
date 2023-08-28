@@ -36,7 +36,7 @@ export default function ReviewCart({
   return (
     <>
       <Suspense fallback={<Loading />}>
-        {cart.length == 0 ? (
+        {cart.length == 0 || !user ? (
           <Empty />
         ) : (
           <>

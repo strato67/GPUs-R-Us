@@ -20,7 +20,7 @@ export default function CartDiv({ user }) {
     const data = await response.json();
 
     if (!response.ok) {
-      return {};
+      return [];
     }
     setLoading(false);
     return [data.cart, data.total];
@@ -49,7 +49,7 @@ export default function CartDiv({ user }) {
   return (
     <>
       {loading && <Loading />}
-      {!loading && cart.length === 0 ? (
+      {!loading && (!cart || cart.length ==0) ? (
         <Empty />
       ) : (
         <>
