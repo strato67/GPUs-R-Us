@@ -1,0 +1,12 @@
+const express = require("express");
+const router = express.Router();
+const {
+  getPublishableKey,
+  createPaymentIntent,
+} = require("../controllers/paymentController");
+
+router.get("/config", getPublishableKey);
+
+router.post("/create-payment-intent", createPaymentIntent);
+
+module.exports = router;

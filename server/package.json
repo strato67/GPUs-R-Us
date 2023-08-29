@@ -19,6 +19,7 @@
     "jsonwebtoken": "^9.0.0",
     "mongodb": "^4.13.0",
     "mongoose": "^6.9.1",
+    "stripe": "^13.3.0",
     "validator": "^13.9.0"
   }
 }
