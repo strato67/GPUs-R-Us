@@ -1,4 +1,5 @@
 import { useState, useEffect, Suspense } from "react";
+import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js/pure";
 import PaymentForm from "./PaymentForm";
 import Loading from "../Other/Loading";
@@ -14,6 +15,27 @@ export default function Payment({ setStep, cart, total }) {
     })();
   }, []);
 
+  useEffect(() => {
+    (async () => {
+      const response = await fetch("/api/payment/create-payment-intent", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ price: total }),
+      });
+      const data = await response.json();
+      setClientSecret(data.clientSecret);
+    })();
+  }, []);
+
+  const options = {clientSecret,
+    appearance: {
+      theme: 'night',
+      labels: 'floating'
+    },
+  };  
+
   return (
     <>
       <Suspense fallback={<Loading />}>
@@ -21,7 +43,11 @@ export default function Payment({ setStep, cart, total }) {
           <Empty />
         ) : (
           <div className="flex flex-col">
-            <PaymentForm setStep={setStep} cart={cart} total={total} />
+            {clientSecret && stripePromise && (
+              <Elements stripe={stripePromise} options={options}>
+                <PaymentForm setStep={setStep} cart={cart} total={total} />
+              </Elements>
+            )}
           </div>
         )}
       </Suspense>

@@ -1,7 +1,5 @@
 require("dotenv").config({ path: "../.env" });
 
-const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
-
 const getPublishableKey = (req, res) => {
   try {
     res
@@ -14,11 +12,11 @@ const getPublishableKey = (req, res) => {
 
 const createPaymentIntent = async (req, res) => {
   const { price } = req.body;
-
+  const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
   try {
     const paymentIntent = await stripe.paymentIntents.create({
       currency: "CAD",
-      amount: price,
+      amount: Math.round(price * 100),
       automatic_payment_methods: { enabled: true },
     });
 
