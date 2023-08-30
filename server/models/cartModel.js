@@ -125,6 +125,7 @@ cartSchema.statics.deleteFromCart = async function (
   username,
   productID,
   price
+  ,quantity
 ) {
   if (!username || !productID) {
     throw Error("Missing parameters.");
@@ -141,7 +142,7 @@ cartSchema.statics.deleteFromCart = async function (
   }
   cart.cart.splice(item, 1);
 
-  cart.total -= Math.round(price * 1e2) / 1e2;
+  cart.total -= Math.round(price * quantity* 1e2) / 1e2;
 
   return cart.save();
 };

@@ -79,9 +79,10 @@ const updateCart = async (req, res) => {
 const deleteFromCart = async (req, res) => {
   const userID = req.params.id;
   const productID = req.params.item;
+  const quantity = req.body.quantity;
   const product = await Product.getProduct(productID);
   try {
-    const cart = await Cart.deleteFromCart(userID, productID, product.price);
+    const cart = await Cart.deleteFromCart(userID, productID, product.price, quantity);
     res.status(200).json(cart);
   } catch (error) {
     res.status(400).json({ error: error.message });

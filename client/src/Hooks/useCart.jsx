@@ -24,13 +24,14 @@ export default function useCart() {
     setLoading(false);
   };
 
-  const removeFromCart = async (username, productID) => {
+  const removeFromCart = async (username, productID, quantity) => {
     setLoading(true);
     setError(null);
 
     const response = await fetch(`/api/cart/${username}/${productID}`, {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ quantity }),
     });
 
     const json = await response.json();

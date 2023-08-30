@@ -110,7 +110,7 @@ export default function CartCard({
                       updateCart((prev) =>
                         prev.filter((item) => item.product !== productID)
                       );
-                      removeFromCart(user, productID);
+                      removeFromCart(user, productID, prodQuant);
                       setTotal((prev) => prev - itemInfo.price * prodQuant);
                       
                     }}

@@ -99,6 +99,7 @@ export default function CartDiv({ user }) {
                 onClick={sendUpdate}
                 to="/checkout"
                 state={{ cart, total }}
+                disabled={hasUnsavedChanges}
               >
                 Checkout
               </Link>

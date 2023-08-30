@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import Empty from "../Cart/Empty";
 import ReviewCart from "./ReviewCart";
 import Payment from "./Payment";
 import useAuthContext from "../../Hooks/useAuthContext";
@@ -58,7 +58,7 @@ export default function Checkout() {
           )}
         </div>
       ) : (
-        <Link to="/cart" />
+        <Empty />
       )}
     </>
   );
