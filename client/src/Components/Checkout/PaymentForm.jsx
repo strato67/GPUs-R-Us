@@ -6,12 +6,14 @@ import {
   useStripe,
   useElements,
 } from "@stripe/react-stripe-js";
-import { GrFormNextLink } from "react-icons/gr";
+import ErrorFormMessage from "../Other/ErrorFormMessage";
+import { BsCartPlusFill } from "react-icons/bs";
 
 export default function PaymentForm({ setStep, cart, total }) {
   const stripe = useStripe();
   const elements = useElements();
   const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -26,18 +28,28 @@ export default function PaymentForm({ setStep, cart, total }) {
       elements,
       confirmParams: { return_url: `${window.location.origin}/` },
     });
-
-    //may need to create separate route for this
+        //may need to create separate route for this
 
     //setStep(3);
+
+    if (error.type === "card_error" || error.type === "validation_error") {
+      setMessage(error.message);
+    } else {
+      setMessage("An unexpected error occured.");
+    }
+
+    setLoading(false);
+
   };
 
   return (
     <>
+
       <form className="flex flex-col">
         <div className="flex flex-col self-center w-96 lg:w-1/2 lg:py-10">
           <AddressElement options={{ mode: "shipping" }} />
           <PaymentElement id="payment-element" />
+          {message && <ErrorFormMessage message={message} className="self-center" />}
         </div>
 
         <div className="flex flex-col sticky px-8 w-full bottom-0 lg:absolute bg-base-200 py-6 md:py-4 z-10">
@@ -59,8 +71,9 @@ export default function PaymentForm({ setStep, cart, total }) {
               onClick={handleSubmit}
               disabled={!stripe || loading || !elements}
             >
-              Purchase
-              <GrFormNextLink />
+              {loading ? "Processing..." : "Pay"}
+              
+              <BsCartPlusFill />
             </button>
           </div>
         </div>
