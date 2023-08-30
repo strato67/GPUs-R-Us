@@ -13,7 +13,7 @@ export default function Checkout() {
   return (
     <>
       {user ? (
-        <div className="min-h-screen relative bg-base-200 flex flex-col">
+        <div className="md:min-h-screen relative bg-base-200 flex flex-col">
           <ul className="steps py-10">
             <li
               className={

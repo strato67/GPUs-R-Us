@@ -29,12 +29,13 @@ export default function Payment({ setStep, cart, total }) {
     })();
   }, []);
 
-  const options = {clientSecret,
+  const options = {
+    clientSecret,
     appearance: {
-      theme: 'night',
-      labels: 'floating'
+      theme: "night",
+      labels: "floating",
     },
-  };  
+  };
 
   return (
     <>
@@ -42,13 +43,13 @@ export default function Payment({ setStep, cart, total }) {
         {cart.length == 0 ? (
           <Empty />
         ) : (
-          <div className="flex flex-col">
+          <>
             {clientSecret && stripePromise && (
               <Elements stripe={stripePromise} options={options}>
                 <PaymentForm setStep={setStep} cart={cart} total={total} />
               </Elements>
             )}
-          </div>
+          </>
         )}
       </Suspense>
     </>
