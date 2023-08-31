@@ -4,7 +4,7 @@ import { loadStripe } from "@stripe/stripe-js/pure";
 import PaymentForm from "./PaymentForm";
 import Loading from "../Other/Loading";
 
-export default function Payment({ setStep, cart, total }) {
+export default function Payment({ user, setStep, cart, total }) {
   const [stripePromise, setStripePromise] = useState(null);
   const [clientSecret, setClientSecret] = useState("");
   useEffect(() => {
@@ -46,7 +46,7 @@ export default function Payment({ setStep, cart, total }) {
           <>
             {clientSecret && stripePromise && (
               <Elements stripe={stripePromise} options={options}>
-                <PaymentForm setStep={setStep} cart={cart} total={total} />
+                <PaymentForm setStep={setStep} user={user} total={total} />
               </Elements>
             )}
           </>

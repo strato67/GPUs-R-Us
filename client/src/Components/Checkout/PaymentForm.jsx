@@ -1,19 +1,22 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AiFillEdit } from "react-icons/ai";
+import { MdPayment } from "react-icons/md";
+import useOrder from "../../Hooks/useOrder";
+import ErrorFormMessage from "../Other/ErrorFormMessage";
 import {
   PaymentElement,
   AddressElement,
   useStripe,
   useElements,
 } from "@stripe/react-stripe-js";
-import ErrorFormMessage from "../Other/ErrorFormMessage";
-import { BsCartPlusFill } from "react-icons/bs";
 
-export default function PaymentForm({ setStep, cart, total }) {
+export default function PaymentForm({ setStep, user, total }) {
   const stripe = useStripe();
   const elements = useElements();
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState(null);
+
+  const { createOrder } = useOrder();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -24,32 +27,44 @@ export default function PaymentForm({ setStep, cart, total }) {
 
     setLoading(true);
 
-    const { error } = await stripe.confirmPayment({
+    const response = await stripe.confirmPayment({
       elements,
       confirmParams: { return_url: `${window.location.origin}/` },
     });
-        //may need to create separate route for this
 
     //setStep(3);
 
-    if (error.type === "card_error" || error.type === "validation_error") {
-      setMessage(error.message);
+    if (
+      response.error.type === "card_error" ||
+      response.error.type === "validation_error"
+    ) {
+      setMessage(response.error.message);
     } else {
       setMessage("An unexpected error occured.");
     }
+    /*
+    Might need to make new page for this
+
+    if (response.error.status === "succeeded") {
+      const newOrder = await createOrder(user.username);
+
+      if (!newOrder) {
+        setMessage("Could not create order.");
+      }
+    }*/
 
     setLoading(false);
-
   };
 
   return (
     <>
-
       <form className="flex flex-col">
         <div className="flex flex-col self-center w-96 lg:w-1/2 lg:py-10">
           <AddressElement options={{ mode: "shipping" }} />
           <PaymentElement id="payment-element" />
-          {message && <ErrorFormMessage message={message} className="self-center" />}
+          {message && (
+            <ErrorFormMessage message={message} className="self-center" />
+          )}
         </div>
 
         <div className="flex flex-col sticky px-8 w-full bottom-0 lg:absolute bg-base-200 py-6 md:py-4 z-10">
@@ -72,8 +87,8 @@ export default function PaymentForm({ setStep, cart, total }) {
               disabled={!stripe || loading || !elements}
             >
               {loading ? "Processing..." : "Pay"}
-              
-              <BsCartPlusFill />
+
+              <MdPayment />
             </button>
           </div>
         </div>
