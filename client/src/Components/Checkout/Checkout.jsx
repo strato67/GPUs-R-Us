@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Empty from "../Cart/Empty";
 import ReviewCart from "./ReviewCart";
 import Payment from "./Payment";
 import useAuthContext from "../../Hooks/useAuthContext";
+import PaymentSuccess from "./PaymentSuccess";
 
 export default function Checkout() {
   const [cart, setCart] = useState([]);
@@ -26,7 +27,7 @@ export default function Checkout() {
             </li>
             <li
               className={
-                step === 2
+                step === 2 || step === 3
                   ? `step step-primary font-bold md:text-xl`
                   : `step md:text-xl`
               }
@@ -56,6 +57,7 @@ export default function Checkout() {
           {step === 2 && (
             <Payment user={user} setStep={setStep} cart={cart} total={total} />
           )}
+          {step === 3 && <PaymentSuccess user={user} />}
         </div>
       ) : (
         <Empty />

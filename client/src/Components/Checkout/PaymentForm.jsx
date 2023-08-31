@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { AiFillEdit } from "react-icons/ai";
 import { MdPayment } from "react-icons/md";
 import useOrder from "../../Hooks/useOrder";
+import useCart from "../../Hooks/useCart";
 import ErrorFormMessage from "../Other/ErrorFormMessage";
 import {
   PaymentElement,
@@ -15,8 +16,8 @@ export default function PaymentForm({ setStep, user, total }) {
   const elements = useElements();
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState(null);
-
   const { createOrder } = useOrder();
+  const { emptyCart } = useCart();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -29,29 +30,16 @@ export default function PaymentForm({ setStep, user, total }) {
 
     const response = await stripe.confirmPayment({
       elements,
-      confirmParams: { return_url: `${window.location.origin}/` },
+      confirmParams: {},
+      redirect: "if_required",
     });
 
-    //setStep(3);
-
-    if (
-      response.error.type === "card_error" ||
-      response.error.type === "validation_error"
-    ) {
+    if (response.error) {
       setMessage(response.error.message);
     } else {
-      setMessage("An unexpected error occured.");
+      createOrder(user.username);
+      setStep(3);
     }
-    /*
-    Might need to make new page for this
-
-    if (response.error.status === "succeeded") {
-      const newOrder = await createOrder(user.username);
-
-      if (!newOrder) {
-        setMessage("Could not create order.");
-      }
-    }*/
 
     setLoading(false);
   };
