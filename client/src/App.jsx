@@ -12,12 +12,14 @@ import Shop from "./Components/Shop/Shop";
 import Cart from "./Components/Cart/Cart";
 import ItemPage from "./Components/Shop/ItemPage";
 import Checkout from "./Components/Checkout/Checkout";
+import Navbarnew from "./Components/Navbar/Navbarnew";
 import "./App.css";
 
 const App = () => {
   return (
     <>
       <Navbar />
+      <Navbarnew />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/shop" element={<Shop />} />

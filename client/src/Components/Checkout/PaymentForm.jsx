@@ -38,6 +38,7 @@ export default function PaymentForm({ setStep, user, total }) {
       setMessage(response.error.message);
     } else {
       createOrder(user.username);
+      emptyCart(user.username);
       setStep(3);
     }
 

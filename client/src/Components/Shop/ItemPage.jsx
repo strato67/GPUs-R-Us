@@ -3,6 +3,8 @@ import { BsCartPlusFill } from "react-icons/bs";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import useCart from "../../Hooks/useCart";
 import ItemCarousel from "./ItemCarousel";
+import ErrorNotification from "../Other/Error";
+import SuccessNotification from "../Other/Success";
 import Loading from "../Other/Loading";
 import Comments from "./CommentTab/Comments";
 import useAuthContext from "../../Hooks/useAuthContext";
@@ -10,9 +12,10 @@ import useAuthContext from "../../Hooks/useAuthContext";
 export default function ItemPage() {
   const [itemInfo, setItemInfo] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [message, setMessage] = useState(null);
   const { id } = useParams();
   const { user } = useAuthContext();
-  const { addToCart } = useCart();
+  const { addToCart, error } = useCart();
   const navigate = useNavigate();
 
   const getItemInfo = async () => {
@@ -32,6 +35,8 @@ export default function ItemPage() {
   return (
     <>
       {loading && <Loading />}
+      {error && <ErrorNotification message={error} />}
+      {!error && message && <SuccessNotification message={message} />}
       {itemInfo && (
         <div className=" bg-base-200">
           <div className="flex flex-col md:flex-row pb-4 px-4 lg:space-x-6 justify-center md:py-12  ">
@@ -56,6 +61,7 @@ export default function ItemPage() {
                     className="btn btn-primary w-1/2 mx-1 "
                     onClick={() => {
                       addToCart(user.username, itemInfo.product._id);
+                      setMessage("Item added to cart!");  
                     }}
                   >
                     {" "}

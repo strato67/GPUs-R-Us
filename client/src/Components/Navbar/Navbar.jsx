@@ -8,7 +8,7 @@ export default function Navbar() {
   return (
     <>
       <div className="navbar bg-neutral flex flex-wrap md:justify-center justify-start z-0">
-        <div className="">
+        <div className="navbar-start">
           <div className="dropdown">
             <label tabIndex={0} className="btn btn-ghost lg:hidden ">
               <svg
@@ -26,6 +26,7 @@ export default function Navbar() {
                 />
               </svg>
             </label>
+            
             <ul
               tabIndex={0}
               className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-80 font-bold text-2xl z-10"
