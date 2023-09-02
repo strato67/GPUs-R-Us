@@ -7,7 +7,7 @@ import useAuthContext from "../../Hooks/useAuthContext";
 export default function Navbar() {
   const { logout } = useLogout();
   const { user } = useAuthContext();
-  const {cartDetails, getCartDetail} = useCart();
+  const { cartDetails, getCartDetail } = useCart();
 
   useEffect(() => {
     if (user) {
@@ -85,7 +85,9 @@ export default function Navbar() {
                     d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
                   />
                 </svg>
-                <span className="badge badge-sm indicator-item">{cartDetails ? cartDetails.length : 0}</span>
+                <span className="badge badge-sm indicator-item">
+                  {cartDetails ? cartDetails.length : 0}
+                </span>
               </div>
             </label>
             <div
@@ -93,8 +95,13 @@ export default function Navbar() {
               className="mt-3 card card-compact dropdown-content w-52 bg-base-100 shadow z-10"
             >
               <div className="card-body">
-                <span className="font-bold text-lg">{`${cartDetails ? cartDetails.length : 0} ${cartDetails.length !== 1 ? 'Items' : 'Item'}`}</span>
-                <span className="text-info">Subtotal: ${cartDetails.total? cartDetails.total.toFixed(2) : `0.00`}</span>
+                <span className="font-bold text-lg">{`${
+                  cartDetails ? cartDetails.length : 0
+                } ${cartDetails.length !== 1 ? "Items" : "Item"}`}</span>
+                <span className="text-info">
+                  Subtotal: $
+                  {cartDetails.total ? cartDetails.total.toFixed(2) : `0.00`}
+                </span>
                 <div className="card-actions">
                   <Link className="btn btn-primary btn-block" to="/cart">
                     View cart
@@ -129,7 +136,12 @@ export default function Navbar() {
                   </Link>
                 </li>
                 <li>
-                  <a>Settings</a>
+                  <Link
+                    to={`/settings/${user.username}`}
+                    className={`justify-between`}
+                  >
+                    Settings
+                  </Link>
                 </li>
                 <li onClick={logout}>
                   <a>Logout</a>

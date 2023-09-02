@@ -11,6 +11,7 @@ import Shop from "./Components/Shop/Shop";
 import Cart from "./Components/Cart/Cart";
 import ItemPage from "./Components/Shop/ItemPage";
 import Checkout from "./Components/Checkout/Checkout";
+import UserSettings from "./Components/Settings/UserSettings";
 import Navbar from "./Components/Navbar/Navbar";
 import "./App.css";
 
@@ -29,6 +30,7 @@ const App = () => {
         <Route path="/cart" element={<Cart />} />
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/profile/:id" element={<Profile />} />
+        <Route path="/settings/:id" element={<UserSettings />} />
         <Route path="*" element={<NotFound />}></Route>
       </Routes>
       <Footer />
