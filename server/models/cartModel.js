@@ -63,6 +63,20 @@ cartSchema.statics.getCart = async function (username) {
   return cart;
 };
 
+cartSchema.statics.getCartBasic = async function (username) {
+  if (!username) {
+    throw Error("No user id supplied.");
+  }
+
+  const cart = await this.findOne({ username: username });
+
+  if (!cart) {
+    throw Error("Could not find user cart");
+  }
+
+  return { length: cart.cart.length, total: cart.total };
+};
+
 cartSchema.statics.addToCart = async function (username, productID, price) {
   if (!username || !productID) {
     throw Error("Missing parameters.");
@@ -124,8 +138,8 @@ cartSchema.statics.updateCart = async function (
 cartSchema.statics.deleteFromCart = async function (
   username,
   productID,
-  price
-  ,quantity
+  price,
+  quantity
 ) {
   if (!username || !productID) {
     throw Error("Missing parameters.");
@@ -142,7 +156,7 @@ cartSchema.statics.deleteFromCart = async function (
   }
   cart.cart.splice(item, 1);
 
-  cart.total -= Math.round(price * quantity* 1e2) / 1e2;
+  cart.total -= Math.round(price * quantity * 1e2) / 1e2;
 
   return cart.save();
 };

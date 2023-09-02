@@ -15,7 +15,7 @@ export default function ItemPage() {
   const [message, setMessage] = useState(null);
   const { id } = useParams();
   const { user } = useAuthContext();
-  const { addToCart, error } = useCart();
+  const { addToCart, error} = useCart();
   const navigate = useNavigate();
 
   const getItemInfo = async () => {

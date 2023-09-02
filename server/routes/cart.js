@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const {
   getCart,
+  getCartTotal,
   addToCart,
   updateCart,
   deleteFromCart,
@@ -9,6 +10,7 @@ const {
 } = require("../controllers/cartController");
 
 router.get("/:id", getCart);
+router.get("/:id/total", getCartTotal);
 router.post("/:id", addToCart);
 router.patch("/:id", updateCart);
 router.delete("/:id/:item", deleteFromCart);

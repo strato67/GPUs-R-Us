@@ -12,6 +12,17 @@ const getCart = async (req, res) => {
   }
 };
 
+const getCartTotal = async (req, res) => {
+  const userID = req.params.id;
+
+  try {
+    const cartInfo = await Cart.getCartBasic(userID);
+    res.status(200).json(cartInfo);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
 const addToCart = async (req, res) => {
   const { productID } = req.body;
   const userID = req.params.id;
@@ -82,7 +93,12 @@ const deleteFromCart = async (req, res) => {
   const quantity = req.body.quantity;
   const product = await Product.getProduct(productID);
   try {
-    const cart = await Cart.deleteFromCart(userID, productID, product.price, quantity);
+    const cart = await Cart.deleteFromCart(
+      userID,
+      productID,
+      product.price,
+      quantity
+    );
     res.status(200).json(cart);
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -100,4 +116,11 @@ const emptyCart = async (req, res) => {
   }
 };
 
-module.exports = { getCart, addToCart, updateCart, deleteFromCart, emptyCart };
+module.exports = {
+  getCart,
+  getCartTotal,
+  addToCart,
+  updateCart,
+  deleteFromCart,
+  emptyCart,
+};
