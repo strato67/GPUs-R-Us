@@ -13,7 +13,7 @@ export default function Navbar() {
     if (user) {
       getCartDetail(user.username);
     }
-  }, [user, cartDetails]);
+  }, [user]);
   return (
     <>
       <div className="navbar bg-base-100 xl:px-36 ">

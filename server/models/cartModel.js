@@ -78,7 +78,7 @@ cartSchema.statics.getCartBasic = async function (username) {
 };
 
 cartSchema.statics.addToCart = async function (username, productID, price) {
-  if (!username || !productID) {
+  if (!username || !productID || !price) {
     throw Error("Missing parameters.");
   }
 
@@ -101,7 +101,7 @@ cartSchema.statics.updateCart = async function (
   quantity,
   price
 ) {
-  if (!username || !productID) {
+  if (!username || !productID || !quantity || !price) {
     throw Error("Missing parameters.");
   }
 
@@ -112,8 +112,8 @@ cartSchema.statics.updateCart = async function (
   const cart = await this.getCart(username);
   const item = cart.cart.find((item) => item.product == productID);
 
-  if (!quantity) {
-    return this.deleteFromCart(username, productID, price * item.quantity);
+  if (quantity === 0) {
+    return this.deleteFromCart(username, productID, price, item.quantity);
   }
 
   if (!item) {
@@ -141,7 +141,7 @@ cartSchema.statics.deleteFromCart = async function (
   price,
   quantity
 ) {
-  if (!username || !productID) {
+  if (!username || !productID || !price || !quantity) {
     throw Error("Missing parameters.");
   }
 
