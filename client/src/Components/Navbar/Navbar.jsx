@@ -137,7 +137,7 @@ export default function Navbar() {
                 </li>
                 <li>
                   <Link
-                    to={`/settings/${user.username}`}
+                    to={`/settings`}
                     className={`justify-between`}
                   >
                     Settings
