@@ -43,4 +43,16 @@ const getUserInfo = async (request, response) => {
   }
 };
 
-module.exports = { loginUser, signUpUser, getUserInfo };
+const updateUserEmail = async (request, response) => {
+  const { username, newEmail } = request.body;
+
+  try {
+    const user = await User.updateEmail(username, newEmail);
+    response.status(200).json({ user: user });
+  }catch (error) {
+    response.status(400).json({ error: error.message });
+  };
+
+};
+
+module.exports = { loginUser, signUpUser, getUserInfo, updateUserEmail };

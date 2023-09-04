@@ -1,29 +1,32 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import ErrorFormMessage from "../Other/ErrorFormMessage";
+import SuccessNotification from "../Other/Success";
 import Loading from "../Other/Loading";
 import useAuthContext from "../../Hooks/useAuthContext";
+import useSettings from "../../Hooks/useSettings";
 
 export default function UserSettings() {
   const navigate = useNavigate();
   const { user } = useAuthContext();
+  const { error, emailSuccess, changeEmail } = useSettings();
   const [userInfo, setUserInfo] = useState(null);
-  const [newEmail, setNewEmail] = useState({newEmail: ""});
+  const [newEmail, setNewEmail] = useState(null);
   const [loading, setLoading] = useState(true);
 
   const handleEmailChange = async (e) => {
     const nextState = {
       ...newEmail,
+      username: user.username,
       [e.target.name]: e.target.value,
     };
     setNewEmail(nextState);
-
   };
 
-  const formSubmit = async (e) => {
+  const emailSubmit = async (e) => {
     e.preventDefault();
-    console.log(newEmail);
+    await changeEmail(newEmail);
   };
-
 
   useEffect(() => {
     if (user) {
@@ -42,6 +45,9 @@ export default function UserSettings() {
 
   return (
     <>
+      {emailSuccess && (
+        <SuccessNotification message="Email successfully updated!" />
+      )}
       {loading && <Loading />}
       {user && userInfo && !loading && (
         <>
@@ -69,7 +75,7 @@ export default function UserSettings() {
                         readOnly={true}
                       />
                     </div>
-                    <form onSubmit={formSubmit} method="post">
+                    <form onSubmit={emailSubmit} method="post">
                       <div className="form-control pb-2">
                         <label className="label">
                           <span className="label-text">New Email</span>
@@ -83,6 +89,7 @@ export default function UserSettings() {
                           onChange={handleEmailChange}
                         />
                       </div>
+                      {error && <ErrorFormMessage message={error} />}
                       <div className="form-control mt-6 pb-2">
                         <button
                           className="btn btn-outline btn-secondary"

@@ -4,6 +4,7 @@ const {
   loginUser,
   signUpUser,
   getUserInfo,
+  updateUserEmail,
 } = require("../controllers/userController");
 
 router.post("/signup", signUpUser);
@@ -16,8 +17,6 @@ router.delete("/:id", (request, response) => {
   response.json({ message: "delete user" });
 });
 
-router.patch("/:id", (request, response) => {
-  response.json({ message: "update user info" });
-});
+router.patch("/e/:id", updateUserEmail);
 
 module.exports = router;

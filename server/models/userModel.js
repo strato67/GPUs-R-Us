@@ -103,13 +103,36 @@ userSchema.statics.getUser = async function (username) {
   if (!user) {
     throw Error("No user found.");
   }
-  
+
   return {
     id: user._id,
     username: user.username,
     joined: user.joined,
     email: user.email,
   };
+};
+
+userSchema.statics.updateEmail = async function (username, newEmail) {
+  if (!username || !newEmail) {
+    throw Error("Missing parameters.");
+  }
+
+  const user = await this.findOne({ username });
+
+  if (!user) {
+    throw Error("No user found.");
+  }
+  if (!validator.isEmail(newEmail)) {
+    throw Error("Invalid email.");
+  }
+  if (user.email === newEmail) {
+    throw Error("Enter a new email.");
+  }
+
+  user.email = newEmail;
+  user.save();
+
+  return { username: user.username, email: user.email };
 };
 
 module.exports = mongoose.model("User", userSchema);
