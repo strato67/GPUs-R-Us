@@ -55,4 +55,6 @@ const updateUserEmail = async (request, response) => {
 
 };
 
-module.exports = { loginUser, signUpUser, getUserInfo, updateUserEmail };
+const updateUserPassword = async (request, response) => {};
+
+module.exports = { loginUser, signUpUser, getUserInfo, updateUserEmail, updateUserPassword };

@@ -12,7 +12,23 @@ export default function UserSettings() {
   const { error, emailSuccess, changeEmail } = useSettings();
   const [userInfo, setUserInfo] = useState(null);
   const [newEmail, setNewEmail] = useState(null);
+  const [newPassword, setNewPassword] = useState({
+    newPass: "",
+    confirmPass: "",
+  });
   const [loading, setLoading] = useState(true);
+  const [passMatchError, setPassMatchError] = useState(false);
+  const [passLengthError, setPassLengthError] = useState(false);
+
+  useEffect(() => {
+    newPassword.newPass !== newPassword.confirmPass
+      ? setPassMatchError(true)
+      : setPassMatchError(false);
+
+    newPassword.newPass.length < 8 && newPassword.newPass.length > 0
+      ? setPassLengthError(true)
+      : setPassLengthError(false);
+  });
 
   const handleEmailChange = async (e) => {
     const nextState = {
@@ -26,6 +42,20 @@ export default function UserSettings() {
   const emailSubmit = async (e) => {
     e.preventDefault();
     await changeEmail(newEmail);
+  };
+
+  const handlePasswordChange = async (e) => {
+    const nextState = {
+      ...newPassword,
+      username: user.username,
+      [e.target.name]: e.target.value,
+    };
+    setNewPassword(nextState);
+  };
+
+  const passwordSubmit = async (e) => {
+    e.preventDefault();
+    console.log(newPassword);
   };
 
   useEffect(() => {
@@ -106,7 +136,7 @@ export default function UserSettings() {
                     Change Password
                   </summary>
                   <div className="collapse-content">
-                    <form onSubmit={console.log("")} method="post">
+                    <form onSubmit={passwordSubmit} method="post">
                       <div className="form-control py-2">
                         <label className="label">
                           <span className="label-text">Current Password</span>
@@ -117,7 +147,7 @@ export default function UserSettings() {
                           className="input input-bordered"
                           required={true}
                           name="currentPass"
-                          onChange={console.log("")}
+                          onChange={handlePasswordChange}
                         />
                       </div>
                       <div className="form-control py-2">
@@ -130,9 +160,16 @@ export default function UserSettings() {
                           className="input input-bordered"
                           required={true}
                           name="newPass"
-                          onChange={console.log("")}
+                          onChange={handlePasswordChange}
                         />
                       </div>
+                      {passLengthError && (
+                        <ErrorFormMessage
+                          message={
+                            "New password must be at least 8 characters."
+                          }
+                        />
+                      )}
                       <div className="form-control py-2">
                         <label className="label">
                           <span className="label-text">Confirm Password</span>
@@ -143,13 +180,16 @@ export default function UserSettings() {
                           className="input input-bordered"
                           required={true}
                           name="confirmPass"
-                          onChange={console.log("")}
+                          onChange={handlePasswordChange}
                         />
                       </div>
+                      {passMatchError && (
+                        <ErrorFormMessage message={"Passwords don't match."} />
+                      )}
                       <div className="form-control mt-6 pb-2">
                         <button
                           className="btn btn-outline btn-secondary"
-                          disabled={false}
+                          disabled={passLengthError || passMatchError}
                         >
                           Update Password
                         </button>

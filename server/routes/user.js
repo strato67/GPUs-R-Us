@@ -5,6 +5,7 @@ const {
   signUpUser,
   getUserInfo,
   updateUserEmail,
+  updateUserPassword,
 } = require("../controllers/userController");
 
 router.post("/signup", signUpUser);
@@ -18,5 +19,6 @@ router.delete("/:id", (request, response) => {
 });
 
 router.patch("/e/:id", updateUserEmail);
+router.patch("/p/:id", updateUserPassword);
 
 module.exports = router;
