@@ -1,14 +1,15 @@
 import { useState } from "react";
 
 export default function useSettings() {
-  const [error, setError] = useState(null);
+  const [emailerror, setEmailError] = useState(null);
   const [emailSuccess, setEmailSuccess] = useState(false);
   const [passwordSuccess, setPasswordSuccess] = useState(false);
+  const [passerror, setPassError] = useState(null);
 
   const changeEmail = async (emailObj) => {
     const { username, newEmail } = emailObj;
 
-    setError(null);
+    setEmailError(null);
     setEmailSuccess(false);
     const response = await fetch(`/api/user/e/${username}`, {
       method: "PATCH",
@@ -17,7 +18,7 @@ export default function useSettings() {
     });
     const json = await response.json();
     if (!response.ok) {
-      setError(json.error);
+      setEmailError(json.error);
       setEmailSuccess(false);
     }
     setEmailSuccess(true);
@@ -25,7 +26,7 @@ export default function useSettings() {
 
   const changePassword = async (passwordObj) => {
     const { username } = passwordObj;
-    setError(null);
+    setPassError(null);
     setPasswordSuccess(false);
     const response = await fetch(`/api/user/p/${username}`, {
       method: "PATCH",
@@ -34,11 +35,20 @@ export default function useSettings() {
     });
     const json = await response.json();
     if (!response.ok) {
-      setError(json.error);
+      setPassError(json.error);
       setPasswordSuccess(false);
-    };
+    }
     setPasswordSuccess(true);
   };
 
-  return { changeEmail, error, emailSuccess };
+  const deleteAccount = async (username) => {};
+
+  return {
+    changeEmail,
+    changePassword,
+    emailerror,
+    passerror,
+    emailSuccess,
+    passwordSuccess,
+  };
 }

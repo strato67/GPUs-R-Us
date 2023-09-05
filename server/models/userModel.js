@@ -135,4 +135,38 @@ userSchema.statics.updateEmail = async function (username, newEmail) {
   return { username: user.username, email: user.email };
 };
 
+userSchema.statics.updatePassword = async function (
+  username,
+  currentPass,
+  newPass,
+  confirmPass
+) {
+  if (!username || !currentPass || !newPass || !confirmPass) {
+    throw Error("Missing parameters.");
+  }
+  if (newPass !== confirmPass) {
+    throw Error("Passwords don't match");
+  }
+
+  const user = await this.findOne({ username });
+
+  if (!user) {
+    throw Error("No account found under that username.");
+  }
+
+  const matchPasswords = await bcrypt.compare(currentPass, user.password);
+
+  if (!matchPasswords) {
+    throw Error("Password incorrect.");
+  }
+
+  const passwordSalt = await bcrypt.genSalt(10);
+  const hashedPassword = await bcrypt.hash(newPass, passwordSalt);
+
+  user.password = hashedPassword;
+  user.save();
+
+  return "Password successfully updated.";
+};
+
 module.exports = mongoose.model("User", userSchema);

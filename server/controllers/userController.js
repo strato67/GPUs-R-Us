@@ -49,12 +49,41 @@ const updateUserEmail = async (request, response) => {
   try {
     const user = await User.updateEmail(username, newEmail);
     response.status(200).json({ user: user });
-  }catch (error) {
+  } catch (error) {
     response.status(400).json({ error: error.message });
-  };
-
+  }
 };
 
-const updateUserPassword = async (request, response) => {};
+const updateUserPassword = async (request, response) => {
+  const { username, currentPass, newPass, confirmPass } = request.body;
 
-module.exports = { loginUser, signUpUser, getUserInfo, updateUserEmail, updateUserPassword };
+  try {
+    const user = await User.updatePassword(
+      username,
+      currentPass,
+      newPass,
+      confirmPass
+    );
+    response.status(200).json({ status: user });
+  } catch (error) {
+    response.status(400).json({ error: error.message });
+  }
+};
+
+const deleteAccount = async (request, response) => {
+  const username = request.params.id;
+
+  try {
+  } catch (error) {
+    response.status(400).json({ error: error.message });
+  }
+};
+
+module.exports = {
+  loginUser,
+  signUpUser,
+  getUserInfo,
+  updateUserEmail,
+  updateUserPassword,
+  deleteAccount,
+};

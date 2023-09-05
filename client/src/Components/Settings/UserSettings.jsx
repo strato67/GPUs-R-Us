@@ -9,7 +9,7 @@ import useSettings from "../../Hooks/useSettings";
 export default function UserSettings() {
   const navigate = useNavigate();
   const { user } = useAuthContext();
-  const { error, emailSuccess, changeEmail } = useSettings();
+  const settings = useSettings();
   const [userInfo, setUserInfo] = useState(null);
   const [newEmail, setNewEmail] = useState(null);
   const [newPassword, setNewPassword] = useState({
@@ -41,7 +41,7 @@ export default function UserSettings() {
 
   const emailSubmit = async (e) => {
     e.preventDefault();
-    await changeEmail(newEmail);
+    await settings.changeEmail(newEmail);
   };
 
   const handlePasswordChange = async (e) => {
@@ -55,7 +55,7 @@ export default function UserSettings() {
 
   const passwordSubmit = async (e) => {
     e.preventDefault();
-    console.log(newPassword);
+    await settings.changePassword(newPassword);
   };
 
   useEffect(() => {
@@ -75,8 +75,11 @@ export default function UserSettings() {
 
   return (
     <>
-      {emailSuccess && (
+      {settings.emailSuccess && (
         <SuccessNotification message="Email successfully updated!" />
+      )}
+      {settings.passwordSuccess && !settings.passerror && (
+        <SuccessNotification message="Password successfully changed!" />
       )}
       {loading && <Loading />}
       {user && userInfo && !loading && (
@@ -119,7 +122,9 @@ export default function UserSettings() {
                           onChange={handleEmailChange}
                         />
                       </div>
-                      {error && <ErrorFormMessage message={error} />}
+                      {settings.emailerror && (
+                        <ErrorFormMessage message={settings.emailerror} />
+                      )}
                       <div className="form-control mt-6 pb-2">
                         <button
                           className="btn btn-outline btn-secondary"
@@ -150,6 +155,9 @@ export default function UserSettings() {
                           onChange={handlePasswordChange}
                         />
                       </div>
+                      {settings.passerror && (
+                        <ErrorFormMessage message={"Password incorrect."} />
+                      )}
                       <div className="form-control py-2">
                         <label className="label">
                           <span className="label-text">New Password</span>

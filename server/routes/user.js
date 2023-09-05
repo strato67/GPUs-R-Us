@@ -6,19 +6,14 @@ const {
   getUserInfo,
   updateUserEmail,
   updateUserPassword,
+  deleteAccount,
 } = require("../controllers/userController");
 
-router.post("/signup", signUpUser);
-
-router.post("/login", loginUser);
-
 router.get("/:id", getUserInfo);
-
-router.delete("/:id", (request, response) => {
-  response.json({ message: "delete user" });
-});
-
+router.post("/signup", signUpUser);
+router.post("/login", loginUser);
 router.patch("/e/:id", updateUserEmail);
 router.patch("/p/:id", updateUserPassword);
+router.delete("/:id", deleteAccount);
 
 module.exports = router;
