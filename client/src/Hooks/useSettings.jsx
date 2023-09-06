@@ -41,11 +41,22 @@ export default function useSettings() {
     setPasswordSuccess(true);
   };
 
-  const deleteAccount = async (username) => {};
+  const deleteAccount = async (username) => {
+    const response = await fetch(`/api/user/${username}`, {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+    });
+    const json = await response.json();
+    if (!response.ok) {
+      console.log(json.error);
+    }
+    return json;
+  };
 
   return {
     changeEmail,
     changePassword,
+    deleteAccount,
     emailerror,
     passerror,
     emailSuccess,

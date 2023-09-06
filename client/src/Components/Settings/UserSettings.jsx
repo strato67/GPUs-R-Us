@@ -237,7 +237,7 @@ export default function UserSettings() {
                     <div className="flex justify-center gap-3">
                       <button
                         className="btn w-1/2 btn-outline btn-error"
-                        onClick={() => {}}
+                        onClick={() => settings.deleteAccount(user.username)}
                       >
                         Delete Account
                       </button>

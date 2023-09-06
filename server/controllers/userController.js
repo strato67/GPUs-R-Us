@@ -74,6 +74,8 @@ const deleteAccount = async (request, response) => {
   const username = request.params.id;
 
   try {
+    const user = await User.deleteUser(username);
+    response.status(200).json({ status: user });
   } catch (error) {
     response.status(400).json({ error: error.message });
   }

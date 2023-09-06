@@ -1,6 +1,8 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const validator = require("validator");
+const Order = require("./orderModel");
+const Cart = require("./cartModel");
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
@@ -167,6 +169,39 @@ userSchema.statics.updatePassword = async function (
   user.save();
 
   return "Password successfully updated.";
+};
+
+//Need to replace deleteOne and deleteMany with correct methods
+userSchema.statics.deleteUser = async function (username) {
+  if (!username) {
+    throw Error("No user found.");
+  }
+  const user = await this.findOne({ username });
+
+  if (!user) {
+    throw Error("No user found.");
+  }
+
+  /*
+  const cart = await Cart.deleteOne({ username });
+  const orders = await Order.deleteMany({ username });
+
+  if (!cart) {
+    throw Error("Cart could not be deleted.");
+  }
+
+  if (!orders) {  
+    throw Error("Orders could not be deleted.");
+  } 
+
+  await this.deleteOne({ username });
+
+  cart.save();
+  orders.save();
+  user.save();
+  */
+
+  return "Account successfully deleted.";
 };
 
 module.exports = mongoose.model("User", userSchema);
