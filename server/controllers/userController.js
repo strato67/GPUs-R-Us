@@ -1,5 +1,6 @@
 const User = require("../models/userModel");
 const Cart = require("../models/cartModel");
+const Order = require("../models/orderModel");
 const jwt = require("jsonwebtoken");
 
 const createToken = (_id) =>
@@ -73,9 +74,31 @@ const updateUserPassword = async (request, response) => {
 const deleteAccount = async (request, response) => {
   const username = request.params.id;
 
+  if (!username) {
+    response.status(400).json({ error: "No username provided." });
+  }
+
   try {
-    const user = await User.deleteUser(username);
-    response.status(200).json({ status: user });
+    const user = await User.findOne({ username });
+    const cart = await Cart.getCart(username);
+    const order = await Order.find({ username: username });
+
+    if (!user) {
+      response.status(400).json({ error: "No user found." });
+    }
+
+    await user.deleteOne({ username });
+    await cart.deleteOne({ username: username });
+
+    if (order) {
+      await order.deleteMany({ username: username });
+      order.save();
+    }
+
+    user.save();
+    cart.save();
+
+    response.status(200).json({ status: "Account deleted." });
   } catch (error) {
     response.status(400).json({ error: error.message });
   }
