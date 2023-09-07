@@ -5,9 +5,11 @@ import SuccessNotification from "../Other/Success";
 import Loading from "../Other/Loading";
 import useAuthContext from "../../Hooks/useAuthContext";
 import useSettings from "../../Hooks/useSettings";
+import useLogout from "../../Hooks/useLogout";
 
 export default function UserSettings() {
   const navigate = useNavigate();
+  const { logout } = useLogout();
   const { user } = useAuthContext();
   const settings = useSettings();
   const [userInfo, setUserInfo] = useState(null);
@@ -70,7 +72,9 @@ export default function UserSettings() {
         setUserInfo(data.user);
         setLoading(false);
       })();
-    }
+    }else{
+      navigate("/login");
+    };
   }, [user]);
 
   return (
@@ -81,7 +85,9 @@ export default function UserSettings() {
       {settings.passwordSuccess && !settings.passerror && (
         <SuccessNotification message="Password successfully changed!" />
       )}
+
       {loading && <Loading />}
+
       {user && userInfo && !loading && (
         <>
           <div className="flex flex-col min-h-screen bg-base-200 items-center py-16 ">
@@ -237,7 +243,11 @@ export default function UserSettings() {
                     <div className="flex justify-center gap-3">
                       <button
                         className="btn w-1/2 btn-outline btn-error"
-                        onClick={() => settings.deleteAccount(user.username)}
+                        onClick={() => {settings.deleteAccount(user.username)
+                        logout();
+                        navigate("/");
+                        }
+                        }
                       >
                         Delete Account
                       </button>

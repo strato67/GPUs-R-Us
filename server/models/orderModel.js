@@ -28,26 +28,40 @@ const orderSchema = new Schema({
 });
 
 orderSchema.statics.createOrder = async function (username) {
-    if (!username) {
-      throw Error("No user id supplied.");
-    }
-  
-    const user = await Cart.findOne({ username: username });
-  
-    if (!user) {
-      throw Error("Invalid user id.");
-    }
-  
-    try {
-      const order = this.create({
-        username: user.username,
-        cart: user.cart,
-        total: user.total
-      });
-      return order;
-    } catch (e) {
-      throw Error("Error creating order.");
-    }
-  };
+  if (!username) {
+    throw Error("No user id supplied.");
+  }
+
+  const user = await Cart.findOne({ username: username });
+
+  if (!user) {
+    throw Error("Invalid user id.");
+  }
+
+  try {
+    const order = this.create({
+      username: user.username,
+      cart: user.cart,
+      total: user.total,
+    });
+    return order;
+  } catch (e) {
+    throw Error("Error creating order.");
+  }
+};
+
+orderSchema.statics.getOrders = async function (username) {
+  if (!username) {
+    throw Error("No user id supplied.");
+  }
+
+  const orders = await this.find({ username: username });
+
+  if (!orders) {
+    throw Error("User has no orders.");
+  }
+
+  return orders;
+};
 
 module.exports = mongoose.model("Order", orderSchema);

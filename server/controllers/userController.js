@@ -81,7 +81,7 @@ const deleteAccount = async (request, response) => {
   try {
     const user = await User.findOne({ username });
     const cart = await Cart.getCart(username);
-    const order = await Order.find({ username: username });
+    const order = await Order.getOrders(username);
 
     if (!user) {
       response.status(400).json({ error: "No user found." });
@@ -91,13 +91,9 @@ const deleteAccount = async (request, response) => {
     await cart.deleteOne({ username: username });
 
     if (order) {
-      await order.deleteMany({ username: username });
-      order.save();
+      await Order.deleteMany({ username: username });
     }
-
-    user.save();
-    cart.save();
-
+ 
     response.status(200).json({ status: "Account deleted." });
   } catch (error) {
     response.status(400).json({ error: error.message });
