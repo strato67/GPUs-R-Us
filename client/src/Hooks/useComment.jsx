@@ -2,10 +2,10 @@ import { useState } from "react";
 
 export default function useComment() {
   const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(null);
+  const [success, setSuccess] = useState(null);
 
   const createReview = async (review) => {
-    setLoading(true);
+    setSuccess(null);
     setError(null);
 
     if (review.rating === null) review.rating = 0;
@@ -19,15 +19,13 @@ export default function useComment() {
     const json = await response.json();
 
     if (!response.ok) {
-      setLoading(false);
       setError(json.error);
     }
-
-    setLoading(false);
+    setSuccess("Review successfully created");
   };
 
   const updateReview = async (review) => {
-    setLoading(true);
+    setSuccess(null);
     setError(null);
 
     if (review.rating === null) review.rating = 0;
@@ -41,12 +39,10 @@ export default function useComment() {
     const json = await response.json();
 
     if (!response.ok) {
-      setLoading(false);
       setError(json.error);
     }
-
-    setLoading(false);
+    setSuccess("Review updated successfully");
   };
 
-  return { createReview, updateReview, loading, error };
+  return { createReview, updateReview, error, success };
 }

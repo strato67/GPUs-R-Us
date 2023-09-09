@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import useAuthContext from "../../Hooks/useAuthContext";
 import useSignup from "../../Hooks/useSignup";
 import ErrorFormMessage from "../Other/ErrorFormMessage";
 import ErrorNotification from "../Other/Error";
 
 export default function SignUp() {
+  const navigate = useNavigate();
+  const { user } = useAuthContext();
   const [formValues, setFormValues] = useState({
     username: "",
     email: "",
@@ -22,6 +25,10 @@ export default function SignUp() {
 
     [error]
   );
+
+  useEffect(() => {
+    if (user) navigate("/");
+  }, [user]);
 
   useEffect(() => {
     formValues.password !== formValues.confirmPass

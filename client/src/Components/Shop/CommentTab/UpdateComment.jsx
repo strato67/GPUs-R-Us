@@ -4,10 +4,11 @@ import { Link } from "react-router-dom";
 import useComment from "../../../Hooks/useComment";
 import useAuthContext from "../../../Hooks/useAuthContext";
 import ErrorFormMessage from "../../Other/ErrorFormMessage";
+import SuccessFormMessage from "../../Other/SuccessFormMessage";
 
 export default function UpdateComment({ reviewContents, productID }) {
   const { user } = useAuthContext();
-  const { updateReview, error } = useComment();
+  const { updateReview, error, success } = useComment();
   const [value, setValue] = useState(reviewContents.rating);
   const [review, setReview] = useState({
     productID: productID,
@@ -60,6 +61,7 @@ export default function UpdateComment({ reviewContents, productID }) {
                   onChange={formHandler}
                 ></textarea>
                 <ErrorFormMessage message={error} />
+                <SuccessFormMessage message={success}/>
                 <label className="label"></label>
               </div>
               <div className="form-control mt-6">

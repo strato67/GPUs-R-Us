@@ -1,9 +1,13 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import useAuthContext from "../../Hooks/useAuthContext";
 import useLogin from "../../Hooks/useLogin";
 import ErrorNotification from "../Other/Error";
 
 export default function Login() {
+  const { user } = useAuthContext();
+  const navigate = useNavigate();
+
   const [formValues, setFormValues] = useState({
     username: "",
     password: "",
@@ -17,6 +21,10 @@ export default function Login() {
 
     [error]
   );
+
+  useEffect(() => {
+    if (user) navigate("/");
+  }, [user]);
 
   const formHandler = (e) => {
     const nextState = {
@@ -80,7 +88,9 @@ export default function Login() {
                   </label>
                 </div>
                 <div className="form-control mt-6">
-                  <button className="btn btn-primary" disabled={loading}>Login</button>
+                  <button className="btn btn-primary" disabled={loading}>
+                    Login
+                  </button>
                 </div>
                 <div className="text-center pt-5">
                   <p>
