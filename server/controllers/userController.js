@@ -1,6 +1,7 @@
 const User = require("../models/userModel");
 const Cart = require("../models/cartModel");
 const Order = require("../models/orderModel");
+const Review = require("../models/reviewModel");
 const jwt = require("jsonwebtoken");
 
 const createToken = (_id) =>
@@ -82,6 +83,7 @@ const deleteAccount = async (request, response) => {
     const user = await User.findOne({ username });
     const cart = await Cart.getCart(username);
     const order = await Order.getOrders(username);
+    const reviews = await Review.find({ "reviews.name": username });
 
     if (!user) {
       response.status(400).json({ error: "No user found." });
@@ -93,7 +95,18 @@ const deleteAccount = async (request, response) => {
     if (order) {
       await Order.deleteMany({ username: username });
     }
- 
+
+    if (reviews) {
+      reviews.forEach(async (review) => {
+        review.reviews.map(async (reviewArray) => {
+          if (reviewArray.name === username) {
+            reviewArray.name = "Deleted User";
+            review.save();
+          }
+        });
+      });
+    }
+
     response.status(200).json({ status: "Account deleted." });
   } catch (error) {
     response.status(400).json({ error: error.message });
