@@ -1,19 +1,14 @@
 import { Link } from "react-router-dom";
-import { useEffect } from "react";
-import useCart from "../../Hooks/useCart";
+import { useContext } from "react";
 import useLogout from "../../Hooks/useLogout";
 import useAuthContext from "../../Hooks/useAuthContext";
+import { CartContext } from "../../Context/CartContext";
 
 export default function Navbar() {
   const { logout } = useLogout();
   const { user } = useAuthContext();
-  const { cartDetails, getCartDetail } = useCart();
+  const { cartDetails } = useContext(CartContext);
 
-  useEffect(() => {
-    if (user) {
-      getCartDetail(user.username);
-    }
-  }, [user]);
   return (
     <>
       <div className="navbar bg-base-100 xl:px-36 ">
@@ -86,7 +81,7 @@ export default function Navbar() {
                   />
                 </svg>
                 <span className="badge badge-sm indicator-item">
-                  {cartDetails ? cartDetails.length : 0}
+                  {cartDetails.length ? cartDetails.length : 0}
                 </span>
               </div>
             </label>
@@ -96,7 +91,7 @@ export default function Navbar() {
             >
               <div className="card-body">
                 <span className="font-bold text-lg">{`${
-                  cartDetails ? cartDetails.length : 0
+                  cartDetails.length ? cartDetails.length : 0
                 } ${cartDetails.length !== 1 ? "Items" : "Item"}`}</span>
                 <span className="text-info">
                   Subtotal: $
@@ -136,10 +131,7 @@ export default function Navbar() {
                   </Link>
                 </li>
                 <li>
-                  <Link
-                    to={`/settings`}
-                    className={`justify-between`}
-                  >
+                  <Link to={`/settings`} className={`justify-between`}>
                     Settings
                   </Link>
                 </li>

@@ -10,6 +10,7 @@ export default function CartCard({
   updateCart,
   setTotal,
   setHasUnsavedChanges,
+  getCartDetail,
 }) {
   const [prodQuant, setQuantity] = useState(quantity);
   const [itemInfo, setItemInfo] = useState([]);
@@ -62,7 +63,7 @@ export default function CartCard({
                 <div className="flex gap-2 py-2">
                   <button
                     className="btn btn-outline btn-primary"
-                    onClick={() => {
+                    onClick={async () => {
                       if (prodQuant < itemInfo.maxOrder) {
                         setQuantity(prodQuant + 1);
                         updateCart((prev) => {
@@ -73,8 +74,9 @@ export default function CartCard({
                           newCart[index].quantity = prodQuant + 1;
                           return newCart;
                         });
-                        setTotal((prev) => prev + itemInfo.price);
-                        setHasUnsavedChanges(true);
+                        await setTotal((prev) => prev + itemInfo.price);
+                        await setHasUnsavedChanges(true);
+                        await getCartDetail(user);
                       }
                     }}
                   >
@@ -86,7 +88,7 @@ export default function CartCard({
                   </button>
                   <button
                     className="btn btn-outline btn-primary "
-                    onClick={() => {
+                    onClick={async () => {
                       if (prodQuant > 0) {
                         setQuantity(prodQuant - 1);
                         updateCart((prev) => {
@@ -97,8 +99,9 @@ export default function CartCard({
                           newCart[index].quantity = prodQuant - 1;
                           return newCart;
                         });
-                        setTotal((prev) => prev - itemInfo.price);
-                        setHasUnsavedChanges(true);
+                        await setTotal((prev) => prev - itemInfo.price);
+                        await setHasUnsavedChanges(true);
+                        await getCartDetail(user);
                       }
                     }}
                   >
@@ -106,13 +109,15 @@ export default function CartCard({
                   </button>
                   <button
                     className="btn btn-outline btn-error"
-                    onClick={() => {
-                      updateCart((prev) =>
+                    onClick={async () => {
+                      await updateCart((prev) =>
                         prev.filter((item) => item.product !== productID)
                       );
-                      removeFromCart(user, productID, prodQuant);
-                      setTotal((prev) => prev - itemInfo.price * prodQuant);
-                      
+                      await removeFromCart(user, productID, prodQuant);
+                      await setTotal(
+                        (prev) => prev - itemInfo.price * prodQuant
+                      );
+                      await getCartDetail(user);
                     }}
                   >
                     <BsFillTrashFill />

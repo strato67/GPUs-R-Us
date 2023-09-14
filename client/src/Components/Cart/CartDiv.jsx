@@ -1,7 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import { BiSave } from "react-icons/bi";
 import { BsFillTrashFill } from "react-icons/bs";
+import { CartContext } from "../../Context/CartContext";
 import useCart from "../../Hooks/useCart";
 import Loading from "../Other/Loading";
 import CartCard from "./CartCard";
@@ -13,6 +14,7 @@ export default function CartDiv({ user }) {
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(true);
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
+  const { getCartDetail } = useContext(CartContext);
   const { updateCart, emptyCart } = useCart();
 
   const getCart = async () => {
@@ -35,6 +37,7 @@ export default function CartDiv({ user }) {
       return cartItem;
     });
     await updateCart(user.username, updatedCart);
+    await getCartDetail(user.username);
     setHasUnsavedChanges(false);
   };
 
@@ -49,7 +52,7 @@ export default function CartDiv({ user }) {
   return (
     <>
       {loading && <Loading />}
-      {!loading && (!cart || cart.length ==0) ? (
+      {!loading && (!cart || cart.length == 0) ? (
         <Empty />
       ) : (
         <>
@@ -67,6 +70,7 @@ export default function CartDiv({ user }) {
                   updateCart={setCart}
                   setTotal={setTotal}
                   setHasUnsavedChanges={setHasUnsavedChanges}
+                  getCartDetail={getCartDetail}
                 />
               ))}
             </div>
@@ -116,8 +120,9 @@ export default function CartDiv({ user }) {
                 <div className="flex justify-center gap-3">
                   <button
                     className="btn w-1/2"
-                    onClick={() => {
-                      emptyCart(user.username);
+                    onClick={async () => {
+                      await emptyCart(user.username);
+                      await getCartDetail(user.username);
                       setCart([]);
                     }}
                   >

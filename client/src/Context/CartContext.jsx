@@ -1,18 +1,37 @@
 import { createContext, useState, useEffect } from "react";
 import useAuthContext from "../Hooks/useAuthContext";
-import useCart from "../Hooks/useCart";
 
-const CartContext = createContext();
+const CartContext = createContext({
+  cartDetails: {},
+  getCartDetail: () => {},
+});
 
-export default function CartContextProvider({ children }) {
-  const { cartDetails, getCartDetail } = useCart();
+const CartContextProvider = ({ children }) => {
   const { user } = useAuthContext();
+  const [cartDetails, setCartDetails] = useState({});
+
+  const getCartDetail = async (username) => {
+    const response = await fetch(`/api/cart/${username}/total`);
+    const data = await response.json();
+
+    if (!response.ok) {
+      return {};
+    }
+
+    setCartDetails(data);
+  };
 
   useEffect(() => {
     if (user) {
       getCartDetail(user.username);
     }
-  }, []);
+  }, [user]);
 
-  return <CartContext.Provider value={cartDetails}>{children}</CartContext.Provider>;
-}
+  return (
+    <CartContext.Provider value={{ cartDetails, getCartDetail }}>
+      {children}
+    </CartContext.Provider>
+  );
+};
+
+export { CartContext, CartContextProvider };

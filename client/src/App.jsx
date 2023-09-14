@@ -1,4 +1,5 @@
 import { Route, Routes } from "react-router-dom";
+import { CartContextProvider } from "./Context/CartContext";
 import Home from "./Components/Home/Home";
 import Footer from "./Components/Footer/Footer";
 import About from "./Components/About/About";
@@ -18,22 +19,25 @@ import "./App.css";
 const App = () => {
   return (
     <>
-      <Navbar />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/shop" element={<Shop />} />
-        <Route path="/shop/:id" element={<ItemPage />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/contact" element={<Contact />} />
-        <Route path="/signup" element={<SignUp />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/cart" element={<Cart />} />
-        <Route path="/checkout" element={<Checkout />} />
-        <Route path="/profile/:id" element={<Profile />} />
-        <Route path="/settings" element={<UserSettings />} />
-        <Route path="*" element={<NotFound />}></Route>
-      </Routes>
-      <Footer />
+      <CartContextProvider>
+        <Navbar />
+
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/shop" element={<Shop />} />
+          <Route path="/shop/:id" element={<ItemPage />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/checkout" element={<Checkout />} />
+          <Route path="/profile/:id" element={<Profile />} />
+          <Route path="/settings" element={<UserSettings />} />
+          <Route path="*" element={<NotFound />}></Route>
+        </Routes>
+        <Footer />
+      </CartContextProvider>
     </>
   );
 };

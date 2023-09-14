@@ -3,18 +3,6 @@ import { useState } from "react";
 export default function useCart() {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(null);
-  const [cartDetails, setCartDetails] = useState({});
-
-  const getCartDetail = async (username) => {
-    const response = await fetch(`/api/cart/${username}/total`);
-    const data = await response.json();
-
-    if (!response.ok) {
-      return {};
-    }
-
-    setCartDetails(data);
-  };
 
   const addToCart = async (username, productID) => {
     setLoading(true);
@@ -97,12 +85,10 @@ export default function useCart() {
 
   return {
     addToCart,
-    getCartDetail,
     removeFromCart,
     updateCart,
     emptyCart,
     loading,
     error,
-    cartDetails,
   };
 }

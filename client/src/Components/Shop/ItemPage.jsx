@@ -1,5 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { BsCartPlusFill } from "react-icons/bs";
+import { CartContext } from "../../Context/CartContext";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import useCart from "../../Hooks/useCart";
 import ItemCarousel from "./ItemCarousel";
@@ -15,7 +16,8 @@ export default function ItemPage() {
   const [message, setMessage] = useState(null);
   const { id } = useParams();
   const { user } = useAuthContext();
-  const { addToCart, error} = useCart();
+  const { addToCart, error } = useCart();
+  const { getCartDetail } = useContext(CartContext);
   const navigate = useNavigate();
 
   const getItemInfo = async () => {
@@ -59,9 +61,10 @@ export default function ItemPage() {
                 <div className="flex justify-center w-full ">
                   <button
                     className="btn btn-primary w-1/2 mx-1 "
-                    onClick={() => {
-                      addToCart(user.username, itemInfo.product._id);
-                      setMessage("Item added to cart!");  
+                    onClick={async () => {
+                      await addToCart(user.username, itemInfo.product._id)
+                      await getCartDetail(user.username);
+                      setMessage("Item added to cart!");
                     }}
                   >
                     {" "}
