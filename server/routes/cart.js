@@ -9,6 +9,10 @@ const {
   emptyCart,
 } = require("../controllers/cartController");
 
+const requireAuth = require("../middleware/requireAuth");
+
+router.use(requireAuth);
+
 router.get("/:id", getCart);
 router.get("/:id/total", getCartTotal);
 router.post("/:id", addToCart);

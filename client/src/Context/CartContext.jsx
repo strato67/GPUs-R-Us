@@ -11,7 +11,11 @@ const CartContextProvider = ({ children }) => {
   const [cartDetails, setCartDetails] = useState({});
 
   const getCartDetail = async (username) => {
-    const response = await fetch(`/api/cart/${username}/total`);
+    const response = await fetch(`/api/cart/${username}/total`, {
+      headers: {
+        authorization: `Bearer ${user.userToken}`,
+      },
+    });
     const data = await response.json();
 
     if (!response.ok) {

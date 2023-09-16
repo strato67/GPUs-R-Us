@@ -101,7 +101,7 @@ cartSchema.statics.updateCart = async function (
   quantity,
   price
 ) {
-  if (!username || !productID || !quantity || !price) {
+  if (!username || !productID ) {
     throw Error("Missing parameters.");
   }
 

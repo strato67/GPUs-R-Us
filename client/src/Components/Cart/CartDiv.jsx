@@ -18,7 +18,11 @@ export default function CartDiv({ user }) {
   const { updateCart, emptyCart } = useCart();
 
   const getCart = async () => {
-    const response = await fetch(`/api/cart/${user.username}`);
+    const response = await fetch(`/api/cart/${user.username}`,{
+      headers: {
+        authorization: `Bearer ${user.userToken}`,
+      },
+    });
     const data = await response.json();
 
     if (!response.ok) {

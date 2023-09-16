@@ -1,8 +1,10 @@
 import { useState } from "react";
+import useAuthContext from "./useAuthContext";
 
 export default function useCart() {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(null);
+  const { user } = useAuthContext();
 
   const addToCart = async (username, productID) => {
     setLoading(true);
@@ -10,7 +12,10 @@ export default function useCart() {
 
     const response = await fetch(`/api/cart/${username}`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        "authorization": `Bearer ${user.userToken}`,
+      },
       body: JSON.stringify({ productID }),
     });
 
@@ -30,7 +35,10 @@ export default function useCart() {
 
     const response = await fetch(`/api/cart/${username}/${productID}`, {
       method: "DELETE",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        "authorization": `Bearer ${user.userToken}`,
+      },
       body: JSON.stringify({ quantity }),
     });
 
@@ -50,7 +58,10 @@ export default function useCart() {
 
     const response = await fetch(`/api/cart/${username}/`, {
       method: "PATCH",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        "authorization": `Bearer ${user.userToken}`,
+      },
       body: JSON.stringify(cartUpdate),
     });
 
@@ -70,7 +81,10 @@ export default function useCart() {
 
     const response = await fetch(`/api/cart/${username}`, {
       method: "DELETE",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        "authorization": `Bearer ${user.userToken}`,
+      },
     });
 
     const json = await response.json();
