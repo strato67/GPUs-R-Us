@@ -1,4 +1,5 @@
-import { useState, useEffect, Suspense } from "react";
+import { useEffect, Suspense } from "react";
+import { useNavigate } from "react-router-dom";
 import { AiFillEdit } from "react-icons/ai";
 import { GrFormNextLink } from "react-icons/gr";
 import { Link } from "react-router-dom";
@@ -14,12 +15,16 @@ export default function ReviewCart({
   cart,
   total,
 }) {
+
+  const navigate = useNavigate();
   const getCart = async () => {
-    const response = await fetch(`/api/cart/${user.username}`);
+    const response = await fetch(`/api/cart/${user.username}`, {
+      headers: { authorization: `Bearer ${user.userToken}` },
+    });
     const data = await response.json();
 
     if (!response.ok) {
-      return [];
+      navigate("/login");
     }
 
     return [data.cart, data.total];

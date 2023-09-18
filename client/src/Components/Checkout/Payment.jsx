@@ -9,7 +9,7 @@ export default function Payment({ user, setStep, cart, total }) {
   const [clientSecret, setClientSecret] = useState("");
   useEffect(() => {
     (async () => {
-      const response = await fetch("/api/payment/config");
+      const response = await fetch("/api/payment/config", {headers: { authorization: `Bearer ${user.userToken}` }});
       const data = await response.json();
       setStripePromise(loadStripe(data.publishableKey));
     })();
@@ -21,6 +21,7 @@ export default function Payment({ user, setStep, cart, total }) {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          authorization: `Bearer ${user.userToken}`,
         },
         body: JSON.stringify({ price: total }),
       });

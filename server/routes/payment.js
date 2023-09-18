@@ -5,6 +5,10 @@ const {
   createPaymentIntent,
 } = require("../controllers/paymentController");
 
+const requireAuth = require("../middleware/requireAuth");
+
+router.use(requireAuth);
+
 router.get("/config", getPublishableKey);
 
 router.post("/create-payment-intent", createPaymentIntent);

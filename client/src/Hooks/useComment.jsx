@@ -1,8 +1,10 @@
 import { useState } from "react";
+import useAuthContext from "./useAuthContext";
 
 export default function useComment() {
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
+  const { user } = useAuthContext();
 
   const createReview = async (review) => {
     setSuccess(null);
@@ -12,7 +14,7 @@ export default function useComment() {
 
     const response = await fetch("/api/reviews/", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json", "authorization": `Bearer ${user.userToken}` },
       body: JSON.stringify(review),
     });
 
@@ -32,7 +34,7 @@ export default function useComment() {
 
     const response = await fetch(`/api/reviews/${review.productID}/`, {
       method: "PATCH",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json", "authorization": `Bearer ${user.userToken}` },
       body: JSON.stringify(review),
     });
 
