@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import { useState, useContext } from "react";
 import { AiFillEdit } from "react-icons/ai";
 import { MdPayment } from "react-icons/md";
+import { CartContext } from "../../Context/CartContext";
 import useOrder from "../../Hooks/useOrder";
 import useCart from "../../Hooks/useCart";
 import ErrorFormMessage from "../Other/ErrorFormMessage";
@@ -18,6 +19,7 @@ export default function PaymentForm({ setStep, user, total }) {
   const [message, setMessage] = useState(null);
   const { createOrder } = useOrder();
   const { emptyCart } = useCart();
+  const { getCartDetail } = useContext(CartContext);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -37,8 +39,9 @@ export default function PaymentForm({ setStep, user, total }) {
     if (response.error) {
       setMessage(response.error.message);
     } else {
-      createOrder(user.username);
-      emptyCart(user.username);
+      await createOrder(user.username);
+      await emptyCart(user.username);
+      await getCartDetail(user.username);
       setStep(3);
     }
 

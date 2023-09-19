@@ -1,5 +1,6 @@
 import { createContext, useState, useEffect } from "react";
 import useAuthContext from "../Hooks/useAuthContext";
+import useLogout from "../Hooks/useLogout" 
 
 const CartContext = createContext({
   cartDetails: {},
@@ -9,6 +10,7 @@ const CartContext = createContext({
 const CartContextProvider = ({ children }) => {
   const { user } = useAuthContext();
   const [cartDetails, setCartDetails] = useState({});
+  const { logout } = useLogout();
 
   const getCartDetail = async (username) => {
     const response = await fetch(`/api/cart/${username}/total`, {
@@ -19,7 +21,7 @@ const CartContextProvider = ({ children }) => {
     const data = await response.json();
 
     if (!response.ok) {
-      return {};
+      logout();
     }
 
     setCartDetails(data);
