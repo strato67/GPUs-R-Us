@@ -1,10 +1,12 @@
 import { useState } from "react";
+import useAuthContext from "./useAuthContext";
 
 export default function useSettings() {
   const [emailerror, setEmailError] = useState(null);
   const [emailSuccess, setEmailSuccess] = useState(false);
   const [passwordSuccess, setPasswordSuccess] = useState(false);
   const [passerror, setPassError] = useState(null);
+  const { user } = useAuthContext();
 
   const changeEmail = async (emailObj) => {
     const { username, newEmail } = emailObj;
@@ -13,7 +15,10 @@ export default function useSettings() {
     setEmailSuccess(false);
     const response = await fetch(`/api/user/e/${username}`, {
       method: "PATCH",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        authorization: `Bearer ${user.userToken}`,
+      },
       body: JSON.stringify({ username, newEmail }),
     });
     const json = await response.json();
@@ -30,7 +35,10 @@ export default function useSettings() {
     setPasswordSuccess(false);
     const response = await fetch(`/api/user/p/${username}`, {
       method: "PATCH",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        authorization: `Bearer ${user.userToken}`,
+      },
       body: JSON.stringify(passwordObj),
     });
     const json = await response.json();
@@ -44,7 +52,10 @@ export default function useSettings() {
   const deleteAccount = async (username) => {
     const response = await fetch(`/api/user/${username}`, {
       method: "DELETE",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        authorization: `Bearer ${user.userToken}`,
+      },
     });
     const json = await response.json();
     if (!response.ok) {
